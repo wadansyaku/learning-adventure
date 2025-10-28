@@ -5,6 +5,7 @@ import {
   users, 
   students, 
   InsertStudent,
+  characterTypes,
   characters,
   InsertCharacter,
   characterItems,
@@ -431,6 +432,14 @@ export async function getStudentAchievements(studentId: number) {
   .from(studentAchievements)
   .leftJoin(achievements, eq(studentAchievements.achievementId, achievements.id))
   .where(eq(studentAchievements.studentId, studentId));
+}
+
+// Character Type queries
+export async function getAllCharacterTypes() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(characterTypes);
 }
 
 // Item queries

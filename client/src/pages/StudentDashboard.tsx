@@ -151,19 +151,33 @@ export default function StudentDashboard() {
           {characters && characters.length > 0 ? (
             <div className="character-stage">
               <div className="flex items-center justify-center h-full">
-                <div className="text-9xl animate-bounce-slow">
-                  {characters[0].animalType === 'rabbit' && '🐰'}
-                  {characters[0].animalType === 'cat' && '🐱'}
-                  {characters[0].animalType === 'dog' && '🐶'}
-                  {characters[0].animalType === 'bear' && '🐻'}
-                  {characters[0].animalType === 'fox' && '🦊'}
-                </div>
+                {characters[0].imageUrl ? (
+                  <img 
+                    src={characters[0].imageUrl} 
+                    alt={characters[0].name}
+                    className="w-64 h-64 object-contain animate-bounce-slow"
+                  />
+                ) : (
+                  <div className="text-9xl animate-bounce-slow">
+                    {characters[0].animalType === 'rabbit' && '🐰'}
+                    {characters[0].animalType === 'cat' && '🐱'}
+                    {characters[0].animalType === 'dog' && '🐶'}
+                    {characters[0].animalType === 'bear' && '🐻'}
+                    {characters[0].animalType === 'fox' && '🦊'}
+                  </div>
+                )}
               </div>
             </div>
           ) : (
             <Card className="p-8 text-center">
               <p className="text-xl mb-4">まだなかまがいないよ</p>
-              <p className="text-muted-foreground">せんせいになかまをつくってもらおう!</p>
+              <p className="text-muted-foreground mb-4">なかまをえらんでぼうけんにでかけよう!</p>
+              <Button 
+                className="btn-fun bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+                onClick={() => setLocation('/character-select')}
+              >
+                なかまをえらぶ ✨
+              </Button>
             </Card>
           )}
         </div>

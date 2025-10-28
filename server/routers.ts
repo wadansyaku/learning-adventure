@@ -214,6 +214,11 @@ export const appRouter = router({
 
   // Character router
   character: router({
+    // Get all character types (master data)
+    getAllTypes: publicProcedure.query(async () => {
+      return await db.getAllCharacterTypes();
+    }),
+
     // Get student's characters
     getMyCharacters: studentProcedure.query(async ({ ctx }) => {
       const student = await db.getStudentByUserId(ctx.user.id);

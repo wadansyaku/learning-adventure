@@ -41,7 +41,24 @@ export type Student = typeof students.$inferSelect;
 export type InsertStudent = typeof students.$inferInsert;
 
 /**
- * Characters table - 2D animal characters
+ * Character Types table - キャラクターマスターデータ
+ */
+export const characterTypes = mysqlTable("characterTypes", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(), // キャラクター名(ひらがな)
+  species: varchar("species", { length: 50 }).notNull(), // 動物の種類(英語)
+  description: text("description").notNull(), // 説明(ひらがな)
+  imageUrl: varchar("imageUrl", { length: 255 }).notNull(), // キャラクター画像URL
+  personality: varchar("personality", { length: 100 }), // 性格
+  unlockLevel: int("unlockLevel").default(1).notNull(), // 解放レベル
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type CharacterType = typeof characterTypes.$inferSelect;
+export type InsertCharacterType = typeof characterTypes.$inferInsert;
+
+/**
+ * Characters table - 2D animal characters (生徒ごとのインスタンス)
  */
 export const characters = mysqlTable("characters", {
   id: int("id").autoincrement().primaryKey(),

@@ -22,6 +22,13 @@
       "when": 1761689415509,
       "tag": "0002_great_echo",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1761691516433,
+      "tag": "0003_abandoned_lightspeed",
+      "breakpoints": true
     }
   ]
 }
