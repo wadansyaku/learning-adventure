@@ -203,51 +203,47 @@ export default function StoryDetail() {
                             </div>
 
                             {/* 現在のクイズ */}
-                            <div className="bg-white p-6 rounded-lg shadow-md">
-                              <p className="text-xl font-bold mb-4 text-center">
+                            <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md">
+                              <p className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-center">
                                 {quizzes[currentQuizIndex].questionText}
                               </p>
 
                               {/* 数字パッド入力 */}
-                              <div className="mb-6">
-                                <div className="text-center mb-4">
-                                  <div className="inline-block bg-gray-100 px-8 py-4 rounded-lg text-3xl font-bold min-w-[120px]">
+                              <div className="mb-4">
+                                <div className="text-center mb-3">
+                                  <div className="inline-block bg-gray-100 px-6 py-3 rounded-lg text-2xl sm:text-3xl font-bold min-w-[100px]">
                                     {userAnswer || '―'}
                                   </div>
                                 </div>
 
                                 {/* 数字ボタン */}
-                                <div className="grid grid-cols-3 gap-2 max-w-xs mx-auto">
+                                <div className="grid grid-cols-3 gap-2 max-w-xs mx-auto mb-3">
                                   {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
                                     <Button
                                       key={num}
-                                      size="lg"
                                       onClick={() => setUserAnswer(userAnswer + num)}
-                                      className="text-2xl h-16 bg-blue-500 hover:bg-blue-600"
+                                      className="text-xl sm:text-2xl h-12 sm:h-14 bg-blue-500 hover:bg-blue-600"
                                     >
                                       {num}
                                     </Button>
                                   ))}
                                   <Button
-                                    size="lg"
                                     onClick={() => setUserAnswer(userAnswer.slice(0, -1))}
                                     variant="outline"
-                                    className="text-xl h-16"
+                                    className="text-lg sm:text-xl h-12 sm:h-14"
                                   >
                                     ←
                                   </Button>
                                   <Button
-                                    size="lg"
                                     onClick={() => setUserAnswer(userAnswer + '0')}
-                                    className="text-2xl h-16 bg-blue-500 hover:bg-blue-600"
+                                    className="text-xl sm:text-2xl h-12 sm:h-14 bg-blue-500 hover:bg-blue-600"
                                   >
                                     0
                                   </Button>
                                   <Button
-                                    size="lg"
                                     onClick={() => setUserAnswer('')}
                                     variant="outline"
-                                    className="text-xl h-16"
+                                    className="text-lg sm:text-xl h-12 sm:h-14"
                                   >
                                     C
                                   </Button>
@@ -257,7 +253,6 @@ export default function StoryDetail() {
                               {/* 回答ボタン */}
                               <div className="text-center">
                                 <Button
-                                  size="lg"
                                   onClick={() => {
                                     const isCorrect = parseInt(userAnswer) === parseInt(String(quizzes[currentQuizIndex].correctAnswer));
                                     setQuizResults([...quizResults, isCorrect]);
@@ -274,7 +269,7 @@ export default function StoryDetail() {
                                     }, 2000);
                                   }}
                                   disabled={!userAnswer}
-                                  className="text-xl px-8 py-4 bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700"
+                                  className="w-full sm:w-auto text-xl sm:text-2xl px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 font-bold"
                                 >
                                   こたえる!
                                 </Button>

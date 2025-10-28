@@ -34,7 +34,7 @@ export function RoleSwitcher() {
           setLocation('/parent');
           break;
         case 'admin':
-          setLocation('/teacher');
+          setLocation('/');
           break;
       }
     },
@@ -87,6 +87,21 @@ export function RoleSwitcher() {
         <DropdownMenuLabel>ロールを切り替え</DropdownMenuLabel>
         <DropdownMenuSeparator />
         
+        {/* 管理者のみ表示 */}
+        {user.role === 'admin' && (
+          <>
+            <DropdownMenuItem
+              onClick={() => switchRoleMutation.mutate({ role: 'admin' })}
+              disabled={switchRoleMutation.isPending}
+              className="font-bold"
+            >
+              <span className="mr-2">⚙️</span>
+              管理者画面にもどる
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+          </>
+        )}
+        
         <DropdownMenuItem
           onClick={() => switchRoleMutation.mutate({ role: 'student' })}
           disabled={user.role === 'student' || switchRoleMutation.isPending}
@@ -95,31 +110,23 @@ export function RoleSwitcher() {
           生徒
         </DropdownMenuItem>
         
-        <DropdownMenuItem
-          onClick={() => switchRoleMutation.mutate({ role: 'teacher' })}
-          disabled={user.role === 'teacher' || switchRoleMutation.isPending}
-        >
-          <span className="mr-2">👨‍🏫</span>
-          講師
-        </DropdownMenuItem>
-        
-        <DropdownMenuItem
-          onClick={() => switchRoleMutation.mutate({ role: 'parent' })}
-          disabled={user.role === 'parent' || switchRoleMutation.isPending}
-        >
-          <span className="mr-2">👪</span>
-          保護者
-        </DropdownMenuItem>
-        
+        {/* 管理者のみ講師・保護者に切り替え可能 */}
         {user.role === 'admin' && (
           <>
-            <DropdownMenuSeparator />
             <DropdownMenuItem
-              onClick={() => switchRoleMutation.mutate({ role: 'admin' })}
+              onClick={() => switchRoleMutation.mutate({ role: 'teacher' })}
               disabled={switchRoleMutation.isPending}
             >
-              <span className="mr-2">⚙️</span>
-              管理者
+              <span className="mr-2">👨‍🏫</span>
+              講師
+            </DropdownMenuItem>
+            
+            <DropdownMenuItem
+              onClick={() => switchRoleMutation.mutate({ role: 'parent' })}
+              disabled={switchRoleMutation.isPending}
+            >
+              <span className="mr-2">👪</span>
+              保護者
             </DropdownMenuItem>
           </>
         )}

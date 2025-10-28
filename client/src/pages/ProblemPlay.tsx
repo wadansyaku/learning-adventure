@@ -147,8 +147,8 @@ export default function ProblemPlay() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4 pb-safe">
+      <div className="max-w-2xl mx-auto pb-4">
         {/* ヘッダー */}
         <div className="mb-6 flex justify-between items-center">
           <Button 
@@ -173,9 +173,9 @@ export default function ProblemPlay() {
         </div>
 
         {/* 問題カード */}
-        <Card className="p-8 mb-6 bg-white/90 backdrop-blur shadow-2xl">
-          <div className="text-center mb-8">
-            <h2 className="text-5xl font-black mb-6 text-primary">
+        <Card className="p-4 sm:p-6 md:p-8 mb-6 bg-white/90 backdrop-blur shadow-2xl">
+          <div className="text-center mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black mb-4 sm:mb-6 text-primary">
               {currentProblem.question}
             </h2>
             {currentProblem.imageUrl && (
@@ -188,9 +188,9 @@ export default function ProblemPlay() {
           </div>
 
           {/* 回答表示エリア */}
-          <div className="mb-4 sm:mb-6">
-            <div className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-4 sm:p-6 min-h-[80px] sm:min-h-[100px] flex items-center justify-center border-4 border-blue-300">
-              <span className="text-4xl sm:text-5xl md:text-6xl font-black text-blue-600">
+          <div className="mb-3 sm:mb-4">
+            <div className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-3 sm:p-4 min-h-[60px] sm:min-h-[80px] flex items-center justify-center border-4 border-blue-300">
+              <span className="text-3xl sm:text-4xl md:text-5xl font-black text-blue-600">
                 {answer || "?"}
               </span>
             </div>
@@ -204,7 +204,7 @@ export default function ProblemPlay() {
                   <Button
                     key={num}
                     onClick={() => handleNumberClick(num)}
-                    className="h-14 sm:h-16 md:h-20 text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 active:scale-95 text-white shadow-lg transform hover:scale-105 transition-all touch-manipulation"
+                    className="h-12 sm:h-14 md:h-16 text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 active:scale-95 text-white shadow-lg transform hover:scale-105 transition-all touch-manipulation"
                   >
                     {num}
                   </Button>
@@ -213,19 +213,19 @@ export default function ProblemPlay() {
               <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 <Button
                   onClick={handleClear}
-                  className="h-14 sm:h-16 md:h-20 text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-br from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 active:scale-95 text-white shadow-lg touch-manipulation"
+                  className="h-12 sm:h-14 md:h-16 text-base sm:text-lg md:text-xl font-bold bg-gradient-to-br from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 active:scale-95 text-white shadow-lg touch-manipulation"
                 >
                   クリア
                 </Button>
                 <Button
                   onClick={() => handleNumberClick(0)}
-                  className="h-14 sm:h-16 md:h-20 text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 active:scale-95 text-white shadow-lg transform hover:scale-105 transition-all touch-manipulation"
+                  className="h-12 sm:h-14 md:h-16 text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 active:scale-95 text-white shadow-lg transform hover:scale-105 transition-all touch-manipulation"
                 >
                   0
                 </Button>
                 <Button
                   onClick={handleBackspace}
-                  className="h-14 sm:h-16 md:h-20 text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-br from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 active:scale-95 text-white shadow-lg touch-manipulation"
+                  className="h-12 sm:h-14 md:h-16 text-base sm:text-lg md:text-xl font-bold bg-gradient-to-br from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 active:scale-95 text-white shadow-lg touch-manipulation"
                 >
                   ← けす
                 </Button>
@@ -254,19 +254,19 @@ export default function ProblemPlay() {
           )}
 
           {/* アクションボタン */}
-          <div className="mt-8">
+          <div className="mt-4 sm:mt-6">
             {!showResult ? (
               <Button
                 onClick={handleSubmit}
                 disabled={!answer || submitAnswerMutation.isPending}
-                className="w-full h-20 text-3xl font-black bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-2xl transform hover:scale-105 transition-all"
+                className="w-full h-16 sm:h-18 md:h-20 text-2xl sm:text-3xl font-black bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-2xl transform hover:scale-105 transition-all"
               >
                 {submitAnswerMutation.isPending ? 'かくにんちゅう...' : 'こたえる!'}
               </Button>
             ) : (
               <Button
                 onClick={handleNext}
-                className="w-full h-20 text-3xl font-black bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white shadow-2xl transform hover:scale-105 transition-all"
+                className="w-full h-16 sm:h-18 md:h-20 text-2xl sm:text-3xl font-black bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white shadow-2xl transform hover:scale-105 transition-all"
               >
                 {currentProblemIndex < problems.length - 1 ? 'つぎへ →' : 'おわり!'}
               </Button>

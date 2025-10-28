@@ -22,7 +22,8 @@ import {
   learningQuizzes,
   treasures,
   studentStoryProgress,
-  studentTreasures
+  studentTreasures,
+  openaiUsageLogs
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -476,4 +477,71 @@ export async function getLearningQuizzesByChapter(chapterId: number) {
   if (!db) return [];
   
   return await db.select().from(learningQuizzes).where(eq(learningQuizzes.chapterId, chapterId));
+}
+
+// OpenAI usage log queries
+export async function logOpenAIUsage(data: {
+  userId?: number;
+  studentId?: number;
+  endpoint: string;
+  model: string;
+  promptTokens: number;
+  completionTokens: number;
+  totalTokens: number;
+  estimatedCost: string;
+  purpose?: string;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.insert(openaiUsageLogs).values(data);
+  return result;
+}
+
+export async function getOpenAIUsageSummary() {
+  const db = await getDb();
+  if (!db) return null;
+  
+  // 今月の使用状況を集計
+  const now = new Date();
+  const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  
+  const logs = await db.select().from(openaiUsageLogs)
+    .where(sql`${openaiUsageLogs.createdAt} >= ${firstDayOfMonth}`);
+  
+  const totalTokens = logs.reduce((sum, log) => sum + log.totalTokens, 0);
+  const totalCost = logs.reduce((sum, log) => sum + parseFloat(log.estimatedCost), 0);
+  const totalCalls = logs.length;
+  
+  // 目的別の集計
+  const byPurpose = logs.reduce((acc, log) => {
+    const purpose = log.purpose || 'unknown';
+    if (!acc[purpose]) {
+      acc[purpose] = { calls: 0, tokens: 0, cost: 0 };
+    }
+    acc[purpose].calls++;
+    acc[purpose].tokens += log.totalTokens;
+    acc[purpose].cost += parseFloat(log.estimatedCost);
+    return acc;
+  }, {} as Record<string, { calls: number; tokens: number; cost: number }>);
+  
+  return {
+    totalTokens,
+    totalCost: totalCost.toFixed(6),
+    totalCalls,
+    byPurpose,
+    period: {
+      start: firstDayOfMonth.toISOString(),
+      end: now.toISOString()
+    }
+  };
+}
+
+export async function getOpenAIUsageLogs(limit: number = 100) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(openaiUsageLogs)
+    .orderBy(desc(openaiUsageLogs.createdAt))
+    .limit(limit);
 }

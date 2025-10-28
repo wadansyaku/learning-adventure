@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, boolean, datetime } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, boolean, datetime, decimal } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -291,3 +291,23 @@ export const studentQuizProgress = mysqlTable("studentQuizProgress", {
 
 export type StudentQuizProgress = typeof studentQuizProgress.$inferSelect;
 export type InsertStudentQuizProgress = typeof studentQuizProgress.$inferInsert;
+
+/**
+ * OpenAI Usage Logs - OpenAI API使用ログ
+ */
+export const openaiUsageLogs = mysqlTable("openaiUsageLogs", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").references(() => users.id), // ユーザーID(nullの場合はシステム)
+  studentId: int("studentId").references(() => students.id), // 生徒ID(キャラクター会話の場合)
+  endpoint: varchar("endpoint", { length: 100 }).notNull(), // 使用したエンドポイント(chat, image等)
+  model: varchar("model", { length: 100 }).notNull(), // 使用したモデル(gpt-4o-mini等)
+  promptTokens: int("promptTokens").default(0).notNull(), // プロンプトトークン数
+  completionTokens: int("completionTokens").default(0).notNull(), // 完了トークン数
+  totalTokens: int("totalTokens").default(0).notNull(), // 合計トークン数
+  estimatedCost: varchar("estimatedCost", { length: 20 }).default("0.000000").notNull(), // 推定コスト(USD)
+  purpose: varchar("purpose", { length: 255 }), // 使用目的(character_chat, analysis等)
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type OpenAIUsageLog = typeof openaiUsageLogs.$inferSelect;
+export type InsertOpenAIUsageLog = typeof openaiUsageLogs.$inferInsert;
