@@ -14,6 +14,9 @@ export default function ProblemPlay() {
   const [showResult, setShowResult] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [startTime, setStartTime] = useState(Date.now());
+  const [combo, setCombo] = useState(0);
+  const [totalXP, setTotalXP] = useState(0);
+  const [totalCoins, setTotalCoins] = useState(0);
 
   const { data: problems, isLoading: problemsLoading, refetch } = trpc.problem.getRandom.useQuery({
     difficulty: 'easy',
@@ -27,10 +30,25 @@ export default function ProblemPlay() {
       setIsCorrect(data.isCorrect);
       setShowResult(true);
       if (data.isCorrect) {
-        toast.success(`せいかい! ${data.xpEarned} XP と ${data.coinsEarned} コインをゲット!`, {
-          duration: 3000,
-        });
+        const newCombo = combo + 1;
+        setCombo(newCombo);
+        const comboBonus = Math.floor(newCombo / 3); // 3連続ごとにボーナス
+        const bonusXP = data.xpEarned + comboBonus;
+        const bonusCoins = data.coinsEarned + comboBonus;
+        setTotalXP(totalXP + bonusXP);
+        setTotalCoins(totalCoins + bonusCoins);
+        
+        if (newCombo >= 3 && newCombo % 3 === 0) {
+          toast.success(`🔥 ${newCombo}れんぞくせいかい! ボーナス +${comboBonus}!`, {
+            duration: 3000,
+          });
+        } else {
+          toast.success(`せいかい! ${bonusXP} XP と ${bonusCoins} コインをゲット!`, {
+            duration: 3000,
+          });
+        }
       } else {
+        setCombo(0);
         toast.error(`ざんねん... こたえは ${data.correctAnswer} だよ`, {
           duration: 3000,
         });
@@ -50,7 +68,7 @@ export default function ProblemPlay() {
 
   if (authLoading || problemsLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-primary mx-auto mb-4"></div>
           <p className="text-xl">よみこみちゅう...</p>
@@ -61,7 +79,7 @@ export default function ProblemPlay() {
 
   if (!problems || problems.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 to-purple-50">
         <Card className="p-8 max-w-md text-center">
           <h2 className="text-3xl font-bold mb-4">もんだいがないよ</h2>
           <p className="mb-4 text-muted-foreground">せんせいにもんだいをつくってもらおう!</p>
@@ -72,6 +90,19 @@ export default function ProblemPlay() {
   }
 
   const currentProblem = problems[currentProblemIndex];
+
+  const handleNumberClick = (num: number) => {
+    if (showResult) return;
+    setAnswer(answer + num.toString());
+  };
+
+  const handleClear = () => {
+    setAnswer("");
+  };
+
+  const handleBackspace = () => {
+    setAnswer(answer.slice(0, -1));
+  };
 
   const handleSubmit = () => {
     if (!answer.trim()) {
@@ -95,8 +126,8 @@ export default function ProblemPlay() {
       setIsCorrect(false);
     } else {
       // 全問終了
-      toast.success('ぜんぶおわったよ! すごい!', {
-        duration: 3000,
+      toast.success(`ぜんぶおわったよ! すごい! ごうけい ${totalXP} XP と ${totalCoins} コインをゲット!`, {
+        duration: 5000,
       });
       setTimeout(() => {
         setLocation('/student');
@@ -104,119 +135,153 @@ export default function ProblemPlay() {
     }
   };
 
-  const handleTryAgain = () => {
-    setAnswer("");
-    setShowResult(false);
-    setIsCorrect(false);
-    setStartTime(Date.now());
+  const getEncouragementMessage = () => {
+    const messages = [
+      "がんばって! 🐰",
+      "できるよ! 🐱",
+      "すごいね! 🐶",
+      "やったね! 🐻",
+      "かっこいい! 🦊",
+    ];
+    return messages[Math.floor(Math.random() * messages.length)];
   };
 
   return (
-    <div className="min-h-screen bg-background p-4">
-      <div className="container max-w-3xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4">
+      <div className="max-w-2xl mx-auto">
         {/* ヘッダー */}
-        <div className="flex items-center justify-between mb-8">
-          <Button variant="outline" onClick={() => setLocation('/student')}>
+        <div className="mb-6 flex justify-between items-center">
+          <Button 
+            variant="outline" 
+            onClick={() => setLocation('/student')}
+            className="text-lg"
+          >
             ← もどる
           </Button>
-          <div className="text-xl font-bold">
-            もんだい {currentProblemIndex + 1} / {problems.length}
+          <div className="flex gap-4">
+            <div className="bg-white rounded-full px-4 py-2 shadow-md">
+              <span className="text-sm text-muted-foreground">もんだい</span>
+              <span className="ml-2 font-bold text-lg">{currentProblemIndex + 1}/{problems.length}</span>
+            </div>
+            {combo > 0 && (
+              <div className="bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-full px-4 py-2 shadow-md animate-pulse">
+                <span className="text-sm">🔥 コンボ</span>
+                <span className="ml-2 font-bold text-lg">{combo}</span>
+              </div>
+            )}
           </div>
         </div>
 
         {/* 問題カード */}
-        <div className="problem-card mb-8">
+        <Card className="p-8 mb-6 bg-white/90 backdrop-blur shadow-2xl">
           <div className="text-center mb-8">
-            <div className="text-6xl mb-6 animate-bounce-slow">
-              {currentProblem.problemType === 'addition' && '➕'}
-              {currentProblem.problemType === 'subtraction' && '➖'}
-              {currentProblem.problemType === 'comparison' && '🔍'}
-              {currentProblem.problemType === 'pattern' && '🧩'}
-              {currentProblem.problemType === 'shape' && '🔷'}
-            </div>
-            <h2 className="text-4xl font-black mb-6 text-shadow">
+            <h2 className="text-5xl font-black mb-6 text-primary">
               {currentProblem.question}
             </h2>
+            {currentProblem.imageUrl && (
+              <img 
+                src={currentProblem.imageUrl} 
+                alt="問題画像" 
+                className="mx-auto max-w-xs rounded-xl shadow-lg mb-4"
+              />
+            )}
           </div>
 
-          {!showResult ? (
-            <div className="space-y-6">
-              {currentProblem.options ? (
-                // 選択肢がある場合
-                <div className="grid grid-cols-2 gap-4">
-                  {JSON.parse(currentProblem.options).map((option: string, index: number) => (
-                    <Button
-                      key={index}
-                      className="btn-fun h-24 text-3xl font-black"
-                      variant={answer === option ? "default" : "outline"}
-                      onClick={() => setAnswer(option)}
-                    >
-                      {option}
-                    </Button>
-                  ))}
-                </div>
-              ) : (
-                // 自由入力
-                <input
-                  type="text"
-                  value={answer}
-                  onChange={(e) => setAnswer(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-                  className="w-full text-center text-5xl font-black p-6 rounded-3xl border-4 border-primary/30 focus:border-primary focus:outline-none"
-                  placeholder="?"
-                  autoFocus
-                />
-              )}
-
-              <Button
-                className="btn-fun w-full bg-primary text-primary-foreground text-2xl py-8"
-                onClick={handleSubmit}
-                disabled={submitAnswerMutation.isPending}
-              >
-                {submitAnswerMutation.isPending ? 'かくにんちゅう...' : 'こたえる!'}
-              </Button>
+          {/* 回答表示エリア */}
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-6 min-h-[100px] flex items-center justify-center border-4 border-blue-300">
+              <span className="text-6xl font-black text-blue-600">
+                {answer || "?"}
+              </span>
             </div>
-          ) : (
-            // 結果表示
-            <div className="text-center space-y-6">
-              <div className={`text-9xl ${isCorrect ? 'animate-bounce' : 'animate-wiggle'}`}>
-                {isCorrect ? '🎉' : '😢'}
-              </div>
-              <h3 className={`text-5xl font-black ${isCorrect ? 'text-green-600' : 'text-orange-600'}`}>
-                {isCorrect ? 'せいかい!' : 'ざんねん!'}
-              </h3>
-              {!isCorrect && (
-                <p className="text-2xl text-muted-foreground">
-                  こたえは <span className="font-bold text-foreground">{currentProblem.correctAnswer}</span> だよ
-                </p>
-              )}
-              <div className="flex gap-4">
-                {!isCorrect && (
+          </div>
+
+          {/* 数字パッド */}
+          {!showResult && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-3 gap-4">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
                   <Button
-                    className="btn-fun flex-1 bg-secondary text-secondary-foreground text-xl py-6"
-                    onClick={handleTryAgain}
+                    key={num}
+                    onClick={() => handleNumberClick(num)}
+                    className="h-20 text-4xl font-bold bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white shadow-lg transform hover:scale-105 transition-all"
                   >
-                    もういちど
+                    {num}
                   </Button>
-                )}
+                ))}
+              </div>
+              <div className="grid grid-cols-3 gap-4">
                 <Button
-                  className="btn-fun flex-1 bg-primary text-primary-foreground text-xl py-6"
-                  onClick={handleNext}
+                  onClick={handleClear}
+                  className="h-20 text-2xl font-bold bg-gradient-to-br from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 text-white shadow-lg"
                 >
-                  {currentProblemIndex < problems.length - 1 ? 'つぎへ' : 'おわり'}
+                  クリア
+                </Button>
+                <Button
+                  onClick={() => handleNumberClick(0)}
+                  className="h-20 text-4xl font-bold bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white shadow-lg transform hover:scale-105 transition-all"
+                >
+                  0
+                </Button>
+                <Button
+                  onClick={handleBackspace}
+                  className="h-20 text-2xl font-bold bg-gradient-to-br from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 text-white shadow-lg"
+                >
+                  ← けす
                 </Button>
               </div>
             </div>
           )}
-        </div>
 
-        {/* 進捗バー */}
-        <div className="xp-bar">
-          <div 
-            className="xp-bar-fill" 
-            style={{ width: `${((currentProblemIndex + 1) / problems.length) * 100}%` }}
-          ></div>
-        </div>
+          {/* 結果表示 */}
+          {showResult && (
+            <div className="text-center space-y-6 animate-fade-in">
+              {isCorrect ? (
+                <>
+                  <div className="text-9xl animate-bounce">🎉</div>
+                  <h3 className="text-5xl font-black text-green-600">せいかい!</h3>
+                  <p className="text-2xl">{getEncouragementMessage()}</p>
+                </>
+              ) : (
+                <>
+                  <div className="text-9xl">😢</div>
+                  <h3 className="text-5xl font-black text-red-600">ざんねん...</h3>
+                  <p className="text-3xl font-bold">こたえ: {currentProblem.correctAnswer}</p>
+                  <p className="text-xl text-muted-foreground">つぎはがんばろう!</p>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* アクションボタン */}
+          <div className="mt-8">
+            {!showResult ? (
+              <Button
+                onClick={handleSubmit}
+                disabled={!answer || submitAnswerMutation.isPending}
+                className="w-full h-20 text-3xl font-black bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white shadow-2xl transform hover:scale-105 transition-all"
+              >
+                {submitAnswerMutation.isPending ? 'かくにんちゅう...' : 'こたえる!'}
+              </Button>
+            ) : (
+              <Button
+                onClick={handleNext}
+                className="w-full h-20 text-3xl font-black bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white shadow-2xl transform hover:scale-105 transition-all"
+              >
+                {currentProblemIndex < problems.length - 1 ? 'つぎへ →' : 'おわり!'}
+              </Button>
+            )}
+          </div>
+        </Card>
+
+        {/* 応援メッセージ */}
+        {!showResult && (
+          <div className="text-center">
+            <p className="text-2xl font-bold text-purple-600 animate-pulse">
+              {getEncouragementMessage()}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

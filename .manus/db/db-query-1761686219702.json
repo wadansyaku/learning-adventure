@@ -1,0 +1,60 @@
+{
+  "query": "SELECT id, chapterNumber, title FROM storyChapters LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, chapterNumber, title FROM storyChapters LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "chapterNumber": "1",
+      "title": "はじまりのもり"
+    },
+    {
+      "id": "2",
+      "chapterNumber": "2",
+      "title": "かわのむこうがわ"
+    },
+    {
+      "id": "3",
+      "chapterNumber": "3",
+      "title": "やまのてっぺん"
+    },
+    {
+      "id": "30001",
+      "chapterNumber": "1",
+      "title": "ふしぎなもりのはじまり"
+    },
+    {
+      "id": "30002",
+      "chapterNumber": "2",
+      "title": "かわのむこうがわ"
+    },
+    {
+      "id": "30003",
+      "chapterNumber": "3",
+      "title": "やまのぼり"
+    },
+    {
+      "id": "30004",
+      "chapterNumber": "4",
+      "title": "どうくつのなぞ"
+    },
+    {
+      "id": "30005",
+      "chapterNumber": "5",
+      "title": "まほうのみずうみ"
+    },
+    {
+      "id": "30006",
+      "chapterNumber": "6",
+      "title": "そらのしろ"
+    },
+    {
+      "id": "30007",
+      "chapterNumber": "7",
+      "title": "りゅうとのであい"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tchapterNumber\ttitle\n1\t1\tはじまりのもり\n2\t2\tかわのむこうがわ\n3\t3\tやまのてっぺん\n30001\t1\tふしぎなもりのはじまり\n30002\t2\tかわのむこうがわ\n30003\t3\tやまのぼり\n30004\t4\tどうくつのなぞ\n30005\t5\tまほうのみずうみ\n30006\t6\tそらのしろ\n30007\t7\tりゅうとのであい\n",
+  "stderr": "",
+  "execution_time_ms": 1529
+}

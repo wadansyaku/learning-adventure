@@ -12,6 +12,8 @@ import ParentDashboard from "./pages/ParentDashboard";
 import ProblemPlay from "./pages/ProblemPlay";
 import CreateTask from "./pages/CreateTask";
 import CreateProblem from "./pages/CreateProblem";
+import Story from "./pages/Story";
+import Achievements from "./pages/Achievements";
 
 function Router() {
   return (
@@ -20,6 +22,8 @@ function Router() {
       <Route path={"/student"} component={StudentDashboard} />
       <Route path={"/teacher"} component={TeacherDashboard} />
       <Route path={"/gacha"} component={Gacha} />
+      <Route path={"/story"} component={Story} />
+      <Route path={"/achievements"} component={Achievements} />
       <Route path={"/parent"} component={ParentDashboard} />
       <Route path={"/play"} component={ProblemPlay} />
       <Route path={"/teacher/create-task"} component={CreateTask} />

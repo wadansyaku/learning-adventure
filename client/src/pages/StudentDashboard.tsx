@@ -4,12 +4,18 @@ import { Card } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { RoleSwitcher } from "@/components/RoleSwitcher";
+import { LevelUpModal } from "@/components/LevelUpModal";
+import { LoginBonus } from "@/components/LoginBonus";
+import { toast } from "sonner";
 
 export default function StudentDashboard() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
+  const [showLevelUp, setShowLevelUp] = useState(false);
+  const [newLevel, setNewLevel] = useState(0);
+  const [showLoginBonus, setShowLoginBonus] = useState(true);
+  const [previousLevel, setPreviousLevel] = useState(0);
   const [isCreatingProfile, setIsCreatingProfile] = useState(false);
   
   const { data: profile, isLoading: profileLoading, error: profileError, refetch } = trpc.student.getProfile.useQuery(undefined, {
@@ -163,7 +169,7 @@ export default function StudentDashboard() {
         </div>
 
         {/* アクションボタン */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="card-fun">
             <h3 className="text-2xl font-bold mb-4">もんだいにチャレンジ!</h3>
             <p className="mb-4 text-muted-foreground">たのしいもんだいをといてXPをゲット!</p>
@@ -187,6 +193,17 @@ export default function StudentDashboard() {
           </Card>
 
           <Card className="card-fun">
+            <h3 className="text-2xl font-bold mb-4">ぼうけん</h3>
+            <p className="mb-4 text-muted-foreground">たのしいおはなしをよもう!</p>
+            <Button 
+              className="btn-fun bg-gradient-to-r from-orange-500 to-red-500 text-white w-full"
+              onClick={() => setLocation('/story')}
+            >
+              ぼうけんへ 🗺️
+            </Button>
+          </Card>
+
+          <Card className="card-fun">
             <h3 className="text-2xl font-bold mb-4">しゅくだい</h3>
             <p className="mb-4 text-muted-foreground">
               {pendingTasks.length > 0 
@@ -198,6 +215,25 @@ export default function StudentDashboard() {
             </div>
           </Card>
         </div>
+
+        {/* 実績ボタン */}
+        <Card className="p-6 mb-8 bg-gradient-to-r from-yellow-100 to-orange-100">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="text-5xl">🏆</div>
+              <div>
+                <h3 className="text-2xl font-bold mb-1">じっせき</h3>
+                <p className="text-muted-foreground">あちこうしたことをみよう!</p>
+              </div>
+            </div>
+            <Button 
+              className="btn-fun bg-gradient-to-r from-yellow-500 to-orange-500 text-white"
+              onClick={() => setLocation('/achievements')}
+            >
+              じっせきをみる 🏆
+            </Button>
+          </div>
+        </Card>
 
         {/* 進捗表示 */}
         {completedTasks.length > 0 && (
@@ -214,6 +250,19 @@ export default function StudentDashboard() {
           </Card>
         )}
       </div>
+
+      {/* レベルアップモーダル */}
+      {showLevelUp && (
+        <LevelUpModal 
+          newLevel={newLevel} 
+          onClose={() => setShowLevelUp(false)} 
+        />
+      )}
+
+      {/* ログインボーナス */}
+      {showLoginBonus && (
+        <LoginBonus onClose={() => setShowLoginBonus(false)} />
+      )}
     </div>
   );
 }

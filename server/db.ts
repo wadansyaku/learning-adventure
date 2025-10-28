@@ -338,6 +338,36 @@ export async function getStudentStoryProgress(studentId: number) {
     .where(eq(studentStoryProgress.studentId, studentId));
 }
 
+export async function completeStoryChapter(studentId: number, chapterId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  // Check if progress record exists
+  const existing = await db.select().from(studentStoryProgress)
+    .where(
+      and(
+        eq(studentStoryProgress.studentId, studentId),
+        eq(studentStoryProgress.chapterId, chapterId)
+      )
+    )
+    .limit(1);
+  
+  if (existing.length > 0) {
+    // Update existing record
+    await db.update(studentStoryProgress)
+      .set({ isCompleted: true, completedAt: new Date() })
+      .where(eq(studentStoryProgress.id, existing[0].id));
+  } else {
+    // Insert new record
+    await db.insert(studentStoryProgress).values({
+      studentId,
+      chapterId,
+      isCompleted: true,
+      completedAt: new Date(),
+    });
+  }
+}
+
 // Treasure queries
 export async function getStudentTreasures(studentId: number) {
   const db = await getDb();
@@ -358,6 +388,13 @@ export async function getStudentTreasures(studentId: number) {
 }
 
 // Achievement queries
+export async function getAllAchievements() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(achievements);
+}
+
 export async function getStudentAchievements(studentId: number) {
   const db = await getDb();
   if (!db) return [];
