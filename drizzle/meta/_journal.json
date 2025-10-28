@@ -36,6 +36,20 @@
       "when": 1761693512997,
       "tag": "0004_exotic_chimera",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1761693802159,
+      "tag": "0005_unknown_roland_deschain",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1761693964164,
+      "tag": "0006_married_mister_fear",
+      "breakpoints": true
     }
   ]
 }

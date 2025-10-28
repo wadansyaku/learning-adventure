@@ -621,6 +621,58 @@ export const appRouter = router({
     }),
   }),
 
+  // Daily Mission router
+  dailyMission: router({
+    // Get all active daily missions
+    getAll: publicProcedure.query(async () => {
+      return await db.getAllDailyMissions();
+    }),
+
+    // Get student's daily progress
+    getMyProgress: studentProcedure.query(async ({ ctx }) => {
+      const student = await db.getStudentByUserId(ctx.user.id);
+      if (!student) return [];
+      
+      return await db.getStudentDailyProgress(student.id, new Date());
+    }),
+  }),
+
+  // Parent router
+  parent: router({
+    // Get children by parent user ID
+    getMyChildren: parentProcedure.query(async ({ ctx }) => {
+      return await db.getChildrenByParentUserId(ctx.user.id);
+    }),
+
+    // Add child relationship
+    addChild: parentProcedure
+      .input(z.object({ studentId: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        return await db.addParentChildRelationship(ctx.user.id, input.studentId);
+      }),
+
+    // Remove child relationship
+    removeChild: parentProcedure
+      .input(z.object({ studentId: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        return await db.removeParentChildRelationship(ctx.user.id, input.studentId);
+      }),
+
+    // Get child's progress
+    getChildProgress: parentProcedure
+      .input(z.object({ studentId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getStudentProgressByStudentId(input.studentId);
+      }),
+
+    // Get child's achievements
+    getChildAchievements: parentProcedure
+      .input(z.object({ studentId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getStudentAchievements(input.studentId);
+      }),
+  }),
+
   // Gacha router
   gacha: router({
     // Roll gacha

@@ -23,7 +23,10 @@ import {
   treasures,
   studentStoryProgress,
   studentTreasures,
-  openaiUsageLogs
+  openaiUsageLogs,
+  parentChildren,
+  dailyMissions,
+  studentDailyProgress
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -544,4 +547,152 @@ export async function getOpenAIUsageLogs(limit: number = 100) {
   return await db.select().from(openaiUsageLogs)
     .orderBy(desc(openaiUsageLogs.createdAt))
     .limit(limit);
+}
+
+// Parent-Children relationship queries
+export async function addParentChildRelationship(parentUserId: number, studentId: number, relationship: string = "parent") {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.insert(parentChildren).values({
+    parentUserId,
+    studentId,
+    relationship
+  });
+  return result;
+}
+
+export async function getChildrenByParentUserId(parentUserId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select({
+    id: parentChildren.id,
+    studentId: parentChildren.studentId,
+    relationship: parentChildren.relationship,
+    createdAt: parentChildren.createdAt,
+    displayName: students.displayName,
+    avatarIcon: students.avatarIcon,
+    level: students.level,
+    xp: students.xp,
+    coins: students.coins,
+    loginStreak: students.loginStreak,
+    lastLoginDate: students.lastLoginDate
+  })
+  .from(parentChildren)
+  .leftJoin(students, eq(parentChildren.studentId, students.id))
+  .where(eq(parentChildren.parentUserId, parentUserId));
+}
+
+export async function removeParentChildRelationship(parentUserId: number, studentId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db.delete(parentChildren)
+    .where(and(
+      eq(parentChildren.parentUserId, parentUserId),
+      eq(parentChildren.studentId, studentId)
+    ));
+  return result;
+}
+
+// Daily mission queries
+export async function getAllDailyMissions() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(dailyMissions).where(eq(dailyMissions.isActive, true));
+}
+
+export async function getStudentDailyProgress(studentId: number, date: Date) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const dateStr = date.toISOString().split('T')[0];
+  
+  return await db.select({
+    id: studentDailyProgress.id,
+    missionId: studentDailyProgress.missionId,
+    currentCount: studentDailyProgress.currentCount,
+    isCompleted: studentDailyProgress.isCompleted,
+    completedAt: studentDailyProgress.completedAt,
+    title: dailyMissions.title,
+    description: dailyMissions.description,
+    missionType: dailyMissions.missionType,
+    targetCount: dailyMissions.targetCount,
+    xpReward: dailyMissions.xpReward,
+    coinReward: dailyMissions.coinReward
+  })
+  .from(studentDailyProgress)
+  .leftJoin(dailyMissions, eq(studentDailyProgress.missionId, dailyMissions.id))
+  .where(and(
+    eq(studentDailyProgress.studentId, studentId),
+    sql`DATE(${studentDailyProgress.date}) = ${dateStr}`
+  ));
+}
+
+export async function updateDailyMissionProgress(studentId: number, missionType: string, incrementBy: number = 1) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const today = new Date();
+  const dateStr = today.toISOString().split('T')[0];
+  
+  // Get active missions of this type
+  const missions = await db.select().from(dailyMissions)
+    .where(and(
+      eq(dailyMissions.missionType, missionType as any),
+      eq(dailyMissions.isActive, true)
+    ));
+  
+  for (const mission of missions) {
+    // Check if progress exists for today
+    const existingProgress = await db.select().from(studentDailyProgress)
+      .where(and(
+        eq(studentDailyProgress.studentId, studentId),
+        eq(studentDailyProgress.missionId, mission.id),
+        sql`DATE(${studentDailyProgress.date}) = ${dateStr}`
+      ))
+      .limit(1);
+    
+    if (existingProgress.length > 0) {
+      const progress = existingProgress[0];
+      const newCount = progress.currentCount + incrementBy;
+      const isCompleted = newCount >= mission.targetCount;
+      
+      await db.update(studentDailyProgress)
+        .set({
+          currentCount: newCount,
+          isCompleted,
+          completedAt: isCompleted && !progress.isCompleted ? new Date() : progress.completedAt
+        })
+        .where(eq(studentDailyProgress.id, progress.id));
+      
+      // Award rewards if just completed
+      if (isCompleted && !progress.isCompleted) {
+        await updateStudentXP(studentId, mission.xpReward);
+        await updateStudentCoins(studentId, mission.coinReward);
+      }
+    } else {
+      // Create new progress
+      const isCompleted = incrementBy >= mission.targetCount;
+      
+      await db.insert(studentDailyProgress).values({
+        studentId,
+        missionId: mission.id,
+        currentCount: incrementBy,
+        isCompleted,
+        completedAt: isCompleted ? new Date() : null,
+        date: today
+      });
+      
+      // Award rewards if completed
+      if (isCompleted) {
+        await updateStudentXP(studentId, mission.xpReward);
+        await updateStudentCoins(studentId, mission.coinReward);
+      }
+    }
+  }
+  
+  return true;
 }

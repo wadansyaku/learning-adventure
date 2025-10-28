@@ -14,21 +14,13 @@ export default function ParentDashboard() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
 
-  // 保護者画面はデモモード（親子関係テーブルが未実装のため）
-  const profile = {
-    id: 1,
-    userId: user?.id || 0,
-    displayName: "さくら",
-    avatarIcon: null,
-    level: 5,
-    xp: 450,
-    coins: 120,
-    currentCharacterId: null,
-    loginStreak: 7,
-    lastLoginDate: new Date(),
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
+  // 保護者の子供一覧を取得
+  const { data: children, isLoading: childrenLoading } = trpc.parent.getMyChildren.useQuery(undefined, {
+    enabled: isAuthenticated && user?.role === 'parent',
+  });
+
+  // 最初の子供を選択(将来的には子供選択機能を追加)
+  const selectedChild = children && children.length > 0 ? children[0] : null;
 
   useEffect(() => {
     if (!authLoading && (!isAuthenticated || user?.role !== 'parent')) {
@@ -36,7 +28,7 @@ export default function ParentDashboard() {
     }
   }, [authLoading, isAuthenticated, user, setLocation]);
 
-  if (authLoading) {
+  if (authLoading || childrenLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
@@ -87,7 +79,9 @@ export default function ParentDashboard() {
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">保護者ダッシュボード</h1>
-              <p className="text-sm text-gray-600 mt-1">お子様の学習状況を確認できます</p>
+              <p className="text-sm text-gray-600 mt-1">
+                {selectedChild ? `${selectedChild.displayName}さんの学習状況` : 'お子様の学習状況を確認できます'}
+              </p>
             </div>
             <div className="flex items-center gap-4">
               <RoleSwitcher />
@@ -106,11 +100,11 @@ export default function ParentDashboard() {
           <Card>
             <CardHeader className="pb-3">
               <CardDescription>現在のレベル</CardDescription>
-              <CardTitle className="text-3xl">{profile.level}</CardTitle>
+              <CardTitle className="text-3xl">{selectedChild?.level || 0}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-600">
-                次のレベルまで: {100 - (profile.xp % 100)} XP
+                次のレベルまで: {selectedChild && selectedChild.xp !== null ? 100 - (selectedChild.xp % 100) : 0} XP
               </p>
             </CardContent>
           </Card>
@@ -297,7 +291,7 @@ export default function ParentDashboard() {
             <div className="bg-gray-50 border-l-4 border-gray-500 p-4">
               <h4 className="font-semibold text-gray-900 mb-2">📈 今後の目標</h4>
               <p className="text-sm text-gray-800">
-                現在のペースを維持すれば、2週間以内にレベル{profile.level + 1}に到達できる見込みです。
+                現在のペースを維持すれば2週間以内にレベル{selectedChild ? (selectedChild.level || 0) + 1 : 1}に到達できる見込みです。。
                 引き続き、お子様の学習をサポートしてあげてください。
               </p>
             </div>

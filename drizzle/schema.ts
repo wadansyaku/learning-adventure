@@ -311,3 +311,53 @@ export const openaiUsageLogs = mysqlTable("openaiUsageLogs", {
 
 export type OpenAIUsageLog = typeof openaiUsageLogs.$inferSelect;
 export type InsertOpenAIUsageLog = typeof openaiUsageLogs.$inferInsert;
+
+/**
+ * Parent-Children Relationships - 保護者-子供関係
+ */
+export const parentChildren = mysqlTable("parentChildren", {
+  id: int("id").autoincrement().primaryKey(),
+  parentUserId: int("parentUserId").notNull().references(() => users.id), // 保護者のユーザーID
+  studentId: int("studentId").notNull().references(() => students.id), // 生徒ID
+  relationship: varchar("relationship", { length: 50 }).default("parent").notNull(), // 関係性(parent, guardian等)
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ParentChild = typeof parentChildren.$inferSelect;
+export type InsertParentChild = typeof parentChildren.$inferInsert;
+
+/**
+ * Daily Missions - デイリーミッション
+ */
+export const dailyMissions = mysqlTable("dailyMissions", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(), // ミッションタイトル(ひらがな)
+  description: text("description").notNull(), // 説明(ひらがな)
+  missionType: mysqlEnum("missionType", ["solve_problems", "login", "story_complete", "gacha_roll", "chat_character"]).notNull(),
+  targetCount: int("targetCount").default(1).notNull(), // 目標回数
+  xpReward: int("xpReward").default(10).notNull(), // XP報酬
+  coinReward: int("coinReward").default(5).notNull(), // コイン報酬
+  isActive: boolean("isActive").default(true).notNull(), // アクティブかどうか
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type DailyMission = typeof dailyMissions.$inferSelect;
+export type InsertDailyMission = typeof dailyMissions.$inferInsert;
+
+/**
+ * Student Daily Mission Progress - 生徒のデイリーミッション進捗
+ */
+export const studentDailyProgress = mysqlTable("studentDailyProgress", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("studentId").notNull().references(() => students.id),
+  missionId: int("missionId").notNull().references(() => dailyMissions.id),
+  currentCount: int("currentCount").default(0).notNull(), // 現在の進捗
+  isCompleted: boolean("isCompleted").default(false).notNull(), // 完了したかどうか
+  completedAt: timestamp("completedAt"), // 完了日時
+  date: datetime("date").notNull(), // 対象日(日次リセット用)
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type StudentDailyProgress = typeof studentDailyProgress.$inferSelect;
+export type InsertStudentDailyProgress = typeof studentDailyProgress.$inferInsert;
