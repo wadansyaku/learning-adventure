@@ -172,49 +172,18 @@ export async function updateStudentCoins(studentId: number, coinsToAdd: number) 
     .where(eq(students.id, studentId));
 }
 
-export async function updateStudentLevel(studentId: number, newLevel: number) {
+export async function updateStudentLevel(studentId: number, level: number) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  await db.update(students)
-    .set({ 
-      level: newLevel,
-      updatedAt: new Date()
-    })
-    .where(eq(students.id, studentId));
+  await db.update(students).set({ level }).where(eq(students.id, studentId));
 }
 
-export async function updateStudentLoginStreak(studentId: number) {
+export async function updateStudentLoginStreak(studentId: number, loginStreak: number, lastLoginDate: Date) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  const student = await db.select().from(students).where(eq(students.id, studentId)).limit(1);
-  if (student.length === 0) return;
-  
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  
-  const lastLogin = student[0].lastLoginDate ? new Date(student[0].lastLoginDate) : null;
-  let newStreak = 1;
-  
-  if (lastLogin) {
-    lastLogin.setHours(0, 0, 0, 0);
-    const diffDays = Math.floor((today.getTime() - lastLogin.getTime()) / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 1) {
-      newStreak = (student[0].loginStreak || 0) + 1;
-    } else if (diffDays === 0) {
-      newStreak = student[0].loginStreak || 1;
-    }
-  }
-  
-  await db.update(students)
-    .set({ 
-      loginStreak: newStreak,
-      lastLoginDate: new Date(),
-      updatedAt: new Date()
-    })
-    .where(eq(students.id, studentId));
+  await db.update(students).set({ loginStreak, lastLoginDate }).where(eq(students.id, studentId));
 }
 
 // Character queries
@@ -230,6 +199,18 @@ export async function createCharacter(character: InsertCharacter) {
   if (!db) throw new Error("Database not available");
   
   return await db.insert(characters).values(character);
+}
+
+// Item queries
+export async function addStudentItem(studentId: number, itemId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.insert(studentItems).values({
+    studentId,
+    itemId,
+    isEquipped: false,
+  });
 }
 
 // Task queries

@@ -163,7 +163,7 @@ export default function StudentDashboard() {
         </div>
 
         {/* アクションボタン */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card className="card-fun">
             <h3 className="text-2xl font-bold mb-4">もんだいにチャレンジ!</h3>
             <p className="mb-4 text-muted-foreground">たのしいもんだいをといてXPをゲット!</p>
@@ -172,6 +172,17 @@ export default function StudentDashboard() {
               onClick={() => setLocation('/play')}
             >
               あそぶ 🎮
+            </Button>
+          </Card>
+
+          <Card className="card-fun">
+            <h3 className="text-2xl font-bold mb-4">ガチャ</h3>
+            <p className="mb-4 text-muted-foreground">アイテムをげっとしよう!</p>
+            <Button 
+              className="btn-fun bg-gradient-to-r from-purple-500 to-pink-500 text-white w-full"
+              onClick={() => setLocation('/gacha')}
+            >
+              ガチャをひく ✨
             </Button>
           </Card>
 

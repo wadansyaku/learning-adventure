@@ -5,6 +5,7 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import Gacha from "./pages/Gacha";
 import StudentDashboard from "./pages/StudentDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import ParentDashboard from "./pages/ParentDashboard";
@@ -18,6 +19,7 @@ function Router() {
       <Route path={"/"} component={Home} />
       <Route path={"/student"} component={StudentDashboard} />
       <Route path={"/teacher"} component={TeacherDashboard} />
+      <Route path={"/gacha"} component={Gacha} />
       <Route path={"/parent"} component={ParentDashboard} />
       <Route path={"/play"} component={ProblemPlay} />
       <Route path={"/teacher/create-task"} component={CreateTask} />

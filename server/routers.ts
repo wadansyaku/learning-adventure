@@ -98,6 +98,99 @@ export const appRouter = router({
         return { success: true };
       }),
 
+    // Check login bonus eligibility
+    checkLoginBonus: studentProcedure.mutation(async ({ ctx }) => {
+      const student = await db.getStudentByUserId(ctx.user.id);
+      if (!student) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Student not found' });
+      }
+
+      const now = new Date();
+      const lastLogin = student.lastLoginDate ? new Date(student.lastLoginDate) : null;
+      
+      // Check if already claimed today
+      if (lastLogin) {
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const lastLoginDay = new Date(lastLogin.getFullYear(), lastLogin.getMonth(), lastLogin.getDate());
+        
+        if (today.getTime() === lastLoginDay.getTime()) {
+          return { eligible: false };
+        }
+      }
+
+      // Calculate bonus based on streak
+      const baseCoins = 10;
+      const baseXP = 5;
+      const streakBonus = Math.min(student.loginStreak, 7); // Max 7 days bonus
+      
+      return {
+        eligible: true,
+        loginStreak: student.loginStreak + 1,
+        coinsEarned: baseCoins + streakBonus * 2,
+        xpEarned: baseXP + streakBonus,
+      };
+    }),
+
+    // Claim login bonus
+    claimLoginBonus: studentProcedure.mutation(async ({ ctx }) => {
+      const student = await db.getStudentByUserId(ctx.user.id);
+      if (!student) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Student not found' });
+      }
+
+      const now = new Date();
+      const lastLogin = student.lastLoginDate ? new Date(student.lastLoginDate) : null;
+      
+      // Check if already claimed today
+      if (lastLogin) {
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const lastLoginDay = new Date(lastLogin.getFullYear(), lastLogin.getMonth(), lastLogin.getDate());
+        
+        if (today.getTime() === lastLoginDay.getTime()) {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: '今日はもうもらったよ!' });
+        }
+      }
+
+      // Calculate new streak
+      let newStreak = 1;
+      if (lastLogin) {
+        const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+        const lastLoginDay = new Date(lastLogin.getFullYear(), lastLogin.getMonth(), lastLogin.getDate());
+        
+        if (yesterday.getTime() === lastLoginDay.getTime()) {
+          newStreak = student.loginStreak + 1;
+        }
+      }
+
+      // Calculate bonus
+      const baseCoins = 10;
+      const baseXP = 5;
+      const streakBonus = Math.min(newStreak, 7);
+      const coinsEarned = baseCoins + streakBonus * 2;
+      const xpEarned = baseXP + streakBonus;
+
+      // Update student
+      await db.updateStudentLoginStreak(student.id, newStreak, now);
+      await db.updateStudentCoins(student.id, coinsEarned);
+      await db.updateStudentXP(student.id, xpEarned);
+
+      // Check for level up
+      const updatedStudent = await db.getStudentByUserId(ctx.user.id);
+      if (updatedStudent) {
+        const newLevel = Math.floor(updatedStudent.xp / 100) + 1;
+        if (newLevel > updatedStudent.level) {
+          await db.updateStudentLevel(student.id, newLevel);
+        }
+      }
+
+      return {
+        success: true,
+        coinsEarned,
+        xpEarned,
+        loginStreak: newStreak,
+      };
+    }),
+
     // Get student stats
     getStats: studentProcedure.query(async ({ ctx }) => {
       const student = await db.getStudentByUserId(ctx.user.id);
@@ -115,7 +208,6 @@ export const appRouter = router({
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Student not found' });
       }
       
-      await db.updateStudentLoginStreak(student.id);
       return { success: true };
     }),
   }),
@@ -410,6 +502,75 @@ export const appRouter = router({
       if (!student) return [];
       
       return await db.getStudentItems(student.id);
+    }),
+  }),
+
+  // Gacha router
+  gacha: router({
+    // Roll gacha
+    roll: studentProcedure.mutation(async ({ ctx }) => {
+      const student = await db.getStudentByUserId(ctx.user.id);
+      if (!student) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Student not found' });
+      }
+
+      // Check if student has enough coins
+      if (student.coins < 10) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'コインがたりないよ!' });
+      }
+
+      // Deduct coins
+      await db.updateStudentCoins(student.id, -10);
+
+      // Get all items
+      const allItems = await db.getAllCharacterItems();
+      if (allItems.length === 0) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'No items available' });
+      }
+
+      // Gacha logic with rarity weights
+      const rarityWeights: Record<string, number> = {
+        common: 60,
+        rare: 30,
+        epic: 9,
+        legendary: 1,
+      };
+
+      // Calculate total weight
+      const totalWeight = Object.values(rarityWeights).reduce((a, b) => a + b, 0);
+      
+      // Random roll
+      const roll = Math.random() * totalWeight;
+      let cumulativeWeight = 0;
+      let selectedRarity = 'common';
+
+      for (const [rarity, weight] of Object.entries(rarityWeights)) {
+        cumulativeWeight += weight;
+        if (roll <= cumulativeWeight) {
+          selectedRarity = rarity;
+          break;
+        }
+      }
+
+      // Filter items by rarity
+      const itemsOfRarity = allItems.filter(item => item.rarity === selectedRarity);
+      
+      // If no items of that rarity, fallback to common
+      const availableItems = itemsOfRarity.length > 0 ? itemsOfRarity : allItems.filter(item => item.rarity === 'common');
+      
+      // If still no items, use any item
+      const finalItems = availableItems.length > 0 ? availableItems : allItems;
+      
+      // Select random item
+      const selectedItem = finalItems[Math.floor(Math.random() * finalItems.length)];
+
+      // Add item to student's inventory
+      await db.addStudentItem(student.id, selectedItem.id);
+
+      return {
+        item: selectedItem,
+        rarity: selectedItem.rarity,
+      };
     }),
   }),
 });
