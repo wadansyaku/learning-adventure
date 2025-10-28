@@ -326,8 +326,28 @@ export async function getStudentStats(studentId: number) {
 export async function getAllStoryChapters() {
   const db = await getDb();
   if (!db) return [];
-  
+
   return await db.select().from(storyChapters).orderBy(storyChapters.chapterNumber);
+}
+
+export async function getStoryChapterById(id: number) {
+  const db = await getDb();
+  if (!db) return null;
+
+  const chapters = await db.select().from(storyChapters).where(eq(storyChapters.id, id)).limit(1);
+  if (chapters.length === 0) return null;
+
+  const chapter = chapters[0];
+  
+  // Get treasures for this chapter
+  const chapterTreasures = await db.select().from(treasures).where(eq(treasures.chapterId, id));
+
+  return {
+    ...chapter,
+    storyText: chapter.description || 'この章のストーリーはまだ書かれていません。',
+    isCompleted: false, // TODO: 実際の進捗データを取得
+    treasures: chapterTreasures,
+  };
 }
 
 export async function getStudentStoryProgress(studentId: number) {

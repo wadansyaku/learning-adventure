@@ -13,6 +13,7 @@ import ProblemPlay from "./pages/ProblemPlay";
 import CreateTask from "./pages/CreateTask";
 import CreateProblem from "./pages/CreateProblem";
 import Story from "./pages/Story";
+import StoryDetail from "./pages/StoryDetail";
 import Achievements from "./pages/Achievements";
 
 function Router() {
@@ -23,6 +24,7 @@ function Router() {
       <Route path={"/teacher"} component={TeacherDashboard} />
       <Route path={"/gacha"} component={Gacha} />
       <Route path={"/story"} component={Story} />
+      <Route path={"/story/:id"} component={StoryDetail} />
       <Route path={"/achievements"} component={Achievements} />
       <Route path={"/parent"} component={ParentDashboard} />
       <Route path={"/play"} component={ProblemPlay} />

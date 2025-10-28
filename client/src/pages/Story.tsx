@@ -93,7 +93,7 @@ export default function Story() {
                       unlocked ? 'bg-gradient-to-r from-blue-100 to-purple-100 border-blue-400 hover:shadow-xl' :
                       'bg-gray-100 border-gray-300 opacity-60 cursor-not-allowed'
                     }`}
-                    onClick={() => unlocked && !completed && setSelectedChapter(chapter)}
+                    onClick={() => unlocked && setLocation(`/story/${chapter.id}`)}
                   >
                     <div className="flex items-center gap-6">
                       <div className="text-6xl">

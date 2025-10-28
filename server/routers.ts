@@ -432,6 +432,15 @@ export const appRouter = router({
       return await db.getAllStoryChapters();
     }),
 
+    // Get chapter by ID
+    getById: publicProcedure
+      .input(z.object({
+        id: z.number(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getStoryChapterById(input.id);
+      }),
+
     // Get student story progress
     getMyProgress: studentProcedure.query(async ({ ctx }) => {
       const student = await db.getStudentByUserId(ctx.user.id);

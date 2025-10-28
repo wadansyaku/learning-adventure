@@ -188,44 +188,44 @@ export default function ProblemPlay() {
           </div>
 
           {/* 回答表示エリア */}
-          <div className="mb-8">
-            <div className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-6 min-h-[100px] flex items-center justify-center border-4 border-blue-300">
-              <span className="text-6xl font-black text-blue-600">
+          <div className="mb-4 sm:mb-6">
+            <div className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-4 sm:p-6 min-h-[80px] sm:min-h-[100px] flex items-center justify-center border-4 border-blue-300">
+              <span className="text-4xl sm:text-5xl md:text-6xl font-black text-blue-600">
                 {answer || "?"}
               </span>
             </div>
           </div>
 
-          {/* 数字パッド */}
+          {/* 数字パッド - モバイル最適化 */}
           {!showResult && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-3 gap-4">
+            <div className="space-y-2 sm:space-y-3">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
                   <Button
                     key={num}
                     onClick={() => handleNumberClick(num)}
-                    className="h-20 text-4xl font-bold bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white shadow-lg transform hover:scale-105 transition-all"
+                    className="h-14 sm:h-16 md:h-20 text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 active:scale-95 text-white shadow-lg transform hover:scale-105 transition-all touch-manipulation"
                   >
                     {num}
                   </Button>
                 ))}
               </div>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
                 <Button
                   onClick={handleClear}
-                  className="h-20 text-2xl font-bold bg-gradient-to-br from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 text-white shadow-lg"
+                  className="h-14 sm:h-16 md:h-20 text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-br from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 active:scale-95 text-white shadow-lg touch-manipulation"
                 >
                   クリア
                 </Button>
                 <Button
                   onClick={() => handleNumberClick(0)}
-                  className="h-20 text-4xl font-bold bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white shadow-lg transform hover:scale-105 transition-all"
+                  className="h-14 sm:h-16 md:h-20 text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-br from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 active:scale-95 text-white shadow-lg transform hover:scale-105 transition-all touch-manipulation"
                 >
                   0
                 </Button>
                 <Button
                   onClick={handleBackspace}
-                  className="h-20 text-2xl font-bold bg-gradient-to-br from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 text-white shadow-lg"
+                  className="h-14 sm:h-16 md:h-20 text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-br from-red-400 to-red-600 hover:from-red-500 hover:to-red-700 active:scale-95 text-white shadow-lg touch-manipulation"
                 >
                   ← けす
                 </Button>
