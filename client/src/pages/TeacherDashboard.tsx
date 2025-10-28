@@ -74,7 +74,10 @@ export default function TeacherDashboard() {
           <Card className="p-6">
             <h3 className="text-2xl font-bold mb-4">課題を作成</h3>
             <p className="mb-4 text-muted-foreground">生徒に新しい課題を割り当てます</p>
-            <Button className="w-full bg-primary text-primary-foreground">
+            <Button 
+              className="w-full bg-primary text-primary-foreground"
+              onClick={() => setLocation('/teacher/create-task')}
+            >
               新規課題作成
             </Button>
           </Card>
@@ -82,7 +85,10 @@ export default function TeacherDashboard() {
           <Card className="p-6">
             <h3 className="text-2xl font-bold mb-4">問題を作成</h3>
             <p className="mb-4 text-muted-foreground">アプリ内の問題を追加します</p>
-            <Button className="w-full bg-secondary text-secondary-foreground">
+            <Button 
+              className="w-full bg-secondary text-secondary-foreground"
+              onClick={() => setLocation('/teacher/create-problem')}
+            >
               新規問題作成
             </Button>
           </Card>

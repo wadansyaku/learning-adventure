@@ -3,15 +3,52 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function StudentDashboard() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
+  const [isCreatingProfile, setIsCreatingProfile] = useState(false);
   
-  const { data: profile, isLoading: profileLoading } = trpc.student.getProfile.useQuery(undefined, {
+  const { data: profile, isLoading: profileLoading, error: profileError, refetch } = trpc.student.getProfile.useQuery(undefined, {
     enabled: isAuthenticated && user?.role === 'student',
+    retry: false,
   });
+
+  const createProfileMutation = trpc.student.createProfile.useMutation({
+    onSuccess: () => {
+      console.log('[StudentDashboard] Profile created successfully');
+      toast.success('プロフィールを作成しました!');
+      refetch();
+      setIsCreatingProfile(false);
+    },
+    onError: (error) => {
+      console.error('[StudentDashboard] Failed to create profile:', error);
+      toast.error('プロフィールの作成に失敗しました');
+      setIsCreatingProfile(false);
+    },
+  });
+
+  console.log('[StudentDashboard] State:', { 
+    isAuthenticated, 
+    userRole: user?.role, 
+    profile, 
+    profileLoading, 
+    profileError 
+  });
+
+  // プロフィールがない場合、自動作成
+  useEffect(() => {
+    if (!profileLoading && !profile && profileError && isAuthenticated && user?.role === 'student' && !isCreatingProfile) {
+      console.log('[StudentDashboard] Profile not found, creating automatically');
+      setIsCreatingProfile(true);
+      createProfileMutation.mutate({
+        displayName: user.name || '生徒',
+        avatarIcon: '🐰',
+      });
+    }
+  }, [profileLoading, profile, profileError, isAuthenticated, user, isCreatingProfile]);
 
   const { data: tasks } = trpc.task.getMyTasks.useQuery(undefined, {
     enabled: isAuthenticated && user?.role === 'student',
@@ -22,12 +59,17 @@ export default function StudentDashboard() {
   });
 
   useEffect(() => {
-    if (!authLoading && (!isAuthenticated || user?.role !== 'student')) {
+    console.log('[StudentDashboard] Auth check:', { authLoading, isAuthenticated, userRole: user?.role });
+    if (!authLoading && !isAuthenticated) {
+      console.log('[StudentDashboard] Redirecting to home - not authenticated');
+      setLocation('/');
+    } else if (!authLoading && isAuthenticated && user?.role !== 'student' && user?.role !== 'admin') {
+      console.log('[StudentDashboard] Redirecting to home - not student or admin');
       setLocation('/');
     }
   }, [authLoading, isAuthenticated, user, setLocation]);
 
-  if (authLoading || profileLoading) {
+  if (authLoading || profileLoading || isCreatingProfile) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
@@ -38,16 +80,21 @@ export default function StudentDashboard() {
     );
   }
 
-  if (!profile) {
+  // プロフィールがない場合は自動作成されるので、ここには到達しないはず
+  if (!profile && !profileLoading && !isCreatingProfile) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
         <Card className="p-8 max-w-md">
-          <h2 className="text-3xl font-bold mb-4">プロフィールがありません</h2>
+          <h2 className="text-3xl font-bold mb-4">プロフィールの作成に失敗しました</h2>
           <p className="mb-4">せんせいにそうだんしてね</p>
           <Button onClick={() => setLocation('/')}>ホームにもどる</Button>
         </Card>
       </div>
     );
+  }
+
+  if (!profile) {
+    return null;
   }
 
   const xpForNextLevel = 100;

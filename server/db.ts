@@ -118,6 +118,21 @@ export async function getStudentByUserId(userId: number) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+export async function getStudentById(studentId: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(students).where(eq(students.id, studentId)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getAllStudents() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(students).orderBy(desc(students.createdAt));
+}
+
 export async function createStudent(student: InsertStudent) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");

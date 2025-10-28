@@ -9,6 +9,8 @@ import StudentDashboard from "./pages/StudentDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import ParentDashboard from "./pages/ParentDashboard";
 import ProblemPlay from "./pages/ProblemPlay";
+import CreateTask from "./pages/CreateTask";
+import CreateProblem from "./pages/CreateProblem";
 
 function Router() {
   return (
@@ -18,6 +20,8 @@ function Router() {
       <Route path={"/teacher"} component={TeacherDashboard} />
       <Route path={"/parent"} component={ParentDashboard} />
       <Route path={"/play"} component={ProblemPlay} />
+      <Route path={"/teacher/create-task"} component={CreateTask} />
+      <Route path={"/teacher/create-problem"} component={CreateProblem} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

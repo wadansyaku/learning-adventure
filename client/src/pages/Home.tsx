@@ -9,17 +9,27 @@ export default function Home() {
   const [, setLocation] = useLocation();
 
   useEffect(() => {
+    console.log('[Home] Auth state:', { isAuthenticated, user, loading });
     if (isAuthenticated && user) {
+      console.log('[Home] User authenticated, role:', user.role);
       // ロール別にリダイレクト
       if (user.role === 'student') {
+        console.log('[Home] Redirecting to /student');
         setLocation('/student');
       } else if (user.role === 'teacher') {
+        console.log('[Home] Redirecting to /teacher');
         setLocation('/teacher');
       } else if (user.role === 'parent') {
+        console.log('[Home] Redirecting to /parent');
         setLocation('/parent');
+      } else if (user.role === 'admin') {
+        console.log('[Home] Admin user, redirecting to /teacher');
+        setLocation('/teacher');
+      } else {
+        console.log('[Home] Unknown role:', user.role);
       }
     }
-  }, [isAuthenticated, user, setLocation]);
+  }, [isAuthenticated, user, loading, setLocation]);
 
   if (loading) {
     return (

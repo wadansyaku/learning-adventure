@@ -346,6 +346,32 @@ export const appRouter = router({
     }),
   }),
 
+  // Teacher router
+  teacher: router({
+    // Get all students
+    getAllStudents: teacherProcedure.query(async () => {
+      return await db.getAllStudents();
+    }),
+
+    // Get student details
+    getStudentDetails: teacherProcedure
+      .input(z.object({ studentId: z.number() }))
+      .query(async ({ input }) => {
+        const student = await db.getStudentById(input.studentId);
+        if (!student) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Student not found' });
+        }
+        return student;
+      }),
+
+    // Get student progress
+    getStudentProgress: teacherProcedure
+      .input(z.object({ studentId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getStudentProgressByStudentId(input.studentId);
+      }),
+  }),
+
   // Item router
   item: router({
     // Get all available items
