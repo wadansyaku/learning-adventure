@@ -15,6 +15,13 @@
       "when": 1761680372602,
       "tag": "0001_tired_vertigo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1761689415509,
+      "tag": "0002_great_echo",
+      "breakpoints": true
     }
   ]
 }

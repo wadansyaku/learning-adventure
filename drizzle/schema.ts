@@ -241,3 +241,36 @@ export const studentTreasures = mysqlTable("studentTreasures", {
 
 export type StudentTreasure = typeof studentTreasures.$inferSelect;
 export type InsertStudentTreasure = typeof studentTreasures.$inferInsert;
+
+/**
+ * Learning Quizzes - 学習クイズ(ストーリー内)
+ */
+export const learningQuizzes = mysqlTable("learningQuizzes", {
+  id: int("id").autoincrement().primaryKey(),
+  chapterId: int("chapterId").notNull().references(() => storyChapters.id),
+  questionText: text("questionText").notNull(), // 問題文
+  questionType: mysqlEnum("questionType", ["multiple_choice", "number_input", "image_select", "true_false"]).notNull(),
+  correctAnswer: varchar("correctAnswer", { length: 255 }).notNull(), // 正解
+  options: text("options"), // JSON形式の選択肢
+  explanation: text("explanation"), // 解説
+  imageUrl: varchar("imageUrl", { length: 255 }), // 問題画像
+  orderIndex: int("orderIndex").default(0).notNull(), // 表示順序
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type LearningQuiz = typeof learningQuizzes.$inferSelect;
+export type InsertLearningQuiz = typeof learningQuizzes.$inferInsert;
+
+/**
+ * Student quiz progress - 生徒のクイズ進捗
+ */
+export const studentQuizProgress = mysqlTable("studentQuizProgress", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("studentId").notNull().references(() => students.id),
+  quizId: int("quizId").notNull().references(() => learningQuizzes.id),
+  isCorrect: boolean("isCorrect").notNull(),
+  answeredAt: timestamp("answeredAt").defaultNow().notNull(),
+});
+
+export type StudentQuizProgress = typeof studentQuizProgress.$inferSelect;
+export type InsertStudentQuizProgress = typeof studentQuizProgress.$inferInsert;
