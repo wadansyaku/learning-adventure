@@ -109,6 +109,13 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
+export async function updateUserRole(userId: number, role: 'student' | 'teacher' | 'parent' | 'admin') {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  
+  await db.update(users).set({ role }).where(eq(users.id, userId));
+}
+
 // Student queries
 export async function getStudentByUserId(userId: number) {
   const db = await getDb();

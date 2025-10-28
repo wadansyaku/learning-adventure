@@ -5,6 +5,7 @@ import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { RoleSwitcher } from "@/components/RoleSwitcher";
 
 export default function StudentDashboard() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
@@ -116,6 +117,7 @@ export default function StudentDashboard() {
             <p className="text-xl text-muted-foreground">がんばってるね!</p>
           </div>
           <div className="flex items-center gap-4">
+            <RoleSwitcher />
             <div className="coin-display">
               <span className="text-3xl">🪙</span>
               <span className="text-2xl">{profile.coins}</span>

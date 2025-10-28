@@ -39,6 +39,31 @@ export const appRouter = router({
         success: true,
       } as const;
     }),
+    // Switch role (for demo purposes)
+    switchRole: protectedProcedure
+      .input(z.object({ role: z.enum(['student', 'teacher', 'parent', 'admin']) }))
+      .mutation(async ({ ctx, input }) => {
+        // Update user role in database
+        await db.updateUserRole(ctx.user.id, input.role);
+        
+        // If switching to student role, ensure student profile exists
+        if (input.role === 'student') {
+          const existingStudent = await db.getStudentByUserId(ctx.user.id);
+          if (!existingStudent) {
+            await db.createStudent({
+              userId: ctx.user.id,
+              displayName: ctx.user.name || '生徒',
+              avatarIcon: '🐰',
+              level: 1,
+              xp: 0,
+              coins: 0,
+              loginStreak: 0,
+            });
+          }
+        }
+        
+        return { success: true, role: input.role };
+      }),
   }),
 
   // Student router

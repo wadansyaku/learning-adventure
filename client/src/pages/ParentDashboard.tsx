@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLocation } from "wouter";
 import { useEffect } from "react";
+import { RoleSwitcher } from "@/components/RoleSwitcher";
 
 export default function ParentDashboard() {
   const { user, loading: authLoading, isAuthenticated, logout } = useAuth();
@@ -39,9 +40,12 @@ export default function ParentDashboard() {
             <h1 className="text-4xl font-black">保護者ダッシュボード</h1>
             <p className="text-xl text-muted-foreground">ようこそ、{user?.name}さん</p>
           </div>
-          <Button variant="outline" onClick={handleLogout}>
-            ログアウト
-          </Button>
+          <div className="flex gap-2">
+            <RoleSwitcher />
+            <Button variant="outline" onClick={handleLogout}>
+              ログアウト
+            </Button>
+          </div>
         </div>
 
         {/* お知らせ */}

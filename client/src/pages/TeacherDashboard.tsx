@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 import { useEffect } from "react";
+import { RoleSwitcher } from "@/components/RoleSwitcher";
 
 export default function TeacherDashboard() {
   const { user, loading: authLoading, isAuthenticated, logout } = useAuth();
@@ -39,15 +40,18 @@ export default function TeacherDashboard() {
     <div className="min-h-screen bg-background p-4">
       <div className="container max-w-6xl mx-auto">
         {/* ヘッダー */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-4xl font-black">講師ダッシュボード</h1>
-            <p className="text-xl text-muted-foreground">ようこそ、{user?.name}先生</p>
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h1 className="text-4xl font-black">講師ダッシュボード</h1>
+              <p className="text-lg text-muted-foreground">ようこそ、{user?.name}先生</p>
+            </div>
+            <div className="flex gap-2">
+              <RoleSwitcher />
+              <Button variant="outline" onClick={logout}>
+                ログアウト
+              </Button>
+            </div>
           </div>
-          <Button variant="outline" onClick={handleLogout}>
-            ログアウト
-          </Button>
-        </div>
 
         {/* 統計カード */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
