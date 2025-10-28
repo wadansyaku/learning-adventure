@@ -43,8 +43,8 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
+  --primary: oklch(0.65 0.25 300); /* 明るい紫 */
+  --primary-foreground: oklch(1 0 0);
   --sidebar-primary: var(--color-blue-600);
   --sidebar-primary-foreground: var(--color-blue-50);
   --chart-1: var(--color-blue-300);
@@ -52,19 +52,19 @@
   --chart-3: var(--color-blue-600);
   --chart-4: var(--color-blue-700);
   --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
+  --radius: 1rem; /* より丸みのあるデザイン */
+  --background: oklch(0.97 0.02 220); /* 明るい水色背景 */
   --foreground: oklch(0.235 0.015 65);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.235 0.015 65);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
+  --secondary: oklch(0.75 0.20 85); /* 明るい黄色 */
+  --secondary-foreground: oklch(0.2 0.015 65);
   --muted: oklch(0.967 0.001 286.375);
   --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
+  --accent: oklch(0.70 0.25 350); /* ピンク */
+  --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.92 0.004 286.32);
@@ -79,8 +79,8 @@
 }
 
 .dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
+  --primary: oklch(0.65 0.25 300); /* 明るい紫 */
+  --primary-foreground: oklch(1 0 0);
   --sidebar-primary: var(--color-blue-500);
   --sidebar-primary-foreground: var(--color-blue-50);
   --background: oklch(0.141 0.005 285.823);
@@ -173,5 +173,124 @@
       padding-right: 2rem;
       max-width: 1280px; /* Standard content width */
     }
+  }
+}
+/* カスタムスタイル - 子供向け学習アプリ */
+@layer base {
+  body {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl font-bold;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl font-bold;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-bold;
+  }
+
+  button {
+    @apply text-lg;
+  }
+}
+
+@layer components {
+  /* 楽しいボタンスタイル */
+  .btn-fun {
+    @apply relative overflow-hidden rounded-2xl px-8 py-4 text-xl font-bold shadow-lg transition-all duration-200 active:scale-95;
+  }
+
+  .btn-fun::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-200%] transition-transform duration-500;
+  }
+
+  .btn-fun:hover::before {
+    @apply translate-x-[200%];
+  }
+
+  /* 楽しいカード */
+  .card-fun {
+    @apply rounded-3xl bg-card p-6 shadow-xl border-4 border-primary/20 transition-transform duration-200 hover:scale-105;
+  }
+
+  /* キャラクター表示エリア */
+  .character-stage {
+    @apply relative w-full aspect-square max-w-md mx-auto rounded-3xl bg-gradient-to-br from-purple-200 via-pink-200 to-yellow-200 p-8 shadow-2xl;
+  }
+
+  /* 問題カード */
+  .problem-card {
+    @apply rounded-3xl bg-white p-8 shadow-2xl border-4 border-blue-300;
+  }
+
+  /* XPバー */
+  .xp-bar {
+    @apply relative h-8 rounded-full bg-gray-200 overflow-hidden shadow-inner;
+  }
+
+  .xp-bar-fill {
+    @apply h-full bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-500 transition-all duration-500 ease-out;
+  }
+
+  /* コイン表示 */
+  .coin-display {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-400 text-yellow-900 font-bold shadow-lg;
+  }
+
+  /* レベルバッジ */
+  .level-badge {
+    @apply inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-white font-black text-2xl shadow-lg;
+  }
+}
+
+@layer utilities {
+  /* テキストシャドウ */
+  .text-shadow {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ゆっくりバウンス */
+  .animate-bounce-slow {
+    animation: bounce 2s infinite;
+  }
+
+  /* ウィグル */
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  .animate-wiggle {
+    animation: wiggle 1s ease-in-out infinite;
+  }
+
+  /* パルスグロー */
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(168, 85, 247, 0.8);
+    }
+  }
+}
+
+@layer theme {
+  :root {
+    --font-sans: 'Noto Sans JP', system-ui, -apple-system, sans-serif;
   }
 }
