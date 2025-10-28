@@ -28,6 +28,13 @@ const parentProcedure = protectedProcedure.use(({ ctx, next }) => {
   return next({ ctx });
 });
 
+const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.user.role !== 'admin') {
+    throw new TRPCError({ code: 'FORBIDDEN', message: 'Admin access required' });
+  }
+  return next({ ctx });
+});
+
 export const appRouter = router({
   system: systemRouter,
   auth: router({
@@ -634,6 +641,14 @@ export const appRouter = router({
       if (!student) return [];
       
       return await db.getStudentDailyProgress(student.id, new Date());
+    }),
+  }),
+
+  // Admin router
+  admin: router({
+    // Get OpenAI usage summary
+    getOpenAIUsageSummary: adminProcedure.query(async () => {
+      return await db.getOpenAIUsageSummary(); // Last 30 days by default
     }),
   }),
 

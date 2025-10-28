@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { RoleSwitcher } from "@/components/RoleSwitcher";
 import { LevelUpModal } from "@/components/LevelUpModal";
 import { LoginBonus } from "@/components/LoginBonus";
+import { DailyMissions } from "@/components/DailyMissions";
 import { toast } from "sonner";
 
 export default function StudentDashboard() {
@@ -47,15 +48,16 @@ export default function StudentDashboard() {
 
   // プロフィールがない場合、自動作成
   useEffect(() => {
-    if (!profileLoading && !profile && profileError && isAuthenticated && user?.role === 'student' && !isCreatingProfile) {
+    if (!profileLoading && !profile && isAuthenticated && user?.role === 'student' && !isCreatingProfile) {
       console.log('[StudentDashboard] Profile not found, creating automatically');
+      console.log('[StudentDashboard] User info:', user);
       setIsCreatingProfile(true);
       createProfileMutation.mutate({
         displayName: user.name || '生徒',
         avatarIcon: '🐰',
       });
     }
-  }, [profileLoading, profile, profileError, isAuthenticated, user, isCreatingProfile]);
+  }, [profileLoading, profile, isAuthenticated, user?.id, user?.role, isCreatingProfile]);
 
   const { data: tasks } = trpc.task.getMyTasks.useQuery(undefined, {
     enabled: isAuthenticated && user?.role === 'student',
@@ -248,6 +250,9 @@ export default function StudentDashboard() {
             </Button>
           </div>
         </Card>
+
+        {/* デイリーミッション */}
+        <DailyMissions />
 
         {/* キャラクター会話ボタン */}
         <Card className="p-6 mb-8 bg-gradient-to-r from-purple-100 to-pink-100">

@@ -1,0 +1,34 @@
+{
+  "query": "SELECT id, openId, name, role FROM users;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, openId, name, role FROM users;",
+  "rows": [
+    {
+      "id": "1",
+      "openId": "fH9Fw8hSnk8SiDeFHnmaoV",
+      "name": "男爵 音楽",
+      "role": "admin"
+    },
+    {
+      "id": "480030",
+      "openId": "VK8akJCh4RkNFPPybS72F6",
+      "name": "山田 ビジネス陽大",
+      "role": "student"
+    },
+    {
+      "id": "540011",
+      "openId": "6GCTgRQf9Ed5nCG6rD6rXr",
+      "name": "桂真 鬼飛",
+      "role": "parent"
+    },
+    {
+      "id": "540022",
+      "openId": "LRak27ptetKh2LVzR2rqkz",
+      "name": "Knew-on",
+      "role": "teacher"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\topenId\tname\trole\n1\tfH9Fw8hSnk8SiDeFHnmaoV\t男爵 音楽\tadmin\n480030\tVK8akJCh4RkNFPPybS72F6\t山田 ビジネス陽大\tstudent\n540011\t6GCTgRQf9Ed5nCG6rD6rXr\t桂真 鬼飛\tparent\n540022\tLRak27ptetKh2LVzR2rqkz\tKnew-on\tteacher\n",
+  "stderr": "",
+  "execution_time_ms": 1523
+}

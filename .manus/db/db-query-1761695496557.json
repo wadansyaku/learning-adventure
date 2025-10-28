@@ -1,0 +1,46 @@
+{
+  "query": "SELECT s.id, s.displayName, s.lastLoginDate, s.loginStreak, u.openId, u.name, u.role FROM students s JOIN users u ON s.userId = u.id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT s.id, s.displayName, s.lastLoginDate, s.loginStreak, u.openId, u.name, u.role FROM students s JOIN users u ON s.userId = u.id;",
+  "rows": [
+    {
+      "id": "1",
+      "displayName": "男爵 音楽",
+      "lastLoginDate": "2025-10-28 21:31:00",
+      "loginStreak": "1",
+      "openId": "fH9Fw8hSnk8SiDeFHnmaoV",
+      "name": "男爵 音楽",
+      "role": "admin"
+    },
+    {
+      "id": "30001",
+      "displayName": "山田 ビジネス陽大",
+      "lastLoginDate": "2025-10-28 23:11:31",
+      "loginStreak": "1",
+      "openId": "VK8akJCh4RkNFPPybS72F6",
+      "name": "山田 ビジネス陽大",
+      "role": "student"
+    },
+    {
+      "id": "60001",
+      "displayName": "桂真 鬼飛",
+      "lastLoginDate": "2025-10-28 23:40:15",
+      "loginStreak": "1",
+      "openId": "6GCTgRQf9Ed5nCG6rD6rXr",
+      "name": "桂真 鬼飛",
+      "role": "parent"
+    },
+    {
+      "id": "60002",
+      "displayName": "Knew-on",
+      "lastLoginDate": "2025-10-28 23:41:48",
+      "loginStreak": "1",
+      "openId": "LRak27ptetKh2LVzR2rqkz",
+      "name": "Knew-on",
+      "role": "teacher"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tdisplayName\tlastLoginDate\tloginStreak\topenId\tname\trole\n1\t男爵 音楽\t2025-10-28 21:31:00\t1\tfH9Fw8hSnk8SiDeFHnmaoV\t男爵 音楽\tadmin\n30001\t山田 ビジネス陽大\t2025-10-28 23:11:31\t1\tVK8akJCh4RkNFPPybS72F6\t山田 ビジネス陽大\tstudent\n60001\t桂真 鬼飛\t2025-10-28 23:40:15\t1\t6GCTgRQf9Ed5nCG6rD6rXr\t桂真 鬼飛\tparent\n60002\tKnew-on\t2025-10-28 23:41:48\t1\tLRak27ptetKh2LVzR2rqkz\tKnew-on\tteacher\n",
+  "stderr": "",
+  "execution_time_ms": 1549
+}
