@@ -22,6 +22,16 @@ export default function StoryDetail() {
     enabled: isAuthenticated && user?.role === 'student',
   });
 
+  const { data: quizzes } = trpc.story.getQuizzes.useQuery(
+    { chapterId: chapterId! },
+    { enabled: !!chapterId && isAuthenticated && user?.role === 'student' }
+  );
+
+  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
+  const [userAnswer, setUserAnswer] = useState('');
+  const [quizResults, setQuizResults] = useState<boolean[]>([]);
+  const [showQuizSection, setShowQuizSection] = useState(false);
+
   const completeChapterMutation = trpc.story.complete.useMutation({
     onSuccess: (data) => {
       toast.success(`🎉 ${data.xpEarned} XP と ${data.coinsEarned} コインをゲット!`, {
@@ -154,6 +164,143 @@ export default function StoryDetail() {
                         {paragraph}
                       </p>
                     ))}
+
+                    {/* 学習クイズセクション */}
+                    {quizzes && quizzes.length > 0 && !showQuizSection && (
+                      <div className="mt-8 text-center">
+                        <Button
+                          size="lg"
+                          onClick={() => setShowQuizSection(true)}
+                          className="text-xl px-8 py-6 bg-gradient-to-r from-blue-400 to-purple-600 hover:from-blue-500 hover:to-purple-700"
+                        >
+                          🧠 がくしゅうクイズにちょうせん!
+                        </Button>
+                      </div>
+                    )}
+
+                    {showQuizSection && quizzes && quizzes.length > 0 && (
+                      <div className="mt-8 p-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border-2 border-blue-200">
+                        <h4 className="text-2xl font-bold mb-4 text-center">🧠 がくしゅうクイズ</h4>
+                        
+                        {currentQuizIndex < quizzes.length ? (
+                          <div className="space-y-6">
+                            {/* クイズ進捗 */}
+                            <div className="flex justify-center gap-2 mb-4">
+                              {quizzes.map((_: any, index: number) => (
+                                <div
+                                  key={index}
+                                  className={`w-3 h-3 rounded-full ${
+                                    index < currentQuizIndex
+                                      ? quizResults[index]
+                                        ? 'bg-green-500'
+                                        : 'bg-red-500'
+                                      : index === currentQuizIndex
+                                      ? 'bg-blue-500'
+                                      : 'bg-gray-300'
+                                  }`}
+                                />
+                              ))}
+                            </div>
+
+                            {/* 現在のクイズ */}
+                            <div className="bg-white p-6 rounded-lg shadow-md">
+                              <p className="text-xl font-bold mb-4 text-center">
+                                {quizzes[currentQuizIndex].questionText}
+                              </p>
+
+                              {/* 数字パッド入力 */}
+                              <div className="mb-6">
+                                <div className="text-center mb-4">
+                                  <div className="inline-block bg-gray-100 px-8 py-4 rounded-lg text-3xl font-bold min-w-[120px]">
+                                    {userAnswer || '―'}
+                                  </div>
+                                </div>
+
+                                {/* 数字ボタン */}
+                                <div className="grid grid-cols-3 gap-2 max-w-xs mx-auto">
+                                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
+                                    <Button
+                                      key={num}
+                                      size="lg"
+                                      onClick={() => setUserAnswer(userAnswer + num)}
+                                      className="text-2xl h-16 bg-blue-500 hover:bg-blue-600"
+                                    >
+                                      {num}
+                                    </Button>
+                                  ))}
+                                  <Button
+                                    size="lg"
+                                    onClick={() => setUserAnswer(userAnswer.slice(0, -1))}
+                                    variant="outline"
+                                    className="text-xl h-16"
+                                  >
+                                    ←
+                                  </Button>
+                                  <Button
+                                    size="lg"
+                                    onClick={() => setUserAnswer(userAnswer + '0')}
+                                    className="text-2xl h-16 bg-blue-500 hover:bg-blue-600"
+                                  >
+                                    0
+                                  </Button>
+                                  <Button
+                                    size="lg"
+                                    onClick={() => setUserAnswer('')}
+                                    variant="outline"
+                                    className="text-xl h-16"
+                                  >
+                                    C
+                                  </Button>
+                                </div>
+                              </div>
+
+                              {/* 回答ボタン */}
+                              <div className="text-center">
+                                <Button
+                                  size="lg"
+                                  onClick={() => {
+                                    const isCorrect = parseInt(userAnswer) === parseInt(String(quizzes[currentQuizIndex].correctAnswer));
+                                    setQuizResults([...quizResults, isCorrect]);
+                                    
+                                    if (isCorrect) {
+                                      toast.success('⭕ せいかい! +10 XP', { duration: 2000 });
+                                    } else {
+                                      toast.error(`❌ ちがうよ。こたえは ${quizzes[currentQuizIndex].correctAnswer} だよ`, { duration: 3000 });
+                                    }
+                                    
+                                    setUserAnswer('');
+                                    setTimeout(() => {
+                                      setCurrentQuizIndex(currentQuizIndex + 1);
+                                    }, 2000);
+                                  }}
+                                  disabled={!userAnswer}
+                                  className="text-xl px-8 py-4 bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700"
+                                >
+                                  こたえる!
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="text-center py-8">
+                            <div className="text-6xl mb-4">🎉</div>
+                            <h5 className="text-2xl font-bold mb-2">クイズクリア!</h5>
+                            <p className="text-lg mb-4">
+                              {quizResults.filter(r => r).length} / {quizzes.length} こせいかい
+                            </p>
+                            <Button
+                              onClick={() => {
+                                setShowQuizSection(false);
+                                setCurrentQuizIndex(0);
+                                setQuizResults([]);
+                              }}
+                            >
+                              もどる
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    )}
 
                     {/* 宝物情報 */}
                     {chapter.treasures && chapter.treasures.length > 0 && (

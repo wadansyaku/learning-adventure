@@ -18,6 +18,7 @@ import {
   achievements,
   studentAchievements,
   storyChapters,
+  learningQuizzes,
   treasures,
   studentStoryProgress,
   studentTreasures
@@ -458,4 +459,12 @@ export async function getStudentItems(studentId: number) {
   .from(studentItems)
   .leftJoin(characterItems, eq(studentItems.itemId, characterItems.id))
   .where(eq(studentItems.studentId, studentId));
+}
+
+// Learning quiz queries
+export async function getLearningQuizzesByChapter(chapterId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(learningQuizzes).where(eq(learningQuizzes.chapterId, chapterId));
 }

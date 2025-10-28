@@ -14,13 +14,21 @@ export default function ParentDashboard() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
 
-  const { data: profile, isLoading: profileLoading } = trpc.student.getProfile.useQuery(undefined, {
-    enabled: isAuthenticated && user?.role === 'parent',
-  });
-
-  // const { data: progress } = trpc.student.getProgress.useQuery(undefined, {
-  //   enabled: isAuthenticated && user?.role === 'parent',
-  // });
+  // 保護者画面はデモモード（親子関係テーブルが未実装のため）
+  const profile = {
+    id: 1,
+    userId: user?.id || 0,
+    displayName: "さくら",
+    avatarIcon: null,
+    level: 5,
+    xp: 450,
+    coins: 120,
+    currentCharacterId: null,
+    loginStreak: 7,
+    lastLoginDate: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 
   useEffect(() => {
     if (!authLoading && (!isAuthenticated || user?.role !== 'parent')) {
@@ -28,31 +36,13 @@ export default function ParentDashboard() {
     }
   }, [authLoading, isAuthenticated, user, setLocation]);
 
-  if (authLoading || profileLoading) {
+  if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
           <p className="text-gray-600">読み込み中...</p>
         </div>
-      </div>
-    );
-  }
-
-  if (!profile) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
-        <Card className="max-w-md">
-          <CardHeader>
-            <CardTitle>お子様の情報が見つかりません</CardTitle>
-            <CardDescription>
-              お子様のプロフィールが作成されていません。
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button onClick={() => setLocation('/')}>ホームに戻る</Button>
-          </CardContent>
-        </Card>
       </div>
     );
   }

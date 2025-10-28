@@ -244,6 +244,47 @@ export const appRouter = router({
         
         return { success: true };
       }),
+
+    // Chat with character
+    chat: studentProcedure
+      .input(z.object({
+        message: z.string(),
+        studentLevel: z.number(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const { invokeLLM } = await import('./_core/llm');
+        
+        const systemPrompt = `あなたは5歳の子供の学習を支援する優しい動物のキャラクターです。
+子供のレベルは${input.studentLevel}です。
+
+役割:
+- ひらがなで話す(漢字は使わない)
+- 優しく励ます
+- 算数や学習のヒントを与える
+- 短い文章で答える(1-3文程度)
+- 絵文字を使って楽しく話す
+
+例:
+ユーザー: さんすうをおしえて
+キャラクター: いいよ! 🐻 たしざんからはじめよう! 1+1はいくつかな?
+
+ユーザー: むずかしい
+キャラクター: だいじょうぶだよ! 🌟 ゆっくりやってみよう。りんごが1こ、もう1こきたら、ぜんぶでなんこ?`;
+
+        const response = await invokeLLM({
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: input.message },
+          ],
+        });
+        
+        const content = response.choices[0].message.content;
+        const responseText = typeof content === 'string' ? content : 'ごめんね、よくわからなかったよ 😅';
+        
+        return { 
+          response: responseText
+        };
+      }),
   }),
 
   // Task router
@@ -448,6 +489,15 @@ export const appRouter = router({
       
       return await db.getStudentStoryProgress(student.id);
     }),
+
+    // Get learning quizzes for a chapter
+    getQuizzes: publicProcedure
+      .input(z.object({
+        chapterId: z.number(),
+      }))
+      .query(async ({ input }) => {
+        return await db.getLearningQuizzesByChapter(input.chapterId);
+      }),
 
     // Complete a chapter
     complete: studentProcedure
