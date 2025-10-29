@@ -1,0 +1,29 @@
+{
+  "query": "SHOW CREATE TABLE studentItems",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SHOW CREATE TABLE studentItems",
+  "rows": [
+    {
+      "Table": "studentItems",
+      "Create Table": "CREATE TABLE `studentItems` ("
+    }
+  ],
+  "messages": [
+    "  `id` int(11) NOT NULL AUTO_INCREMENT,",
+    "  `studentId` int(11) NOT NULL,",
+    "  `itemId` int(11) NOT NULL,",
+    "  `characterId` int(11) DEFAULT NULL,",
+    "  `isEquipped` tinyint(1) NOT NULL DEFAULT '0',",
+    "  `acquiredAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,",
+    "  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,",
+    "  KEY `studentItems_studentId_students_id_fk` (`studentId`),",
+    "  KEY `studentItems_itemId_characterItems_id_fk` (`itemId`),",
+    "  KEY `studentItems_characterId_characters_id_fk` (`characterId`),",
+    "  CONSTRAINT `studentItems_studentId_students_id_fk` FOREIGN KEY (`studentId`) REFERENCES `ZVkt36csMB4sQeeKBXWHBG`.`students` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,",
+    "  CONSTRAINT `studentItems_itemId_characterItems_id_fk` FOREIGN KEY (`itemId`) REFERENCES `ZVkt36csMB4sQeeKBXWHBG`.`characterItems` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,",
+    "  CONSTRAINT `studentItems_characterId_characters_id_fk` FOREIGN KEY (`characterId`) REFERENCES `ZVkt36csMB4sQeeKBXWHBG`.`characters` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION",
+    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=390001"
+  ],
+  "stdout": "Table\tCreate Table\nstudentItems\tCREATE TABLE `studentItems` (\n  `id` int(11) NOT NULL AUTO_INCREMENT,\n  `studentId` int(11) NOT NULL,\n  `itemId` int(11) NOT NULL,\n  `characterId` int(11) DEFAULT NULL,\n  `isEquipped` tinyint(1) NOT NULL DEFAULT '0',\n  `acquiredAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,\n  KEY `studentItems_studentId_students_id_fk` (`studentId`),\n  KEY `studentItems_itemId_characterItems_id_fk` (`itemId`),\n  KEY `studentItems_characterId_characters_id_fk` (`characterId`),\n  CONSTRAINT `studentItems_studentId_students_id_fk` FOREIGN KEY (`studentId`) REFERENCES `ZVkt36csMB4sQeeKBXWHBG`.`students` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,\n  CONSTRAINT `studentItems_itemId_characterItems_id_fk` FOREIGN KEY (`itemId`) REFERENCES `ZVkt36csMB4sQeeKBXWHBG`.`characterItems` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,\n  CONSTRAINT `studentItems_characterId_characters_id_fk` FOREIGN KEY (`characterId`) REFERENCES `ZVkt36csMB4sQeeKBXWHBG`.`characters` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=390001\n",
+  "stderr": "",
+  "execution_time_ms": 2136
+}

@@ -83,9 +83,9 @@ export type InsertCharacter = typeof characters.$inferInsert;
 export const characterItems = mysqlTable("characterItems", {
   id: int("id").autoincrement().primaryKey(),
   name: varchar("name", { length: 100 }).notNull(),
-  itemType: mysqlEnum("itemType", ["outfit", "accessory", "hat", "background"]).notNull(),
-  imageUrl: varchar("imageUrl", { length: 255 }).notNull(),
-  rarity: mysqlEnum("rarity", ["common", "rare", "epic", "legendary"]).default("common").notNull(),
+  itemType: mysqlEnum("itemType", ["outfit", "accessory", "hat", "background", "character"]).default("hat"),
+  imageUrl: varchar("imageUrl", { length: 500 }).notNull(),
+  rarity: mysqlEnum("rarity", ["common", "uncommon", "rare", "epic", "legendary"]).default("common").notNull(),
   coinCost: int("coinCost").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });

@@ -1,0 +1,70 @@
+{
+  "query": "SELECT id, name, imageUrl, rarity FROM characterItems LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, name, imageUrl, rarity FROM characterItems LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "シルクハット",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/pAYtXYbqRUmxaGgV.webp",
+      "rarity": "epic"
+    },
+    {
+      "id": "2",
+      "name": "ウィザードハット",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/DmQafYtVTiKueUGv.webp",
+      "rarity": "rare"
+    },
+    {
+      "id": "3",
+      "name": "カウボーイハット",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/GHMNERJNQFXArbyv.webp",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "4",
+      "name": "ベレー帽",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp",
+      "rarity": "common"
+    },
+    {
+      "id": "5",
+      "name": "キャップ",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp",
+      "rarity": "common"
+    },
+    {
+      "id": "6",
+      "name": "ニット帽",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp",
+      "rarity": "common"
+    },
+    {
+      "id": "7",
+      "name": "ハンチング",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/NmcOxwsbCEYrjaaG.webp",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "8",
+      "name": "ソンブレロ",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/HEHMelIXdiBiqZuI.webp",
+      "rarity": "rare"
+    },
+    {
+      "id": "9",
+      "name": "フェドーラ",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ZgzbKvrhOwFdiQtU.webp",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "10",
+      "name": "トップハット",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/OOfhEpgLpOHwxFkT.webp",
+      "rarity": "epic"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\timageUrl\trarity\n1\tシルクハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/pAYtXYbqRUmxaGgV.webp\tepic\n2\tウィザードハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/DmQafYtVTiKueUGv.webp\trare\n3\tカウボーイハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/GHMNERJNQFXArbyv.webp\tuncommon\n4\tベレー帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp\tcommon\n5\tキャップ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp\tcommon\n6\tニット帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp\tcommon\n7\tハンチング\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/NmcOxwsbCEYrjaaG.webp\tuncommon\n8\tソンブレロ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/HEHMelIXdiBiqZuI.webp\trare\n9\tフェドーラ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ZgzbKvrhOwFdiQtU.webp\tuncommon\n10\tトップハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/OOfhEpgLpOHwxFkT.webp\tepic\n",
+  "stderr": "",
+  "execution_time_ms": 1548
+}

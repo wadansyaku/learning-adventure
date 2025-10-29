@@ -36,7 +36,7 @@ export default function CharacterSelect() {
       setLocation('/');
     } else if (!authLoading && isAuthenticated && user?.role !== 'student' && user?.role !== 'admin') {
       setLocation('/');
-    } else if (!authLoading && isAuthenticated && existingCharacter) {
+    } else if (!authLoading && isAuthenticated && existingCharacter && existingCharacter.length > 0) {
       // 既にキャラクターを持っている場合は生徒ダッシュボードにリダイレクト
       toast.info('もうなかまがいるよ!');
       setLocation('/student');

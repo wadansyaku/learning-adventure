@@ -1823,3 +1823,32 @@ export function suggestMissionByTopic(topic: string): string | null {
 
   return missionSuggestions[topic] || null;
 }
+
+
+/**
+ * Get equipped item by student ID
+ */
+export async function getEquippedItemByStudentId(studentId: number) {
+  const database = await getDb();
+  if (!database) return null;
+  
+  const result = await database
+    .select({
+      id: studentItems.id,
+      itemId: studentItems.itemId,
+      name: characterItems.name,
+      imageUrl: characterItems.imageUrl,
+      rarity: characterItems.rarity,
+    })
+    .from(studentItems)
+    .leftJoin(characterItems, eq(studentItems.itemId, characterItems.id))
+    .where(
+      and(
+        eq(studentItems.studentId, studentId),
+        eq(studentItems.isEquipped, true)
+      )
+    )
+    .limit(1);
+  
+  return result.length > 0 ? result[0] : null;
+}
