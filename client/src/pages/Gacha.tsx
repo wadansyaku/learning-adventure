@@ -169,19 +169,49 @@ export default function Gacha() {
 
             {showResult && result && (
               <div className="space-y-6 animate-fade-in">
-                <div className="text-9xl animate-bounce">
-                  {result.item.imageUrl || '🎁'}
+                {/* レアリティ別の背景エフェクト */}
+                <div className={`absolute inset-0 opacity-20 animate-pulse ${
+                  result.item.rarity === 'legendary' ? 'bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-300' :
+                  result.item.rarity === 'epic' ? 'bg-gradient-to-r from-purple-300 via-purple-500 to-purple-300' :
+                  result.item.rarity === 'rare' ? 'bg-gradient-to-r from-blue-300 via-blue-500 to-blue-300' :
+                  'bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200'
+                }`} />
+                
+                <div className="relative z-10">
+                  <div className={`text-9xl animate-bounce ${
+                    result.item.rarity === 'legendary' ? 'filter drop-shadow-[0_0_30px_rgba(234,179,8,0.8)]' :
+                    result.item.rarity === 'epic' ? 'filter drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]' :
+                    result.item.rarity === 'rare' ? 'filter drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]' :
+                    ''
+                  }`}>
+                    {result.item.imageUrl || '🎁'}
+                  </div>
+                  
+                  <div className={`inline-block px-6 py-2 rounded-full text-xl font-bold ${getRarityColor(result.item.rarity)} animate-pulse`}>
+                    {getRarityLabel(result.item.rarity)}
+                  </div>
+                  
+                  <h2 className="text-4xl font-black">
+                    {result.item.name}
+                  </h2>
+                  
+                  <p className="text-xl text-muted-foreground">
+                    {result.item.description}
+                  </p>
+                  
+                  {/* 重複ボーナス表示 */}
+                  {result.isDuplicate && result.bonusCoins > 0 && (
+                    <div className="mt-4 p-4 bg-yellow-100 border-2 border-yellow-400 rounded-xl animate-bounce">
+                      <p className="text-2xl font-bold text-yellow-800">
+                        🎉 もってるアイテムだった! 🎉
+                      </p>
+                      <p className="text-xl text-yellow-700">
+                        ボーナスコイン +{result.bonusCoins}🪙
+                      </p>
+                    </div>
+                  )}
                 </div>
-                <div className={`inline-block px-6 py-2 rounded-full text-xl font-bold ${getRarityColor(result.item.rarity)}`}>
-                  {getRarityLabel(result.item.rarity)}
-                </div>
-                <h2 className="text-4xl font-black">
-                  {result.item.name}
-                </h2>
-                <p className="text-xl text-muted-foreground">
-                  {result.item.description}
-                </p>
-                <div className="flex gap-4 justify-center">
+                <div className="flex gap-4 justify-center relative z-10">
                   <Button
                     className="btn-fun bg-primary text-primary-foreground text-xl px-8 py-6"
                     onClick={handleClose}

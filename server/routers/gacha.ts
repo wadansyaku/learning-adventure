@@ -25,6 +25,16 @@ export const gachaRouter = router({
       throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'No items available' });
     }
 
+    // Get student's owned items
+    const ownedItems = await db.getStudentItems(student.id);
+    const ownedItemIds = new Set(ownedItems.map((item: any) => item.itemId));
+
+    // Filter out owned items
+    const unownedItems = allItems.filter(item => !ownedItemIds.has(item.id));
+
+    // If all items are owned, allow duplicates but give bonus coins
+    const isDuplicate = unownedItems.length === 0;
+
     // Rarity weights
     const rarityWeights: Record<string, number> = {
       common: 0.60,    // 60%
@@ -47,14 +57,17 @@ export const gachaRouter = router({
       }
     }
 
+    // Use unowned items if available, otherwise allow duplicates
+    const itemPool = isDuplicate ? allItems : unownedItems;
+
     // Filter items by rarity
-    const itemsOfRarity = allItems.filter(item => item.rarity === selectedRarity);
+    const itemsOfRarity = itemPool.filter(item => item.rarity === selectedRarity);
     
     // If no items of that rarity, fallback to common
-    const availableItems = itemsOfRarity.length > 0 ? itemsOfRarity : allItems.filter(item => item.rarity === 'common');
+    const availableItems = itemsOfRarity.length > 0 ? itemsOfRarity : itemPool.filter(item => item.rarity === 'common');
     
-    // If still no items, use any item
-    const finalItems = availableItems.length > 0 ? availableItems : allItems;
+    // If still no items, use any item from pool
+    const finalItems = availableItems.length > 0 ? availableItems : itemPool;
     
     // Select random item
     const selectedItem = finalItems[Math.floor(Math.random() * finalItems.length)];
@@ -65,9 +78,26 @@ export const gachaRouter = router({
     // Update daily mission progress
     await db.updateDailyMissionProgress(student.id, 'gacha_roll', 1);
 
+    // If duplicate, give bonus coins
+    let bonusCoins = 0;
+    if (isDuplicate || ownedItemIds.has(selectedItem.id)) {
+      // Bonus coins based on rarity
+      const rarityBonusMap: Record<string, number> = {
+        common: 5,
+        uncommon: 10,
+        rare: 20,
+        epic: 50,
+        legendary: 100,
+      };
+      bonusCoins = rarityBonusMap[selectedItem.rarity] || 5;
+      await db.updateStudentCoins(student.id, bonusCoins);
+    }
+
     return {
       item: selectedItem,
       rarity: selectedItem.rarity,
+      isDuplicate: isDuplicate || ownedItemIds.has(selectedItem.id),
+      bonusCoins,
     };
   }),
 });
