@@ -9,6 +9,7 @@ import { LevelUpModal } from "@/components/LevelUpModal";
 import { LoginBonus } from "@/components/LoginBonus";
 import { DailyMissions } from "@/components/DailyMissions";
 import { toast } from "sonner";
+import StudentHeader from "@/components/StudentHeader";
 
 export default function StudentDashboard() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
@@ -118,61 +119,59 @@ export default function StudentDashboard() {
     <div className="min-h-screen bg-background p-4">
       <div className="container max-w-6xl mx-auto">
         {/* ヘッダー */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-4xl font-black text-shadow">
               {profile.displayName}さん
             </h1>
             <p className="text-xl text-muted-foreground">がんばってるね!</p>
           </div>
-          <div className="flex items-center gap-4">
-            <RoleSwitcher />
-            <div className="coin-display">
-              <span className="text-3xl">🪙</span>
-              <span className="text-2xl">{profile.coins}</span>
-            </div>
-            <div className="level-badge">
-              {profile.level}
-            </div>
-          </div>
+          <RoleSwitcher />
         </div>
 
-        {/* XPバー */}
-        <Card className="p-6 mb-8">
-          <div className="flex items-center justify-between mb-2">
-            <span className="font-bold text-lg">けいけんち</span>
-            <span className="text-muted-foreground">{currentLevelXP} / {xpForNextLevel} XP</span>
-          </div>
-          <div className="xp-bar">
-            <div className="xp-bar-fill" style={{ width: `${xpProgress}%` }}></div>
-          </div>
-        </Card>
+        {/* ステータスヘッダー */}
+        <StudentHeader
+          level={profile.level}
+          xp={currentLevelXP}
+          coins={profile.coins}
+          gems={profile.gems}
+          nextLevelXP={xpForNextLevel}
+        />
 
         {/* キャラクター表示 */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-3xl font-bold">なかまたち</h2>
-            {characters && characters.length > 1 && (
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setSelectedCharacterIndex((prev) => (prev - 1 + characters.length) % characters.length)}
-                >
-                  ← まえ
-                </Button>
-                <span className="text-sm text-muted-foreground flex items-center">
-                  {selectedCharacterIndex + 1} / {characters.length}
-                </span>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setSelectedCharacterIndex((prev) => (prev + 1) % characters.length)}
-                >
-                  つぎ →
-                </Button>
-              </div>
-            )}
+            <div className="flex gap-2">
+              {characters && characters.length > 1 && (
+                <>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSelectedCharacterIndex((prev) => (prev - 1 + characters.length) % characters.length)}
+                  >
+                    ← まえ
+                  </Button>
+                  <span className="text-sm text-muted-foreground flex items-center">
+                    {selectedCharacterIndex + 1} / {characters.length}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setSelectedCharacterIndex((prev) => (prev + 1) % characters.length)}
+                  >
+                    つぎ →
+                  </Button>
+                </>
+              )}
+              <Button
+                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+                size="sm"
+                onClick={() => setLocation('/character-select')}
+              >
+                なかまをえらぶ ✨
+              </Button>
+            </div>
           </div>
           {characters && characters.length > 0 ? (
             <div className="character-stage">

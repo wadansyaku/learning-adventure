@@ -38,14 +38,24 @@ export default function Ranking() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-blue-100 p-4">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            🏆 ランキング 🏆
-          </h1>
-          <p className="text-xl text-gray-700">
-            みんなとせいせきをくらべよう！
-          </p>
+        {/* Header with Home Button */}
+        <div className="flex items-center justify-between mb-8">
+          <button
+            onClick={() => window.location.href = '/student'}
+            className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow hover:shadow-md transition-shadow"
+          >
+            <span className="text-2xl">🏠</span>
+            <span className="font-bold text-gray-700">ホームにもどる</span>
+          </button>
+          <div className="text-center flex-1">
+            <h1 className="text-5xl font-bold mb-2 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              🏆 ランキング 🏆
+            </h1>
+            <p className="text-xl text-gray-700">
+              みんなとせいせきをくらべよう！
+            </p>
+          </div>
+          <div className="w-40"></div>
         </div>
 
         {/* My Rank Card */}
@@ -95,7 +105,7 @@ export default function Ranking() {
                 : 'bg-white text-gray-700 hover:bg-gray-100'
             }`}
           >
-            つきかん
+げっかん
           </button>
         </div>
 
@@ -152,12 +162,12 @@ export default function Ranking() {
                         )}
                         {activeTab === 'weekly' && (
                           <p className={`text-sm ${isTop3 ? 'text-white/90' : 'text-gray-600'}`}>
-                            しゅうかんXP {student.weeklyXP.toLocaleString()}
+げっかんXP {student.monthlyXP.toLocaleString()}
                           </p>
                         )}
                         {activeTab === 'monthly' && (
                           <p className={`text-sm ${isTop3 ? 'text-white/90' : 'text-gray-600'}`}>
-                            つきかんXP {student.monthlyXP.toLocaleString()}
+                げっかんXP {student.monthlyXP.toLocaleString()}
                           </p>
                         )}
                       </div>

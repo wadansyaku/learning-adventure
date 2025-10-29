@@ -73,7 +73,8 @@ export function RoleSwitcher() {
     }
   };
 
-  if (!user) return null;
+  // 管理者以外は表示しない
+  if (!user || user.role !== 'admin') return null;
 
   return (
     <DropdownMenu>
@@ -104,7 +105,7 @@ export function RoleSwitcher() {
         
         <DropdownMenuItem
           onClick={() => switchRoleMutation.mutate({ role: 'student' })}
-          disabled={user.role === 'student' || switchRoleMutation.isPending}
+          disabled={switchRoleMutation.isPending}
         >
           <span className="mr-2">🎓</span>
           生徒
