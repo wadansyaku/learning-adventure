@@ -1,0 +1,11 @@
+{
+  "query": "INSERT INTO dailyMissions (title, description, targetCount, rewardCoins, rewardXp, createdAt, updatedAt) VALUES\n('もんだいを3こといてみよう!', 'さんすうのもんだいを3こといてね', 3, 30, 15, datetime('now'), datetime('now')),\n('もんだいを5こといてみよう!', 'さんすうのもんだいを5こといてね', 5, 50, 25, datetime('now'), datetime('now')),\n('ぼうけんにいこう!', 'ストーリーをよんでみよう', 1, 20, 10, datetime('now'), datetime('now')),\n('ログインしよう!', 'まいにちログインしてね', 1, 10, 5, datetime('now'), datetime('now')),\n('ガチャをひこう!', 'ガチャを1かいひいてみよう', 1, 15, 8, datetime('now'), datetime('now'))\nON CONFLICT(title) DO UPDATE SET\n  description = excluded.description,\n  targetCount = excluded.targetCount,\n  rewardCoins = excluded.rewardCoins,\n  rewardXp = excluded.rewardXp,\n  updatedAt = datetime('now');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute INSERT INTO dailyMissions (title, description, targetCount, rewardCoins, rewardXp, createdAt, updatedAt) VALUES\n('もんだいを3こといてみよう!', 'さんすうのもんだいを3こといてね', 3, 30, 15, datetime('now'), datetime('now')),\n('もんだいを5こといてみよう!', 'さんすうのもんだいを5こといてね', 5, 50, 25, datetime('now'), datetime('now')),\n('ぼうけんにいこう!', 'ストーリーをよんでみよう', 1, 20, 10, datetime('now'), datetime('now')),\n('ログインしよう!', 'まいにちログインしてね', 1, 10, 5, datetime('now'), datetime('now')),\n('ガチャをひこう!', 'ガチャを1かいひいてみよう', 1, 15, 8, datetime('now'), datetime('now'))\nON CONFLICT(title) DO UPDATE SET\n  description = excluded.description,\n  targetCount = excluded.targetCount,\n  rewardCoins = excluded.rewardCoins,\n  rewardXp = excluded.rewardXp,\n  updatedAt = datetime('now');",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your TiDB version for the right syntax to use line 2 column 114 near \"('now'), datetime('now')),",
+    "('もんだいを5こといてみよう!', 'さんすうのもんだいを5こといてね', 5, 50, 25, datetime('now'), datetime('now')),",
+    "('ぼうけんにいこう!', 'ストーリーをよんでみよう', 1, 20, 10, datetime('now'), datetime('now')),",
+    "('ログインしよう!', 'まいにちログインしてね', 1, 10, 5, datetime('"
+  ]
+}

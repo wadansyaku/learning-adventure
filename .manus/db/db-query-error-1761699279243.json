@@ -1,0 +1,15 @@
+{
+  "query": "INSERT INTO users (id, name, email, role, createdAt, updatedAt) VALUES\n('480030', '山田 太郎', 'student480030@example.com', 'student', datetime('now'), datetime('now')),\n('540011', '山田 花子', 'parent540011@example.com', 'parent', datetime('now'), datetime('now')),\n('540022', '田中 先生', 'teacher540022@example.com', 'teacher', datetime('now'), datetime('now'))\nON CONFLICT(id) DO UPDATE SET\n  name = excluded.name,\n  email = excluded.email,\n  role = excluded.role,\n  updatedAt = datetime('now');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute INSERT INTO users (id, name, email, role, createdAt, updatedAt) VALUES\n('480030', '山田 太郎', 'student480030@example.com', 'student', datetime('now'), datetime('now')),\n('540011', '山田 花子', 'parent540011@example.com', 'parent', datetime('now'), datetime('now')),\n('540022', '田中 先生', 'teacher540022@example.com', 'teacher', datetime('now'), datetime('now'))\nON CONFLICT(id) DO UPDATE SET\n  name = excluded.name,\n  email = excluded.email,\n  role = excluded.role,\n  updatedAt = datetime('now');",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your TiDB version for the right syntax to use line 2 column 78 near \"('now'), datetime('now')),",
+    "('540011', '山田 花子', 'parent540011@example.com', 'parent', datetime('now'), datetime('now')),",
+    "('540022', '田中 先生', 'teacher540022@example.com', 'teacher', datetime('now'), datetime('now'))",
+    "ON CONFLICT(id) DO UPDATE SET",
+    "  name = excluded.name,",
+    "  email = excluded.email,",
+    "  role = excluded.role,",
+    "  updatedAt = datetime('now')\""
+  ]
+}

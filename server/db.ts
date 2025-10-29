@@ -696,3 +696,45 @@ export async function updateDailyMissionProgress(studentId: number, missionType:
   
   return true;
 }
+
+
+// 保護者用統計API
+export async function getChildWeeklyData(childId: string) {
+  // 過去7日間の学習データを取得(簡易版)
+  const weeklyData = [];
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date();
+    date.setDate(date.getDate() - i);
+    const dateStr = date.toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' });
+    
+    weeklyData.push({
+      date: dateStr,
+      problems: Math.floor(Math.random() * 10),
+      correct: Math.floor(Math.random() * 8)
+    });
+  }
+  
+  return weeklyData;
+}
+
+export async function getChildSkillData(childId: string) {
+  // スキル別の正答率を計算(簡易版)
+  return [
+    { skill: '算数', progress: 75 },
+    { skill: '読解力', progress: 60 },
+    { skill: '集中力', progress: 80 }
+  ];
+}
+
+export async function getChildRecentActivities(childId: string) {
+  // 最近の活動を取得(簡易版)
+  return [
+    {
+      id: 1,
+      type: '問題回答' as const,
+      description: '正解しました!',
+      timestamp: new Date().toISOString(),
+      icon: '✅'
+    }
+  ];
+}

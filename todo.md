@@ -61,18 +61,18 @@
 #### 2. 保護者画面実データ化
 - [x] parentChildrenテーブル追加
 - [x] 保護者API実装(getMyChildren, addChild, removeChild)
-- [ ] weeklyData API実装(週次学習データ)
-- [ ] skillData API実装(スキル別進捗データ)
-- [ ] recentActivities API実装(最近の活動)
-- [ ] 仮データの完全削除
+- [x] getChildWeeklyData API実装(週次学習データ)
+- [x] getChildSkillData API実装(スキル別進捗データ)
+- [x] getChildRecentActivities API実装(最近の活動)
+- [ ] ParentDashboard.tsxでAPI呼び出し、仮データ削除
 
 ### 高優先度(ユーザー体験向上)
 
 #### 3. テストユーザー設定
-- [ ] 生徒480030のユーザー作成
-- [ ] 保護者540011のユーザー作成
-- [ ] 講師540022のユーザー作成
-- [ ] parentChildren登録(540011 - 480030)
+- [x] 生徒480030のユーザー作成
+- [x] 保護者540011のユーザー作成
+- [x] 講師540022のユーザー作成
+- [x] parentChildren登録(540011 - 480030)
 - [ ] 講師-生徒関係設定(540022 - 480030)
 
 #### 4. デイリーミッション機能完成
@@ -80,7 +80,7 @@
 - [x] studentDailyProgressテーブル追加
 - [x] デイリーミッションAPI実装
 - [x] DailyMissionsコンポーネント作成
-- [ ] デイリーミッションマスターデータ登録
+- [x] デイリーミッションマスターデータ登録(5件)
 - [ ] 問題解答時の自動進捗更新
 - [ ] ミッション達成時の報酬付与
 
