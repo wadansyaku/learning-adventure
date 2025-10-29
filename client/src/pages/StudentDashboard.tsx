@@ -73,8 +73,8 @@ export default function StudentDashboard() {
     if (!authLoading && !isAuthenticated) {
       console.log('[StudentDashboard] Redirecting to home - not authenticated');
       setLocation('/');
-    } else if (!authLoading && isAuthenticated && user?.role !== 'student' && user?.role !== 'admin') {
-      console.log('[StudentDashboard] Redirecting to home - not student or admin');
+    } else if (!authLoading && isAuthenticated && user?.role !== 'student') {
+      console.log('[StudentDashboard] Redirecting to home - not student');
       setLocation('/');
     }
   }, [authLoading, isAuthenticated, user, setLocation]);
@@ -248,18 +248,18 @@ export default function StudentDashboard() {
           </Card>
 
           <Card className="card-fun">
-            <h3 className="text-2xl font-bold mb-4">しゅくだい</h3>
+            <h3 className="text-2xl font-bold mb-4">スペシャルクエスト ⚔️</h3>
             <p className="mb-4 text-muted-foreground">
               {pendingTasks.length > 0 
-                ? `${pendingTasks.length}このしゅくだいがあるよ!` 
-                : 'しゅくだいはないよ!'}
+                ? `${pendingTasks.length}このクエストがあるよ!` 
+                : 'クエストはないよ!'}
             </p>
             <Button 
               className="btn-fun bg-gradient-to-r from-blue-500 to-indigo-500 text-white w-full"
               onClick={() => setLocation('/tasks')}
               disabled={pendingTasks.length === 0}
             >
-              {pendingTasks.length > 0 ? 'しゅくだいをみる 📚' : 'しゅくだいはないよ ✨'}
+              {pendingTasks.length > 0 ? 'クエストをみる 📚' : 'クエストはないよ ✨'}
             </Button>
           </Card>
         </div>

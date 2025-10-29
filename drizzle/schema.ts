@@ -30,6 +30,7 @@ export const students = mysqlTable("students", {
   level: int("level").default(1).notNull(),
   xp: int("xp").default(0).notNull(),
   coins: int("coins").default(0).notNull(),
+  gems: int("gems").default(0).notNull(), // ジェム（プレミアム通貨）
   currentCharacterId: int("currentCharacterId"), // 現在のキャラクターID
   loginStreak: int("loginStreak").default(0).notNull(), // 連続ログイン日数
   lastLoginDate: datetime("lastLoginDate"),
@@ -118,8 +119,10 @@ export const tasks = mysqlTable("tasks", {
   description: text("description"),
   taskType: mysqlEnum("taskType", ["school_homework", "app_problem"]).notNull(),
   difficulty: mysqlEnum("difficulty", ["easy", "medium", "hard"]).default("medium").notNull(),
+  rarity: mysqlEnum("rarity", ["common", "rare", "epic", "legendary"]).default("common").notNull(), // レアリティ
   xpReward: int("xpReward").default(10).notNull(),
   coinReward: int("coinReward").default(5).notNull(),
+  gemReward: int("gemReward").default(1).notNull(), // ジェム報酬
   dueDate: datetime("dueDate"),
   status: mysqlEnum("status", ["pending", "in_progress", "completed"]).default("pending").notNull(),
   completedAt: datetime("completedAt"),

@@ -999,3 +999,21 @@ export async function getAllStudentsWithDetails() {
 
   return result;
 }
+
+
+/**
+ * Update student gems
+ */
+export async function updateStudentGems(studentId: number, gemsToAdd: number) {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  const student = await database.select().from(students).where(eq(students.id, studentId)).limit(1);
+  if (student.length === 0) throw new Error('Student not found');
+  
+  const newGems = (student[0].gems || 0) + gemsToAdd;
+  
+  await database.update(students)
+    .set({ gems: newGems, updatedAt: new Date() })
+    .where(eq(students.id, studentId));
+}

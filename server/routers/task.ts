@@ -68,9 +68,10 @@ export const taskRouter = router({
       // Update task status
       await db.updateTaskStatus(input.taskId, 'completed');
       
-      // Award XP and coins
+      // Award XP, coins, and gems
       await db.updateStudentXP(student.id, task.xpReward || 10);
       await db.updateStudentCoins(student.id, task.coinReward || 5);
+      await db.updateStudentGems(student.id, task.gemReward || 1);
       
       // Check for level up (100 XP per level)
       const updatedStudent = await db.getStudentByUserId(ctx.user.id);
@@ -81,6 +82,6 @@ export const taskRouter = router({
         }
       }
       
-      return { success: true, xpEarned: task.xpReward, coinsEarned: task.coinReward };
+      return { success: true, xpEarned: task.xpReward, coinsEarned: task.coinReward, gemsEarned: task.gemReward };
     }),
 });

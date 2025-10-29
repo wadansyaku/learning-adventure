@@ -12,15 +12,15 @@ export default function TeacherDashboard() {
   const [, setLocation] = useLocation();
   
   const { data: tasks } = trpc.task.getTeacherTasks.useQuery(undefined, {
-    enabled: isAuthenticated && (user?.role === 'teacher' || user?.role === 'admin'),
+    enabled: isAuthenticated && user?.role === 'teacher',
   });
 
   const { data: students } = trpc.teacher.getAllStudents.useQuery(undefined, {
-    enabled: isAuthenticated && (user?.role === 'teacher' || user?.role === 'admin'),
+    enabled: isAuthenticated && user?.role === 'teacher',
   });
 
   useEffect(() => {
-    if (!authLoading && (!isAuthenticated || (user?.role !== 'teacher' && user?.role !== 'admin'))) {
+    if (!authLoading && (!isAuthenticated || user?.role !== 'teacher')) {
       setLocation('/');
     }
   }, [authLoading, isAuthenticated, user, setLocation]);
