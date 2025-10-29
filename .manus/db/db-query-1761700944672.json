@@ -1,0 +1,50 @@
+{
+  "query": "SELECT title, COUNT(*) as count FROM storyChapters GROUP BY title HAVING count > 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT title, COUNT(*) as count FROM storyChapters GROUP BY title HAVING count > 1;",
+  "rows": [
+    {
+      "title": "やまのぼり",
+      "count": "2"
+    },
+    {
+      "title": "かわのむこうがわ",
+      "count": "3"
+    },
+    {
+      "title": "ふしぎなもりのはじまり",
+      "count": "2"
+    },
+    {
+      "title": "まほうのみずうみ",
+      "count": "2"
+    },
+    {
+      "title": "どうくつのなぞ",
+      "count": "2"
+    },
+    {
+      "title": "そらのしろ",
+      "count": "2"
+    },
+    {
+      "title": "さいごのたからもの",
+      "count": "2"
+    },
+    {
+      "title": "こおりのくに",
+      "count": "2"
+    },
+    {
+      "title": "ほしのせかい",
+      "count": "2"
+    },
+    {
+      "title": "りゅうとのであい",
+      "count": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "title\tcount\nやまのぼり\t2\nかわのむこうがわ\t3\nふしぎなもりのはじまり\t2\nまほうのみずうみ\t2\nどうくつのなぞ\t2\nそらのしろ\t2\nさいごのたからもの\t2\nこおりのくに\t2\nほしのせかい\t2\nりゅうとのであい\t2\n",
+  "stderr": "",
+  "execution_time_ms": 1507
+}

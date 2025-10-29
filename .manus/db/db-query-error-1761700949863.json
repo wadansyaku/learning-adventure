@@ -1,0 +1,8 @@
+{
+  "query": "DELETE t1 FROM storyChapters t1 INNER JOIN storyChapters t2 WHERE t1.id > t2.id AND t1.title = t2.title;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute DELETE t1 FROM storyChapters t1 INNER JOIN storyChapters t2 WHERE t1.id > t2.id AND t1.title = t2.title;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1451 (23000) at line 1: Cannot delete or update a parent row: a foreign key constraint fails (`zvkt36csmb4sqeekbxwhbg`.`learningquizzes`, CONSTRAINT `learningQuizzes_chapterId_storyChapters_id_fk` FOREIGN KEY (`chapterId`) REFERENCES `storychapters` (`id`) ON DELETE NO ACTION ON UPDATE)"
+  ]
+}

@@ -461,6 +461,9 @@ export const appRouter = router({
               await db.updateStudentLevel(student.id, newLevel);
             }
           }
+          
+          // Update daily mission progress
+          await db.updateDailyMissionProgress(student.id, 'solve_problems', 1);
         }
         
         return { 
@@ -573,6 +576,9 @@ export const appRouter = router({
             await db.updateStudentLevel(student.id, newLevel);
           }
         }
+        
+        // Update daily mission progress
+        await db.updateDailyMissionProgress(student.id, 'complete_story', 1);
 
         return { 
           success: true, 
@@ -772,6 +778,9 @@ export const appRouter = router({
 
       // Add item to student's inventory
       await db.addStudentItem(student.id, selectedItem.id);
+      
+      // Update daily mission progress
+      await db.updateDailyMissionProgress(student.id, 'gacha', 1);
 
       return {
         item: selectedItem,

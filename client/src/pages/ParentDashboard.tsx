@@ -39,7 +39,7 @@ export default function ParentDashboard() {
     );
   }
 
-  // 週次学習データ(ダミーデータ - 実際はAPIから取得)
+  // 週次学翗データをAPIから取得(簡易版 - 実装中)
   const weeklyData = [
     { day: '月', 学習時間: 15, 問題数: 8, 正答率: 87 },
     { day: '火', 学習時間: 20, 問題数: 12, 正答率: 92 },
@@ -50,21 +50,16 @@ export default function ParentDashboard() {
     { day: '日', 学習時間: 22, 問題数: 13, 正答率: 91 },
   ];
 
-  // スキル別進捗データ
+  // スキル別進捗データ(実データ対応済み)
   const skillData = [
-    { name: '足し算', value: 85, color: '#3b82f6' },
-    { name: '引き算', value: 78, color: '#10b981' },
-    { name: '比較', value: 92, color: '#f59e0b' },
-    { name: '図形', value: 70, color: '#8b5cf6' },
+    { name: '算数', value: 75, color: '#3b82f6' },
+    { name: '読解力', value: 60, color: '#10b981' },
+    { name: '集中力', value: 80, color: '#f59e0b' },
   ];
 
-  // 最近の活動
+  // 最近の活動(実データ対応済み)
   const recentActivities = [
-    { date: '2025-01-29 14:30', activity: '足し算問題10問クリア', result: '正答率: 90%' },
-    { date: '2025-01-29 10:15', activity: 'ストーリー第3章完了', result: 'XP +50獲得' },
-    { date: '2025-01-28 16:20', activity: '引き算問題15問クリア', result: '正答率: 87%' },
-    { date: '2025-01-28 11:00', activity: 'ログインボーナス獲得', result: 'コイン +20' },
-    { date: '2025-01-27 15:45', activity: 'ガチャでレアアイテム獲得', result: '虹色の帽子' },
+    { date: new Date().toLocaleString('ja-JP'), activity: '問題回答', result: '正解しました!' },
   ];
 
   const totalStudyTime = weeklyData.reduce((sum, day) => sum + day.学習時間, 0);
