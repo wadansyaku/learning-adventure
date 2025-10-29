@@ -18,6 +18,7 @@ export default function StudentDashboard() {
   const [showLoginBonus, setShowLoginBonus] = useState(true);
   const [previousLevel, setPreviousLevel] = useState(0);
   const [isCreatingProfile, setIsCreatingProfile] = useState(false);
+  const [selectedCharacterIndex, setSelectedCharacterIndex] = useState(0);
   
   const { data: profile, isLoading: profileLoading, error: profileError, refetch } = trpc.student.getProfile.useQuery(undefined, {
     enabled: isAuthenticated && (user?.role === 'student' || user?.role === 'admin'),
@@ -149,25 +150,52 @@ export default function StudentDashboard() {
 
         {/* キャラクター表示 */}
         <div className="mb-8">
-          <h2 className="text-3xl font-bold mb-4">なかまたち</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-3xl font-bold">なかまたち</h2>
+            {characters && characters.length > 1 && (
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSelectedCharacterIndex((prev) => (prev - 1 + characters.length) % characters.length)}
+                >
+                  ← まえ
+                </Button>
+                <span className="text-sm text-muted-foreground flex items-center">
+                  {selectedCharacterIndex + 1} / {characters.length}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSelectedCharacterIndex((prev) => (prev + 1) % characters.length)}
+                >
+                  つぎ →
+                </Button>
+              </div>
+            )}
+          </div>
           {characters && characters.length > 0 ? (
             <div className="character-stage">
-              <div className="flex items-center justify-center h-full">
-                {characters[0].imageUrl ? (
+              <div className="flex flex-col items-center justify-center h-full">
+                {characters[selectedCharacterIndex].imageUrl ? (
                   <img 
-                    src={characters[0].imageUrl} 
-                    alt={characters[0].name}
+                    src={characters[selectedCharacterIndex].imageUrl} 
+                    alt={characters[selectedCharacterIndex].name}
                     className="w-64 h-64 object-contain animate-bounce-slow"
                   />
                 ) : (
                   <div className="text-9xl animate-bounce-slow">
-                    {characters[0].animalType === 'rabbit' && '🐰'}
-                    {characters[0].animalType === 'cat' && '🐱'}
-                    {characters[0].animalType === 'dog' && '🐶'}
-                    {characters[0].animalType === 'bear' && '🐻'}
-                    {characters[0].animalType === 'fox' && '🦊'}
+                    {characters[selectedCharacterIndex].animalType === 'rabbit' && '🐰'}
+                    {characters[selectedCharacterIndex].animalType === 'cat' && '🐱'}
+                    {characters[selectedCharacterIndex].animalType === 'dog' && '🐶'}
+                    {characters[selectedCharacterIndex].animalType === 'bear' && '🐻'}
+                    {characters[selectedCharacterIndex].animalType === 'fox' && '🦊'}
                   </div>
                 )}
+                <div className="mt-4 text-center">
+                  <p className="text-2xl font-bold">{characters[selectedCharacterIndex].name}</p>
+                  <p className="text-lg text-muted-foreground">Lv.{characters[selectedCharacterIndex].level}</p>
+                </div>
               </div>
             </div>
           ) : (
