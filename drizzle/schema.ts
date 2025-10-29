@@ -361,3 +361,54 @@ export const studentDailyProgress = mysqlTable("studentDailyProgress", {
 
 export type StudentDailyProgress = typeof studentDailyProgress.$inferSelect;
 export type InsertStudentDailyProgress = typeof studentDailyProgress.$inferInsert;
+
+/**
+ * Teachers table - 講師プロフィール
+ */
+export const teachers = mysqlTable("teachers", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique().references(() => users.id),
+  displayName: varchar("displayName", { length: 100 }).notNull(),
+  specialization: varchar("specialization", { length: 100 }), // 専門分野
+  phoneNumber: varchar("phoneNumber", { length: 20 }),
+  email: varchar("email", { length: 320 }),
+  bio: text("bio"), // 自己紹介
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Teacher = typeof teachers.$inferSelect;
+export type InsertTeacher = typeof teachers.$inferInsert;
+
+/**
+ * Parents table - 保護者プロフィール
+ */
+export const parents = mysqlTable("parents", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique().references(() => users.id),
+  displayName: varchar("displayName", { length: 100 }).notNull(),
+  phoneNumber: varchar("phoneNumber", { length: 20 }),
+  email: varchar("email", { length: 320 }),
+  occupation: varchar("occupation", { length: 100 }), // 職業
+  address: text("address"), // 住所
+  emergencyContact: varchar("emergencyContact", { length: 100 }), // 緊急連絡先
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Parent = typeof parents.$inferSelect;
+export type InsertParent = typeof parents.$inferInsert;
+
+/**
+ * Teacher-Student relationship table - 講師-生徒関係
+ */
+export const teacherStudents = mysqlTable("teacherStudents", {
+  id: int("id").autoincrement().primaryKey(),
+  teacherId: int("teacherId").notNull().references(() => teachers.id),
+  studentId: int("studentId").notNull().references(() => students.id),
+  assignedAt: timestamp("assignedAt").defaultNow().notNull(),
+  notes: text("notes"), // メモ
+});
+
+export type TeacherStudent = typeof teacherStudents.$inferSelect;
+export type InsertTeacherStudent = typeof teacherStudents.$inferInsert;

@@ -1,0 +1,60 @@
+{
+  "query": "SELECT title, COUNT(*) as count, GROUP_CONCAT(id ORDER BY id) as ids\nFROM storyChapters\nGROUP BY title\nHAVING count > 1\nORDER BY title;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT title, COUNT(*) as count, GROUP_CONCAT(id ORDER BY id) as ids\nFROM storyChapters\nGROUP BY title\nHAVING count > 1\nORDER BY title;",
+  "rows": [
+    {
+      "title": "かわのむこうがわ",
+      "count": "3",
+      "ids": "2,30002,30012"
+    },
+    {
+      "title": "こおりのくに",
+      "count": "2",
+      "ids": "30008,30018"
+    },
+    {
+      "title": "さいごのたからもの",
+      "count": "2",
+      "ids": "30010,30020"
+    },
+    {
+      "title": "そらのしろ",
+      "count": "2",
+      "ids": "30006,30016"
+    },
+    {
+      "title": "どうくつのなぞ",
+      "count": "2",
+      "ids": "30004,30014"
+    },
+    {
+      "title": "ふしぎなもりのはじまり",
+      "count": "2",
+      "ids": "30001,30011"
+    },
+    {
+      "title": "ほしのせかい",
+      "count": "2",
+      "ids": "30009,30019"
+    },
+    {
+      "title": "まほうのみずうみ",
+      "count": "2",
+      "ids": "30005,30015"
+    },
+    {
+      "title": "やまのぼり",
+      "count": "2",
+      "ids": "30003,30013"
+    },
+    {
+      "title": "りゅうとのであい",
+      "count": "2",
+      "ids": "30007,30017"
+    }
+  ],
+  "messages": [],
+  "stdout": "title\tcount\tids\nかわのむこうがわ\t3\t2,30002,30012\nこおりのくに\t2\t30008,30018\nさいごのたからもの\t2\t30010,30020\nそらのしろ\t2\t30006,30016\nどうくつのなぞ\t2\t30004,30014\nふしぎなもりのはじまり\t2\t30001,30011\nほしのせかい\t2\t30009,30019\nまほうのみずうみ\t2\t30005,30015\nやまのぼり\t2\t30003,30013\nりゅうとのであい\t2\t30007,30017\n",
+  "stderr": "",
+  "execution_time_ms": 1562
+}

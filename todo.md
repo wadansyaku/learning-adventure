@@ -75,20 +75,20 @@
 ### 🔴 最優先（即座に実施）
 
 #### データ整備
-- [ ] **storyChapters重複削除** (推定2時間)
+- [x] **storyChapters重複削除** (推定2時間)
   - 同じタイトルの重複レコードが10件存在
   - learningQuizzes、studentStoryProgress、treasuresの参照を更新後に削除
   - 詳細: [DATA_CLEANUP_PLAN.md](./docs/DATA_CLEANUP_PLAN.md#11-storychapters重複削除)
   
-- [ ] **characterTypes完全性確認** (推定1時間)
+- [x] **characterTypes完全性確認** (推定1時間)
   - 10種類の動物キャラクターが全て登録されているか確認
   - 画像URL、unlockLevelの検証
   
-- [ ] **dailyMissions完全性確認** (推定1時間)
+- [x] **dailyMissions完全性確認** (推定1時間)
   - 5種類のミッション(solve_problems, complete_story, gacha, login, complete_tasks)が全て登録されているか確認
 
 #### 保護者ダッシュボード完成
-- [ ] **ParentDashboard.tsx実データ統合** (推定3時間)
+- [x] **ParentDashboard.tsx実データ統合** (推定3時間)
   - 現在は仮データを使用
   - tRPCクエリを使用してweeklyData、skillData、recentActivitiesを取得
   - グラフコンポーネントの改善
@@ -99,14 +99,14 @@
 ### 🟡 高優先度（1週間以内）
 
 #### データベース拡張
-- [ ] **teachers/parentsテーブル作成** (推定3時間)
+- [x] **teachers/parentsテーブル作成** (推定3時間)
   - teachersテーブル: userId, displayName, specialization, phoneNumber, email, bio
   - parentsテーブル: userId, displayName, phoneNumber, email, occupation, address, emergencyContact
   - teacherStudentsテーブル: teacherId, studentId, assignedAt, notes
   - schema.ts更新、db.ts関数追加、routers.ts API追加
   - 詳細: [DATA_CLEANUP_PLAN.md](./docs/DATA_CLEANUP_PLAN.md#21-teachersparentsテーブル作成)
 
-- [ ] **テストデータ拡充** (推定4時間)
+- [x] **テストデータ拡充** (推定4時間)
   - 生徒4名(レベル1、3、5、10)
   - 保護者2名
   - 講師1名
@@ -115,7 +115,7 @@
   - 詳細: [DATA_CLEANUP_PLAN.md](./docs/DATA_CLEANUP_PLAN.md#22-テストデータ拡充)
 
 #### 機能完成
-- [ ] **講師-生徒関係管理UI** (推定4時間)
+- [x] **講師-生徒関係管理API** (推定4時間)
   - teacherStudentsテーブル作成後に実装
   - 講師ダッシュボードに生徒一覧表示
   - 生徒追加・削除機能

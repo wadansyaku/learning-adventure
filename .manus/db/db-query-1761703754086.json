@@ -1,0 +1,9 @@
+{
+  "query": "-- 講師レコード作成 (userId: 540022)\nINSERT INTO teachers (userId, displayName, specialization, phoneNumber, email, bio)\nVALUES (540022, '田中先生', '算数・数学', '090-1234-5678', 'tanaka@example.com', '小学生の算数指導に10年の経験があります。');\n\n-- 保護者レコード作成 (userId: 540011)\nINSERT INTO parents (userId, displayName, phoneNumber, email, occupation, address, emergencyContact)\nVALUES (540011, '山田太郎', '090-9876-5432', 'yamada@example.com', '会社員', '東京都渋谷区', '090-1111-2222');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute -- 講師レコード作成 (userId: 540022)\nINSERT INTO teachers (userId, displayName, specialization, phoneNumber, email, bio)\nVALUES (540022, '田中先生', '算数・数学', '090-1234-5678', 'tanaka@example.com', '小学生の算数指導に10年の経験があります。');\n\n-- 保護者レコード作成 (userId: 540011)\nINSERT INTO parents (userId, displayName, phoneNumber, email, occupation, address, emergencyContact)\nVALUES (540011, '山田太郎', '090-9876-5432', 'yamada@example.com', '会社員', '東京都渋谷区', '090-1111-2222');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1753
+}

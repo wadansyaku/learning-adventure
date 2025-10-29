@@ -1,0 +1,9 @@
+{
+  "query": "-- 講師ID取得\nSET @teacherId = (SELECT id FROM teachers WHERE userId = 540022);\n-- 生徒ID取得\nSET @studentId = (SELECT id FROM students WHERE userId = 480030);\n\n-- 講師-生徒関係作成\nINSERT INTO teacherStudents (teacherId, studentId, notes)\nVALUES (@teacherId, @studentId, '基礎から丁寧に指導中');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute -- 講師ID取得\nSET @teacherId = (SELECT id FROM teachers WHERE userId = 540022);\n-- 生徒ID取得\nSET @studentId = (SELECT id FROM students WHERE userId = 480030);\n\n-- 講師-生徒関係作成\nINSERT INTO teacherStudents (teacherId, studentId, notes)\nVALUES (@teacherId, @studentId, '基礎から丁寧に指導中');",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1945
+}

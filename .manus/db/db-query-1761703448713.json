@@ -1,0 +1,80 @@
+{
+  "query": "SELECT id, species, name, unlockLevel, imageUrl\nFROM characterTypes\nORDER BY unlockLevel, id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, species, name, unlockLevel, imageUrl\nFROM characterTypes\nORDER BY unlockLevel, id;",
+  "rows": [
+    {
+      "id": "1",
+      "species": "panda",
+      "name": "ぱんだくん",
+      "unlockLevel": "1",
+      "imageUrl": "/characters/panda.png"
+    },
+    {
+      "id": "2",
+      "species": "rabbit",
+      "name": "うさぎちゃん",
+      "unlockLevel": "1",
+      "imageUrl": "/characters/rabbit.png"
+    },
+    {
+      "id": "6",
+      "species": "dog",
+      "name": "いぬくん",
+      "unlockLevel": "2",
+      "imageUrl": "/characters/dog.png"
+    },
+    {
+      "id": "3",
+      "species": "penguin",
+      "name": "ぺんぎんくん",
+      "unlockLevel": "3",
+      "imageUrl": "/characters/penguin.png"
+    },
+    {
+      "id": "9",
+      "species": "cat",
+      "name": "ねこちゃん",
+      "unlockLevel": "3",
+      "imageUrl": "/characters/cat.png"
+    },
+    {
+      "id": "7",
+      "species": "squirrel",
+      "name": "りすちゃん",
+      "unlockLevel": "4",
+      "imageUrl": "/characters/squirrel.png"
+    },
+    {
+      "id": "4",
+      "species": "fox",
+      "name": "きつねちゃん",
+      "unlockLevel": "5",
+      "imageUrl": "/characters/fox.png"
+    },
+    {
+      "id": "10",
+      "species": "bear",
+      "name": "くまくん",
+      "unlockLevel": "5",
+      "imageUrl": "/characters/bear.png"
+    },
+    {
+      "id": "8",
+      "species": "elephant",
+      "name": "ぞうさん",
+      "unlockLevel": "6",
+      "imageUrl": "/characters/elephant.png"
+    },
+    {
+      "id": "5",
+      "species": "owl",
+      "name": "ふくろうせんせい",
+      "unlockLevel": "7",
+      "imageUrl": "/characters/owl.png"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tspecies\tname\tunlockLevel\timageUrl\n1\tpanda\tぱんだくん\t1\t/characters/panda.png\n2\trabbit\tうさぎちゃん\t1\t/characters/rabbit.png\n6\tdog\tいぬくん\t2\t/characters/dog.png\n3\tpenguin\tぺんぎんくん\t3\t/characters/penguin.png\n9\tcat\tねこちゃん\t3\t/characters/cat.png\n7\tsquirrel\tりすちゃん\t4\t/characters/squirrel.png\n4\tfox\tきつねちゃん\t5\t/characters/fox.png\n10\tbear\tくまくん\t5\t/characters/bear.png\n8\telephant\tぞうさん\t6\t/characters/elephant.png\n5\towl\tふくろうせんせい\t7\t/characters/owl.png\n",
+  "stderr": "",
+  "execution_time_ms": 1499
+}

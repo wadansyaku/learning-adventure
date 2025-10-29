@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO dailyMissions (missionType, title, description, targetCount, xpReward, coinReward, isActive)\nVALUES\n  ('solve_problems', 'もんだいを3こといてみよう!', 'もんだいを3こせいかいしてね', 3, 15, 10, true),\n  ('solve_problems', 'もんだいを5こといてみよう!', 'もんだいを5こせいかいしてね', 5, 30, 20, true),\n  ('story_complete', 'ぼうけんにでかけよう!', 'ストーリーを1つクリアしてね', 1, 50, 25, true),\n  ('login', 'まいにちログイン!', 'まいにちあそびにきてね', 1, 10, 5, true),\n  ('gacha_roll', 'ガチャをひいてみよう!', 'ガチャを1かいひいてね', 1, 20, 10, true);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute INSERT INTO dailyMissions (missionType, title, description, targetCount, xpReward, coinReward, isActive)\nVALUES\n  ('solve_problems', 'もんだいを3こといてみよう!', 'もんだいを3こせいかいしてね', 3, 15, 10, true),\n  ('solve_problems', 'もんだいを5こといてみよう!', 'もんだいを5こせいかいしてね', 5, 30, 20, true),\n  ('story_complete', 'ぼうけんにでかけよう!', 'ストーリーを1つクリアしてね', 1, 50, 25, true),\n  ('login', 'まいにちログイン!', 'まいにちあそびにきてね', 1, 10, 5, true),\n  ('gacha_roll', 'ガチャをひいてみよう!', 'ガチャを1かいひいてね', 1, 20, 10, true);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1584
+}

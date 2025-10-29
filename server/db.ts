@@ -1,4 +1,4 @@
-import { eq, and, desc, sql } from "drizzle-orm";
+import { eq, and, desc, sql, gte, lt } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -26,7 +26,9 @@ import {
   openaiUsageLogs,
   parentChildren,
   dailyMissions,
-  studentDailyProgress
+  studentDailyProgress,
+  teachers,
+  teacherStudents
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -699,42 +701,206 @@ export async function updateDailyMissionProgress(studentId: number, missionType:
 
 
 // 保護者用統計API
-export async function getChildWeeklyData(childId: string) {
-  // 過去7日間の学習データを取得(簡易版)
+export async function getChildWeeklyData(childId: number) {
+  // 過去7日間の学習データを取得
   const weeklyData = [];
+  
   for (let i = 6; i >= 0; i--) {
-    const date = new Date();
-    date.setDate(date.getDate() - i);
-    const dateStr = date.toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' });
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() - i);
+    targetDate.setHours(0, 0, 0, 0);
+    
+    const nextDate = new Date(targetDate);
+    nextDate.setDate(nextDate.getDate() + 1);
+    
+    const dateStr = targetDate.toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' });
+    
+    // その日の学習進捗を取得
+    const db = await getDb();
+    if (!db) {
+      weeklyData.push({
+        date: dateStr,
+        problems: 0,
+        correct: 0
+      });
+      continue;
+    }
+    
+    const progress = await db
+      .select()
+      .from(studentProgress)
+      .where(
+        and(
+          eq(studentProgress.studentId, childId),
+          gte(studentProgress.attemptedAt, targetDate),
+          lt(studentProgress.attemptedAt, nextDate)
+        )
+      );
+    
+    const problemsCount = progress.length;
+    const correctCount = progress.filter((p: any) => p.isCorrect).length;
     
     weeklyData.push({
       date: dateStr,
-      problems: Math.floor(Math.random() * 10),
-      correct: Math.floor(Math.random() * 8)
+      problems: problemsCount,
+      correct: correctCount
     });
   }
   
   return weeklyData;
 }
 
-export async function getChildSkillData(childId: string) {
-  // スキル別の正答率を計算(簡易版)
-  return [
-    { skill: '算数', progress: 75 },
-    { skill: '読解力', progress: 60 },
-    { skill: '集中力', progress: 80 }
-  ];
+export async function getChildSkillData(childId: number) {
+  // 問題タイプ別の正答率を計算
+  const db = await getDb();
+  if (!db) return [];
+  
+  const progress = await db
+    .select()
+    .from(studentProgress)
+    .leftJoin(problems, eq(studentProgress.problemId, problems.id))
+    .where(eq(studentProgress.studentId, childId));
+  
+  const skillMap: Record<string, { total: number; correct: number }> = {};
+  
+  progress.forEach((row: any) => {
+    const problemType = row.problems?.problemType || 'unknown';
+    if (!skillMap[problemType]) {
+      skillMap[problemType] = { total: 0, correct: 0 };
+    }
+    skillMap[problemType].total++;
+    if (row.studentProgress.isCorrect) {
+      skillMap[problemType].correct++;
+    }
+  });
+  
+  const skillNames: Record<string, string> = {
+    addition: 'たしざん',
+    subtraction: 'ひきざん',
+    comparison: 'くらべ',
+    pattern: 'かたち',
+    shape: 'かたち'
+  };
+  
+  return Object.entries(skillMap).map(([type, data]) => ({
+    skill: skillNames[type] || type,
+    progress: data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0
+  }));
 }
 
-export async function getChildRecentActivities(childId: string) {
-  // 最近の活動を取得(簡易版)
-  return [
-    {
-      id: 1,
-      type: '問題回答' as const,
-      description: '正解しました!',
-      timestamp: new Date().toISOString(),
-      icon: '✅'
-    }
-  ];
+export async function getChildRecentActivities(childId: number, limit: number = 10) {
+  // 最近の活動を取得
+  const db = await getDb();
+  if (!db) return [];
+  
+  const progress = await db
+    .select()
+    .from(studentProgress)
+    .leftJoin(problems, eq(studentProgress.problemId, problems.id))
+    .leftJoin(tasks, eq(studentProgress.taskId, tasks.id))
+    .where(eq(studentProgress.studentId, childId))
+    .orderBy(desc(studentProgress.attemptedAt))
+    .limit(limit);
+  
+  return progress.map((row: any, index: number) => {
+    const isCorrect = row.studentProgress.isCorrect;
+    const problemType = row.problems?.problemType || '問題';
+    const taskTitle = row.tasks?.title;
+    
+    return {
+      id: index + 1,
+      type: taskTitle ? '宿題' : '問題回答',
+      description: isCorrect 
+        ? `${taskTitle || problemType}を正解しました!` 
+        : `${taskTitle || problemType}にチャレンジしました`,
+      timestamp: row.studentProgress.attemptedAt.toISOString(),
+      icon: isCorrect ? '✅' : '💪'
+    };
+  });
+}
+
+
+// 講師用API
+export async function getTeacherByUserId(userId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .select()
+    .from(teachers)
+    .where(eq(teachers.userId, userId))
+    .limit(1);
+  
+  return result[0] || null;
+}
+
+export async function getTeacherStudents(teacherId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const result = await db
+    .select({
+      id: teacherStudents.id,
+      studentId: students.id,
+      userId: students.userId,
+      displayName: students.displayName,
+      level: students.level,
+      xp: students.xp,
+      coins: students.coins,
+      assignedAt: teacherStudents.assignedAt,
+      notes: teacherStudents.notes,
+    })
+    .from(teacherStudents)
+    .leftJoin(students, eq(teacherStudents.studentId, students.id))
+    .where(eq(teacherStudents.teacherId, teacherId));
+  
+  return result;
+}
+
+export async function addTeacherStudent(teacherId: number, studentId: number, notes?: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .insert(teacherStudents)
+    .values({
+      teacherId,
+      studentId,
+      notes: notes || null,
+    });
+  
+  return result;
+}
+
+export async function removeTeacherStudent(teacherId: number, studentId: number) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .delete(teacherStudents)
+    .where(
+      and(
+        eq(teacherStudents.teacherId, teacherId),
+        eq(teacherStudents.studentId, studentId)
+      )
+    );
+  
+  return result;
+}
+
+export async function updateTeacherStudentNotes(teacherId: number, studentId: number, notes: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const result = await db
+    .update(teacherStudents)
+    .set({ notes })
+    .where(
+      and(
+        eq(teacherStudents.teacherId, teacherId),
+        eq(teacherStudents.studentId, studentId)
+      )
+    );
+  
+  return result;
 }

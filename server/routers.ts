@@ -578,7 +578,7 @@ export const appRouter = router({
         }
         
         // Update daily mission progress
-        await db.updateDailyMissionProgress(student.id, 'complete_story', 1);
+        await db.updateDailyMissionProgress(student.id, 'story_complete', 1);
 
         return { 
           success: true, 
@@ -638,6 +638,48 @@ export const appRouter = router({
       .input(z.object({ studentId: z.number() }))
       .query(async ({ input }) => {
         return await db.getStudentProgressByStudentId(input.studentId);
+      }),
+
+    // Get teacher's students
+    getMyStudents: teacherProcedure.query(async ({ ctx }) => {
+      const teacher = await db.getTeacherByUserId(ctx.user.id);
+      if (!teacher) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Teacher not found' });
+      }
+      return await db.getTeacherStudents(teacher.id);
+    }),
+
+    // Add student to teacher
+    addStudent: teacherProcedure
+      .input(z.object({ studentId: z.number(), notes: z.string().optional() }))
+      .mutation(async ({ ctx, input }) => {
+        const teacher = await db.getTeacherByUserId(ctx.user.id);
+        if (!teacher) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Teacher not found' });
+        }
+        return await db.addTeacherStudent(teacher.id, input.studentId, input.notes);
+      }),
+
+    // Remove student from teacher
+    removeStudent: teacherProcedure
+      .input(z.object({ studentId: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        const teacher = await db.getTeacherByUserId(ctx.user.id);
+        if (!teacher) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Teacher not found' });
+        }
+        return await db.removeTeacherStudent(teacher.id, input.studentId);
+      }),
+
+    // Update student notes
+    updateStudentNotes: teacherProcedure
+      .input(z.object({ studentId: z.number(), notes: z.string() }))
+      .mutation(async ({ ctx, input }) => {
+        const teacher = await db.getTeacherByUserId(ctx.user.id);
+        if (!teacher) {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Teacher not found' });
+        }
+        return await db.updateTeacherStudentNotes(teacher.id, input.studentId, input.notes);
       }),
   }),
 
@@ -715,6 +757,27 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getStudentAchievements(input.studentId);
       }),
+
+    // Get child's weekly data
+    getChildWeeklyData: parentProcedure
+      .input(z.object({ childId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getChildWeeklyData(input.childId);
+      }),
+
+    // Get child's skill data
+    getChildSkillData: parentProcedure
+      .input(z.object({ childId: z.number() }))
+      .query(async ({ input }) => {
+        return await db.getChildSkillData(input.childId);
+      }),
+
+    // Get child's recent activities
+    getChildRecentActivities: parentProcedure
+      .input(z.object({ childId: z.number(), limit: z.number().optional() }))
+      .query(async ({ input }) => {
+        return await db.getChildRecentActivities(input.childId, input.limit);
+      }),
   }),
 
   // Gacha router
@@ -780,7 +843,7 @@ export const appRouter = router({
       await db.addStudentItem(student.id, selectedItem.id);
       
       // Update daily mission progress
-      await db.updateDailyMissionProgress(student.id, 'gacha', 1);
+      await db.updateDailyMissionProgress(student.id, 'gacha_roll', 1);
 
       return {
         item: selectedItem,

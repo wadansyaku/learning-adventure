@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE treasures t\nSET t.chapterId = (\n  SELECT MIN(sc.id)\n  FROM storyChapters sc\n  WHERE sc.title = (\n    SELECT title FROM storyChapters WHERE id = t.chapterId\n  )\n)\nWHERE t.chapterId IN (\n  SELECT id FROM (\n    SELECT sc2.id\n    FROM storyChapters sc2\n    WHERE sc2.title IN (\n      SELECT title FROM storyChapters GROUP BY title HAVING COUNT(*) > 1\n    )\n    AND sc2.id NOT IN (\n      SELECT MIN(id) FROM storyChapters GROUP BY title\n    )\n  ) AS duplicates\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute UPDATE treasures t\nSET t.chapterId = (\n  SELECT MIN(sc.id)\n  FROM storyChapters sc\n  WHERE sc.title = (\n    SELECT title FROM storyChapters WHERE id = t.chapterId\n  )\n)\nWHERE t.chapterId IN (\n  SELECT id FROM (\n    SELECT sc2.id\n    FROM storyChapters sc2\n    WHERE sc2.title IN (\n      SELECT title FROM storyChapters GROUP BY title HAVING COUNT(*) > 1\n    )\n    AND sc2.id NOT IN (\n      SELECT MIN(id) FROM storyChapters GROUP BY title\n    )\n  ) AS duplicates\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1518
+}
