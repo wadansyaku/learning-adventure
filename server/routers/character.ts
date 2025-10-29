@@ -78,8 +78,7 @@ export const characterRouter = router({
       }
 
       const openai = new OpenAI({
-        apiKey: process.env.BUILT_IN_FORGE_API_KEY,
-        baseURL: process.env.BUILT_IN_FORGE_API_URL,
+        apiKey: process.env.OPENAI_API_KEY,
       });
 
       try {

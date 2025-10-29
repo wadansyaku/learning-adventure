@@ -5,8 +5,8 @@ import * as db from '../db';
 import { eq } from 'drizzle-orm';
 import { students, problems } from '../../drizzle/schema';
 
-const OPENAI_API_KEY = process.env.BUILT_IN_FORGE_API_KEY;
-const OPENAI_API_URL = process.env.BUILT_IN_FORGE_API_URL || 'https://api.openai.com/v1/chat/completions';
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
 async function callOpenAI(messages: { role: string; content: string }[]): Promise<{ content: string; tokensUsed: number }> {
   if (!OPENAI_API_KEY) {

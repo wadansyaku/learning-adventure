@@ -403,3 +403,28 @@
   - 原因: `getStudentContext`で`userId`と`student.id`を混同、プロファイルチェック不足
   - 修正: `server/routers/chat.ts` (51行目), `client/src/components/CharacterChat.tsx` (プロファイルチェック追加)
 
+
+
+---
+
+## 🚨 Phase 0.8: OpenAI APIエラーの再調査と修正（優先度: 最高 - 即対応）
+
+### 0.8.1 OpenAI APIエラーの深い分析
+
+- [x] **OpenAI APIエラーを深く分析して原因を特定**
+  - 問題: キャラクター会話でまだOpenAI API Errorが発生している
+  - 影響: AI会話機能が使用不可
+  - 調査項目:
+    1. APIキーの有効性確認
+    2. APIエンドポイントの正確性確認
+    3. リクエストペイロードの検証
+    4. エラーレスポンスの詳細確認
+    5. chat.tsとcharacter.tsの2つのルーターの違い
+  - ファイル: `server/routers/chat.ts`, `server/routers/character.ts`, `client/src/components/CharacterChat.tsx`
+
+- [x] **OpenAI APIキーを更新**
+  - 新しいAPIキーをSettings → Secretsで更新完了
+
+- [x] **APIエラーの根本原因を修正**
+  - chat.tsとcharacter.tsで`BUILT_IN_FORGE_API_KEY`を`OPENAI_API_KEY`に修正
+  - character.tsで不要な`baseURL`を削除
