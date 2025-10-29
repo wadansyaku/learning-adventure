@@ -48,7 +48,7 @@ async function getStudentContext(userId: number) {
   }
 
   // 最近の学習進捗を取得（直近10問）
-  const recentProgressList = await db.getStudentProgressByStudentId(userId, 10);
+  const recentProgressList = await db.getStudentProgressByStudentId(student.id, 10);
   const totalProblems = recentProgressList.length;
   const correctAnswers = recentProgressList.filter((p: any) => p.isCorrect).length;
   const recentAccuracy = totalProblems > 0 ? (correctAnswers / totalProblems) * 100 : 0;

@@ -3,7 +3,46 @@ import { studentProcedure } from "./_procedures";
 import * as db from "../db";
 import { TRPCError } from "@trpc/server";
 
+import { z } from "zod";
+
 export const gachaRouter = router({
+  // Get student's items
+  getMyItems: studentProcedure.query(async ({ ctx }) => {
+    const student = await db.getStudentByUserId(ctx.user.id);
+    if (!student) {
+      throw new TRPCError({ code: 'NOT_FOUND', message: 'Student not found' });
+    }
+
+    const items = await db.getStudentItemsWithDetails(student.id);
+    return items;
+  }),
+
+  // Equip item
+  equipItem: studentProcedure
+    .input(z.object({ studentItemId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const student = await db.getStudentByUserId(ctx.user.id);
+      if (!student) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Student not found' });
+      }
+
+      await db.equipStudentItem(student.id, input.studentItemId);
+      return { success: true };
+    }),
+
+  // Unequip item
+  unequipItem: studentProcedure
+    .input(z.object({ studentItemId: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      const student = await db.getStudentByUserId(ctx.user.id);
+      if (!student) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Student not found' });
+      }
+
+      await db.unequipStudentItem(input.studentItemId);
+      return { success: true };
+    }),
+
   // Roll gacha
   roll: studentProcedure.mutation(async ({ ctx }) => {
     const student = await db.getStudentByUserId(ctx.user.id);

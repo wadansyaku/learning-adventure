@@ -1477,3 +1477,69 @@ export async function getAllAiConversations(limit: number = 100) {
     .orderBy(desc(aiConversations.createdAt))
     .limit(limit);
 }
+
+
+// ========================================
+// Student Items Management (Gacha)
+// ========================================
+
+/**
+ * Get student's items with details (for inventory)
+ */
+export async function getStudentItemsWithDetails(studentId: number) {
+  const database = await getDb();
+  if (!database) return [];
+  
+  return await database
+    .select({
+      id: studentItems.id,
+      studentId: studentItems.studentId,
+      itemId: studentItems.itemId,
+      isEquipped: studentItems.isEquipped,
+      acquiredAt: studentItems.acquiredAt,
+      name: characterItems.name,
+      description: characterItems.description,
+      imageUrl: characterItems.imageUrl,
+      rarity: characterItems.rarity,
+    })
+    .from(studentItems)
+    .leftJoin(characterItems, eq(studentItems.itemId, characterItems.id))
+    .where(eq(studentItems.studentId, studentId))
+    .orderBy(desc(studentItems.acquiredAt));
+}
+
+/**
+ * Equip student item (only one item can be equipped at a time)
+ */
+export async function equipStudentItem(studentId: number, studentItemId: number) {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  // First, unequip all items for this student
+  await database
+    .update(studentItems)
+    .set({ isEquipped: false })
+    .where(eq(studentItems.studentId, studentId));
+  
+  // Then equip the selected item
+  await database
+    .update(studentItems)
+    .set({ isEquipped: true })
+    .where(and(
+      eq(studentItems.id, studentItemId),
+      eq(studentItems.studentId, studentId)
+    ));
+}
+
+/**
+ * Unequip student item
+ */
+export async function unequipStudentItem(studentItemId: number) {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  await database
+    .update(studentItems)
+    .set({ isEquipped: false })
+    .where(eq(studentItems.id, studentItemId));
+}

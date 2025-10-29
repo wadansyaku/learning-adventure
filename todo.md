@@ -98,10 +98,10 @@
 
 ## 📋 フェーズ2: 機能完成（優先度: 高 - 2-3日）
 
-### Track 4: ガチャシステム完成 ⏳
+### Track 4: ガチャシステム完成 ✅
 
 #### 4.1 ガチャで帽子画像を表示
-- [ ] **ガチャ結果で帽子画像を表示** (推定1時間)
+- [x] **ガチャ結果で帽子画像を表示** (推定1時間)
   - 問題: ガチャ結果で帽子画像が表示されない
   - 実装:
     1. Gacha.tsxで帽子画像を表示
@@ -110,7 +110,7 @@
   - ファイル: `client/src/pages/Gacha.tsx`
 
 #### 4.2 所持アイテム一覧ページ作成
-- [ ] **所持アイテム一覧ページを作成** (推定1.5時間)
+- [x] **所持アイテム一覧ページを作成** (推定1.5時間)
   - 問題: 生徒が所持している帽子を確認できない
   - 実装:
     1. Inventory.tsxページを作成
@@ -400,6 +400,6 @@
 - [x] **キャラクター会話でOpenAI API Error (404 page not found)**
   - 問題: キャラクターとお話ししようとすると「Open AI API Error」「404 page not found」が表示される
   - 影響: AI会話機能が完全に使用不可
-  - 原因: APIエンドポイントの設定ミスまたはルーティング問題
-  - ファイル: `server/routers/chat.ts`, `client/src/components/CharacterChat.tsx`
+  - 原因: `getStudentContext`で`userId`と`student.id`を混同、プロファイルチェック不足
+  - 修正: `server/routers/chat.ts` (51行目), `client/src/components/CharacterChat.tsx` (プロファイルチェック追加)
 

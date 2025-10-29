@@ -255,12 +255,21 @@ export default function StudentDashboard() {
                 アイテムをげっとしよう!
               </p>
             </div>
-            <Button 
-              className="w-full text-lg py-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold shadow-lg"
-              onClick={() => setLocation('/gacha')}
-            >
-              ガチャをひく ✨
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                className="flex-1 text-lg py-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold shadow-lg"
+                onClick={() => setLocation('/gacha')}
+              >
+                ガチャ ✨
+              </Button>
+              <Button 
+                variant="outline"
+                className="flex-1 text-lg py-6 border-2 border-purple-400 text-purple-700 hover:bg-purple-100 font-bold shadow-lg"
+                onClick={() => setLocation('/inventory')}
+              >
+                もちもの 🎒
+              </Button>
+            </div>
           </Card>
 
           {/* ぼうけん */}

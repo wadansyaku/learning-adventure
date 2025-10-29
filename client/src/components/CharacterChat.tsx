@@ -24,6 +24,9 @@ export default function CharacterChat({ characterName, characterEmoji, studentLe
   const [isOpen, setIsOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // プロファイルチェック
+  const { data: profile } = trpc.student.getProfile.useQuery();
+
   const chatMutation = trpc.chat.sendMessage.useMutation({
     onSuccess: (data) => {
       setMessages(prev => [...prev, {
@@ -79,6 +82,11 @@ export default function CharacterChat({ characterName, characterEmoji, studentLe
       handleSend();
     }
   };
+
+  // プロファイルがない場合は表示しない
+  if (!profile) {
+    return null;
+  }
 
   if (!isOpen) {
     return (

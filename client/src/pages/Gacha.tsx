@@ -178,13 +178,21 @@ export default function Gacha() {
                 }`} />
                 
                 <div className="relative z-10">
-                  <div className={`text-9xl animate-bounce ${
+                  <div className={`flex justify-center items-center h-64 animate-bounce ${
                     result.item.rarity === 'legendary' ? 'filter drop-shadow-[0_0_30px_rgba(234,179,8,0.8)]' :
                     result.item.rarity === 'epic' ? 'filter drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]' :
                     result.item.rarity === 'rare' ? 'filter drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]' :
                     ''
                   }`}>
-                    {result.item.imageUrl || '🎁'}
+                    {result.item.imageUrl ? (
+                      <img 
+                        src={result.item.imageUrl} 
+                        alt={result.item.name} 
+                        className="max-h-full max-w-full object-contain"
+                      />
+                    ) : (
+                      <span className="text-9xl">🎁</span>
+                    )}
                   </div>
                   
                   <div className={`inline-block px-6 py-2 rounded-full text-xl font-bold ${getRarityColor(result.item.rarity)} animate-pulse`}>
