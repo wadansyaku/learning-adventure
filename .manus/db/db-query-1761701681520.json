@@ -1,0 +1,24 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM users) as users,\n  (SELECT COUNT(*) FROM students) as students,\n  (SELECT COUNT(*) FROM characterTypes) as characterTypes,\n  (SELECT COUNT(*) FROM characters) as characters,\n  (SELECT COUNT(*) FROM characterItems) as characterItems,\n  (SELECT COUNT(*) FROM problems) as problems,\n  (SELECT COUNT(*) FROM storyChapters) as storyChapters,\n  (SELECT COUNT(*) FROM learningQuizzes) as learningQuizzes,\n  (SELECT COUNT(*) FROM treasures) as treasures,\n  (SELECT COUNT(*) FROM achievements) as achievements,\n  (SELECT COUNT(*) FROM dailyMissions) as dailyMissions,\n  (SELECT COUNT(*) FROM parentChildren) as parentChildren;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT \n  (SELECT COUNT(*) FROM users) as users,\n  (SELECT COUNT(*) FROM students) as students,\n  (SELECT COUNT(*) FROM characterTypes) as characterTypes,\n  (SELECT COUNT(*) FROM characters) as characters,\n  (SELECT COUNT(*) FROM characterItems) as characterItems,\n  (SELECT COUNT(*) FROM problems) as problems,\n  (SELECT COUNT(*) FROM storyChapters) as storyChapters,\n  (SELECT COUNT(*) FROM learningQuizzes) as learningQuizzes,\n  (SELECT COUNT(*) FROM treasures) as treasures,\n  (SELECT COUNT(*) FROM achievements) as achievements,\n  (SELECT COUNT(*) FROM dailyMissions) as dailyMissions,\n  (SELECT COUNT(*) FROM parentChildren) as parentChildren;",
+  "rows": [
+    {
+      "users": "4",
+      "students": "4",
+      "characterTypes": "10",
+      "characters": "3",
+      "characterItems": "505",
+      "problems": "4020",
+      "storyChapters": "23",
+      "learningQuizzes": "51",
+      "treasures": "34",
+      "achievements": "84",
+      "dailyMissions": "0",
+      "parentChildren": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "users\tstudents\tcharacterTypes\tcharacters\tcharacterItems\tproblems\tstoryChapters\tlearningQuizzes\ttreasures\tachievements\tdailyMissions\tparentChildren\n4\t4\t10\t3\t505\t4020\t23\t51\t34\t84\t0\t0\n",
+  "stderr": "",
+  "execution_time_ms": 1556
+}
