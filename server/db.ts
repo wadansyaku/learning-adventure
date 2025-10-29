@@ -1645,3 +1645,137 @@ export async function getTopicDistribution(studentId: number) {
 
   return topicCounts;
 }
+
+
+/**
+ * Get recent sentiment history (past 7 days)
+ */
+export async function getRecentSentimentHistory(studentId: number, days: number = 7) {
+  const database = await getDb();
+  if (!database) return [];
+  
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+  
+  return await database
+    .select()
+    .from(aiConversations)
+    .where(
+      and(
+        eq(aiConversations.studentId, studentId),
+        gte(aiConversations.createdAt, startDate)
+      )
+    )
+    .orderBy(desc(aiConversations.createdAt));
+}
+
+/**
+ * Get recent topic history (past 7 days)
+ */
+export async function getRecentTopicHistory(studentId: number, days: number = 7) {
+  const database = await getDb();
+  if (!database) return {};
+  
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+  
+  const conversations = await database
+    .select()
+    .from(aiConversations)
+    .where(
+      and(
+        eq(aiConversations.studentId, studentId),
+        gte(aiConversations.createdAt, startDate)
+      )
+    );
+
+  const topicCounts: { [key: string]: number } = {};
+
+  conversations.forEach((conv) => {
+    if (conv.topics) {
+      try {
+        const topics = JSON.parse(conv.topics);
+        topics.forEach((topic: string) => {
+          topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+        });
+      } catch (e) {
+        // Ignore JSON parse errors
+      }
+    }
+  });
+
+  return topicCounts;
+}
+
+/**
+ * Get conversation summary for context
+ */
+export async function getConversationSummary(studentId: number, limit: number = 10) {
+  const database = await getDb();
+  if (!database) return '';
+  
+  const conversations = await database
+    .select()
+    .from(aiConversations)
+    .where(eq(aiConversations.studentId, studentId))
+    .orderBy(desc(aiConversations.createdAt))
+    .limit(limit);
+
+  if (conversations.length === 0) return '';
+
+  // Prioritize conversations with strong emotions
+  const importantConversations = conversations.filter(
+    (conv) => conv.sentiment === 'positive' || conv.sentiment === 'negative'
+  );
+
+  const conversationsToSummarize = importantConversations.length > 0
+    ? importantConversations.slice(0, 5)
+    : conversations.slice(0, 5);
+
+  const summary = conversationsToSummarize
+    .map((conv) => {
+      const topics = conv.topics ? JSON.parse(conv.topics).join(', ') : '一般';
+      return `[${conv.sentiment}] ${topics}: ${conv.userMessage.substring(0, 50)}...`;
+    })
+    .join('\n');
+
+  return summary;
+}
+
+
+/**
+ * Get recent completed missions (past 24 hours)
+ */
+export async function getRecentCompletedMissions(studentId: number, hours: number = 24) {
+  const database = await getDb();
+  if (!database) return [];
+  
+  const startDate = new Date();
+  startDate.setHours(startDate.getHours() - hours);
+  
+  return await database
+    .select()
+    .from(studentDailyProgress)
+    .where(
+      and(
+        eq(studentDailyProgress.studentId, studentId),
+        gte(studentDailyProgress.completedAt, startDate)
+      )
+    )
+    .orderBy(desc(studentDailyProgress.completedAt));
+}
+
+/**
+ * Suggest missions based on conversation topic
+ */
+export function suggestMissionByTopic(topic: string): string | null {
+  const missionSuggestions: { [key: string]: string } = {
+    '学習': '今日の問題を解いてみよう！新しいことを学ぶチャンスだよ！',
+    'ゲーム': 'ガチャを引いて新しい帽子をゲットしよう！',
+    '友達': '友達と一緒に勉強するのもいいね！',
+    '家族': '家族に今日学んだことを教えてあげよう！',
+    '趣味': '好きなことと勉強を組み合わせると楽しいよ！',
+  };
+
+  return missionSuggestions[topic] || null;
+}

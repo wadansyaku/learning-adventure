@@ -105,9 +105,32 @@ async function getStudentContext(userId: number) {
 
   // 装備中の帽子を取得
   const equippedItem = await db.getEquippedItemByStudentId(student.id);
-
-  // 最近の実績を取得（直近5件）
+  // 最近の実績を取得（直近10件）
   const recentAchievements = await db.getStudentAchievementsByStudentId(student.id, 5);
+
+  // 会話履歴の要約を取得
+  const conversationSummary = await db.getConversationSummary(student.id, 10);
+
+  // 最近の感情履歴を取得（過去7日間）
+  const sentimentHistory = await db.getRecentSentimentHistory(student.id, 7);
+  const sentimentCounts = {
+    positive: sentimentHistory.filter((c: any) => c.sentiment === 'positive').length,
+    neutral: sentimentHistory.filter((c: any) => c.sentiment === 'neutral').length,
+    negative: sentimentHistory.filter((c: any) => c.sentiment === 'negative').length,
+  };
+
+  // 最近のトピック履歴を取得（過去7日間）
+  const topicHistory = await db.getRecentTopicHistory(student.id, 7);
+  const topTopics = Object.entries(topicHistory)
+    .sort(([, a], [, b]) => (b as number) - (a as number))
+    .slice(0, 3)
+    .map(([topic]) => topic);
+
+  // 最近完了したミッションを取得（過去24時間）
+  const recentCompletedMissions = await db.getRecentCompletedMissions(student.id, 24);
+
+  // トピックに応じたミッション提案
+  const missionSuggestion = topTopics.length > 0 ? db.suggestMissionByTopic(topTopics[0]) : null;
 
   return {
     student,
@@ -118,6 +141,11 @@ async function getStudentContext(userId: number) {
     totalTimeMinutes,
     equippedItem,
     recentAchievements,
+    conversationSummary,
+    sentimentCounts,
+    topTopics,
+    recentCompletedMissions,
+    missionSuggestion,
   };
 }
 
@@ -133,7 +161,7 @@ export const chatRouter = router({
         };
       }
 
-      const { student, recentAccuracy, totalProblems, totalTimeMinutes, equippedItem, recentAchievements } = context;
+      const { student, recentAccuracy, totalProblems, totalTimeMinutes, equippedItem, recentAchievements, conversationSummary, sentimentCounts, topTopics, recentCompletedMissions, missionSuggestion } = context;
 
       // 装備中の帽子情報
       const hatInfo = equippedItem ? `「${equippedItem.name}」をかぶっている` : '帽子はかぶっていない';
@@ -142,6 +170,26 @@ export const chatRouter = router({
       const achievementsInfo = recentAchievements.length > 0 
         ? `最近の実績: ${recentAchievements.map((a: any) => a.name).join('、')}`
         : 'まだ実績はない';
+
+      // 感情履歴の分析
+      const totalSentiments = sentimentCounts.positive + sentimentCounts.neutral + sentimentCounts.negative;
+      const sentimentTrend = totalSentiments > 0
+        ? sentimentCounts.positive > sentimentCounts.negative
+          ? '最近はポジティブな気持ちが多い'
+          : sentimentCounts.negative > sentimentCounts.positive
+          ? '最近は少し落ち込んでいるかも'
+          : '最近は安定した気持ち'
+        : 'まだ会話履歴が少ない';
+
+      // トピック履歴の分析
+      const topicInfo = topTopics.length > 0
+        ? `最近よく話すトピック: ${topTopics.join('、')}`
+        : 'まだ会話履歴が少ない';
+
+      // 最近完了したミッション情報
+      const missionInfo = recentCompletedMissions.length > 0
+        ? `最近完了したミッション: ${recentCompletedMissions.length}件（過去24時間）`
+        : '最近ミッションを完了していない';
 
       const systemPrompt = `あなたは小学生の学習を応援する優しい先生キャラクターです。
 
@@ -155,12 +203,29 @@ export const chatRouter = router({
 - 装備中の帽子: ${hatInfo}
 - ${achievementsInfo}
 
+【過去の会話記憶】
+${conversationSummary || 'まだ会話履歴がありません'}
+
+【感情分析】
+- ${sentimentTrend}
+- ポジティブ: ${sentimentCounts.positive}回、ニュートラル: ${sentimentCounts.neutral}回、ネガティブ: ${sentimentCounts.negative}回
+
+【話題の傾向】
+- ${topicInfo}
+
+【最近のミッション】
+- ${missionInfo}
+${missionSuggestion ? `- 提案: ${missionSuggestion}` : ''}
+
 【あなたの役割】
 1. 生徒を励まし、学習意欲を高める
 2. 学習の進捗を褒める
 3. 苦手分野を優しくサポート
 4. ゲーミフィケーション要素（レベル、コイン、帽子）を活用
 5. 子供向けの優しい言葉遣い
+6. **過去の会話を記憶し、感情や話題に応じた応答をする**
+7. **感情がネガティブな場合は特に優しく励ます**
+8. **会話内容や感情に応じて、適切なミッションやアイテムを提案する**
 
 【注意事項】
 - 短く、わかりやすい文章で話す
@@ -203,7 +268,7 @@ export const chatRouter = router({
         };
       }
 
-      const { student, recentAccuracy, totalProblems, totalTimeMinutes, equippedItem, recentAchievements } = context;
+      const { student, recentAccuracy, totalProblems, totalTimeMinutes, equippedItem, recentAchievements, conversationSummary, sentimentCounts, topTopics, recentCompletedMissions, missionSuggestion } = context;
 
       // 装備中の帽子情報
       const hatInfo = equippedItem ? `「${equippedItem.name}」をかぶっている` : '帽子はかぶっていない';
@@ -212,6 +277,26 @@ export const chatRouter = router({
       const achievementsInfo = recentAchievements.length > 0 
         ? `最近の実績: ${recentAchievements.map((a: any) => a.name).join('、')}`
         : 'まだ実績はない';
+
+      // 感情履歴の分析
+      const totalSentiments = sentimentCounts.positive + sentimentCounts.neutral + sentimentCounts.negative;
+      const sentimentTrend = totalSentiments > 0
+        ? sentimentCounts.positive > sentimentCounts.negative
+          ? '最近はポジティブな気持ちが多い'
+          : sentimentCounts.negative > sentimentCounts.positive
+          ? '最近は少し落ち込んでいるかも'
+          : '最近は安定した気持ち'
+        : 'まだ会話履歴が少ない';
+
+      // トピック履歴の分析
+      const topicInfo = topTopics.length > 0
+        ? `最近よく話すトピック: ${topTopics.join('、')}`
+        : 'まだ会話履歴が少ない';
+
+      // 最近完了したミッション情報
+      const missionInfo = recentCompletedMissions.length > 0
+        ? `最近完了したミッション: ${recentCompletedMissions.length}件（過去24時間）`
+        : '最近ミッションを完了していない';
 
       const systemPrompt = `あなたは小学生の学習を応援する優しい先生キャラクターです。
 
@@ -225,12 +310,29 @@ export const chatRouter = router({
 - 装備中の帽子: ${hatInfo}
 - ${achievementsInfo}
 
+【過去の会話記憶】
+${conversationSummary || 'まだ会話履歴がありません'}
+
+【感情分析】
+- ${sentimentTrend}
+- ポジティブ: ${sentimentCounts.positive}回、ニュートラル: ${sentimentCounts.neutral}回、ネガティブ: ${sentimentCounts.negative}回
+
+【話題の傾向】
+- ${topicInfo}
+
+【最近のミッション】
+- ${missionInfo}
+${missionSuggestion ? `- 提案: ${missionSuggestion}` : ''}
+
 【あなたの役割】
 1. 生徒を励まし、学習意欲を高める
 2. 学習の進捗を褒める
 3. 苦手分野を優しくサポート
 4. ゲーミフィケーション要素（レベル、コイン、帽子）を活用
 5. 子供向けの優しい言葉遣い
+6. **過去の会話を記憶し、感情や話題に応じた応答をする**
+7. **感情がネガティブな場合は特に優しく励ます**
+8. **会話内容や感情に応じて、適切なミッションやアイテムを提案する**
 
 【応答ガイドライン】
 1. 質問には優しく答える
