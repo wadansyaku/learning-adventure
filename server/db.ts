@@ -1017,3 +1017,96 @@ export async function updateStudentGems(studentId: number, gemsToAdd: number) {
     .set({ gems: newGems, updatedAt: new Date() })
     .where(eq(students.id, studentId));
 }
+
+
+/**
+ * Get OpenAI usage for a student within a time period
+ */
+export async function getStudentOpenAIUsage(studentId: number, periodHours: number) {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  const startTime = new Date(Date.now() - periodHours * 60 * 60 * 1000);
+  
+  const logs = await database
+    .select()
+    .from(openaiUsageLogs)
+    .where(
+      and(
+        eq(openaiUsageLogs.studentId, studentId),
+        gte(openaiUsageLogs.createdAt, startTime)
+      )
+    );
+  
+  // Calculate total cost in the period
+  const totalCost = logs.reduce((sum, log) => {
+    return sum + parseFloat(log.estimatedCost || '0');
+  }, 0);
+  
+  return {
+    totalCost,
+    requestCount: logs.length,
+    logs,
+  };
+}
+
+/**
+ * Check if student has exceeded usage limits
+ * Returns usage percentage and limit info
+ */
+export async function checkStudentUsageLimits(studentId: number) {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  // Define limits (in JPY, 1 USD = 150 JPY)
+  const limits = {
+    threeHours: 10,    // 10円
+    oneDay: 50,        // 50円
+    oneWeek: 300,      // 300円
+    oneMonth: 1000,    // 1000円
+  };
+  
+  // Get usage for each period
+  const threeHoursUsage = await getStudentOpenAIUsage(studentId, 3);
+  const oneDayUsage = await getStudentOpenAIUsage(studentId, 24);
+  const oneWeekUsage = await getStudentOpenAIUsage(studentId, 24 * 7);
+  const oneMonthUsage = await getStudentOpenAIUsage(studentId, 24 * 30);
+  
+  // Convert USD to JPY (1 USD = 150 JPY)
+  const toJPY = (usd: number) => usd * 150;
+  
+  const threeHoursCostJPY = toJPY(threeHoursUsage.totalCost);
+  const oneDayCostJPY = toJPY(oneDayUsage.totalCost);
+  const oneWeekCostJPY = toJPY(oneWeekUsage.totalCost);
+  const oneMonthCostJPY = toJPY(oneMonthUsage.totalCost);
+  
+  // Calculate usage percentages
+  const threeHoursPercent = (threeHoursCostJPY / limits.threeHours) * 100;
+  const oneDayPercent = (oneDayCostJPY / limits.oneDay) * 100;
+  const oneWeekPercent = (oneWeekCostJPY / limits.oneWeek) * 100;
+  const oneMonthPercent = (oneMonthCostJPY / limits.oneMonth) * 100;
+  
+  // Find the highest usage percentage
+  const maxPercent = Math.max(threeHoursPercent, oneDayPercent, oneWeekPercent, oneMonthPercent);
+  
+  // Determine restriction level
+  let restrictionLevel: 'none' | 'warning' | 'delay' | 'blocked' = 'none';
+  if (maxPercent >= 100) {
+    restrictionLevel = 'blocked';
+  } else if (maxPercent >= 80) {
+    restrictionLevel = 'delay';
+  } else if (maxPercent >= 60) {
+    restrictionLevel = 'warning';
+  }
+  
+  return {
+    restrictionLevel,
+    usage: {
+      threeHours: { cost: threeHoursCostJPY, limit: limits.threeHours, percent: threeHoursPercent },
+      oneDay: { cost: oneDayCostJPY, limit: limits.oneDay, percent: oneDayPercent },
+      oneWeek: { cost: oneWeekCostJPY, limit: limits.oneWeek, percent: oneWeekPercent },
+      oneMonth: { cost: oneMonthCostJPY, limit: limits.oneMonth, percent: oneMonthPercent },
+    },
+    maxPercent,
+  };
+}

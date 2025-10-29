@@ -19,10 +19,26 @@ export default function CharacterChat() {
     enabled: isAuthenticated && user?.role === 'student',
   });
 
+  const [usageWarning, setUsageWarning] = useState<string | null>(null);
+
   const chatMutation = trpc.character.chat.useMutation({
-    onSuccess: (data: { response: string }) => {
+    onSuccess: (data: { response: string; usageInfo?: { restrictionLevel: string; message?: string } }) => {
       setChatHistory(prev => [...prev, { role: 'assistant', content: String(data.response) }]);
       setIsTyping(false);
+      
+      // Handle usage warnings
+      if (data.usageInfo?.message) {
+        setUsageWarning(data.usageInfo.message);
+        if (data.usageInfo.restrictionLevel === 'blocked') {
+          toast.error(data.usageInfo.message);
+        } else if (data.usageInfo.restrictionLevel === 'delay') {
+          toast.warning(data.usageInfo.message);
+        } else if (data.usageInfo.restrictionLevel === 'warning') {
+          toast.info(data.usageInfo.message);
+        }
+      } else {
+        setUsageWarning(null);
+      }
     },
     onError: () => {
       toast.error('エラーがはっせいしました');
@@ -79,6 +95,16 @@ export default function CharacterChat() {
           </Button>
           <h1 className="text-3xl font-black text-primary">キャラクターとおはなし</h1>
         </div>
+
+        {/* 使用量警告バナー */}
+        {usageWarning && (
+          <Card className="p-4 bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-yellow-400 mb-4">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">⚠️</span>
+              <p className="text-lg font-bold text-gray-800">{usageWarning}</p>
+            </div>
+          </Card>
+        )}
 
         {/* チャットエリア */}
         <Card className="p-6 bg-white/90 backdrop-blur shadow-2xl mb-4 h-[60vh] overflow-y-auto">

@@ -1,5 +1,7 @@
-import { protectedProcedure } from "../_core/trpc";
+import { protectedProcedure, publicProcedure } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
+
+export { publicProcedure };
 
 // Role-based procedures
 export const teacherProcedure = protectedProcedure.use(({ ctx, next }) => {
