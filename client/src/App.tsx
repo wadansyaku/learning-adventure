@@ -21,6 +21,7 @@ import Tasks from "./pages/Tasks";
 import QuestComplete from './pages/QuestComplete';
 import Ranking from './pages/Ranking';
 import Inventory from './pages/Inventory';
+import TeacherConversations from './pages/TeacherConversations';
 
 function Router() {
   return (
@@ -41,6 +42,8 @@ function Router() {
       <Route path={"/play"} component={ProblemPlay} />
       <Route path={"/teacher/create-task"} component={CreateTask} />
       <Route path={"/teacher/create-problem"} component={CreateProblem} />
+      <Route path={"/teacher/conversations/:studentId"} component={TeacherConversations} />
+      <Route path={"/teacher/conversations"} component={TeacherConversations} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>

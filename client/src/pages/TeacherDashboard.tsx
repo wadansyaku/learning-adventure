@@ -5,7 +5,7 @@ import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 import { useEffect } from "react";
 import { RoleSwitcher } from "@/components/RoleSwitcher";
-import { Users, FileText, PlusCircle, CheckCircle, Clock, BookOpen } from "lucide-react";
+import { Users, FileText, PlusCircle, CheckCircle, Clock, BookOpen, MessageCircle } from "lucide-react";
 
 export default function TeacherDashboard() {
   const { user, loading: authLoading, isAuthenticated, logout } = useAuth();
@@ -168,6 +168,24 @@ export default function TeacherDashboard() {
                   onClick={() => setLocation('/teacher/create-problem')}
                 >
                   新規問題作成
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="border-slate-200 hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mb-3">
+                  <MessageCircle className="w-6 h-6 text-white" />
+                </div>
+                <CardTitle>会話履歴</CardTitle>
+                <CardDescription>生徒の会話履歴を閲覧します</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button 
+                  className="w-full bg-purple-600 hover:bg-purple-700"
+                  onClick={() => setLocation('/teacher/conversations')}
+                >
+                  会話履歴を見る
                 </Button>
               </CardContent>
             </Card>

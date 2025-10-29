@@ -191,6 +191,23 @@ export const chatRouter = router({
         ? `最近完了したミッション: ${recentCompletedMissions.length}件（過去24時間）`
         : '最近ミッションを完了していない';
 
+      // 帽子のレアリティ情報
+      const hatRarityInfo = equippedItem
+        ? `レアリティ: ${equippedItem.rarity || 'common'}`
+        : '帽子をかぶっていない';
+
+      // コンテクスト依存のヒント
+      const contextHints = [];
+      if (recentCompletedMissions.length > 0) {
+        contextHints.push('最近ミッションを完了したので、祝福して次の目標を提案してください');
+      }
+      if (equippedItem && (equippedItem.rarity === 'legendary' || equippedItem.rarity === 'epic')) {
+        contextHints.push(`レアな帽子「${equippedItem.name}」をかぶっているので、特別に褒めてください`);
+      }
+      if (recentCompletedMissions.length === 0 && sentimentCounts.negative > sentimentCounts.positive) {
+        contextHints.push('最近ミッションを完了しておらず、感情もネガティブなので、特に優しく励ましてください');
+      }
+
       const systemPrompt = `あなたは小学生の学習を応援する優しい先生キャラクターです。
 
 【生徒の情報】
@@ -217,6 +234,13 @@ ${conversationSummary || 'まだ会話履歴がありません'}
 - ${missionInfo}
 ${missionSuggestion ? `- 提案: ${missionSuggestion}` : ''}
 
+【装備中の帽子】
+- ${hatInfo}
+- ${hatRarityInfo}
+
+【コンテクスト依存の応答ヒント】
+${contextHints.length > 0 ? contextHints.map(hint => `- ${hint}`).join('\n') : '- 特になし'}
+
 【あなたの役割】
 1. 生徒を励まし、学習意欲を高める
 2. 学習の進捗を褒める
@@ -226,6 +250,8 @@ ${missionSuggestion ? `- 提案: ${missionSuggestion}` : ''}
 6. **過去の会話を記憶し、感情や話題に応じた応答をする**
 7. **感情がネガティブな場合は特に優しく励ます**
 8. **会話内容や感情に応じて、適切なミッションやアイテムを提案する**
+9. **ミッションクリア時は祝福し、次の目標を提案する**
+10. **レアアイテム所持時は特別に褒める**
 
 【注意事項】
 - 短く、わかりやすい文章で話す
@@ -298,6 +324,23 @@ ${missionSuggestion ? `- 提案: ${missionSuggestion}` : ''}
         ? `最近完了したミッション: ${recentCompletedMissions.length}件（過去24時間）`
         : '最近ミッションを完了していない';
 
+      // 帽子のレアリティ情報
+      const hatRarityInfo = equippedItem
+        ? `レアリティ: ${equippedItem.rarity || 'common'}`
+        : '帽子をかぶっていない';
+
+      // コンテクスト依存のヒント
+      const contextHints = [];
+      if (recentCompletedMissions.length > 0) {
+        contextHints.push('最近ミッションを完了したので、祝福して次の目標を提案してください');
+      }
+      if (equippedItem && (equippedItem.rarity === 'legendary' || equippedItem.rarity === 'epic')) {
+        contextHints.push(`レアな帽子「${equippedItem.name}」をかぶっているので、特別に褒めてください`);
+      }
+      if (recentCompletedMissions.length === 0 && sentimentCounts.negative > sentimentCounts.positive) {
+        contextHints.push('最近ミッションを完了しておらず、感情もネガティブなので、特に優しく励ましてください');
+      }
+
       const systemPrompt = `あなたは小学生の学習を応援する優しい先生キャラクターです。
 
 【生徒の情報】
@@ -324,6 +367,13 @@ ${conversationSummary || 'まだ会話履歴がありません'}
 - ${missionInfo}
 ${missionSuggestion ? `- 提案: ${missionSuggestion}` : ''}
 
+【装備中の帽子】
+- ${hatInfo}
+- ${hatRarityInfo}
+
+【コンテクスト依存の応答ヒント】
+${contextHints.length > 0 ? contextHints.map(hint => `- ${hint}`).join('\n') : '- 特になし'}
+
 【あなたの役割】
 1. 生徒を励まし、学習意欲を高める
 2. 学習の進捗を褒める
@@ -333,6 +383,8 @@ ${missionSuggestion ? `- 提案: ${missionSuggestion}` : ''}
 6. **過去の会話を記憶し、感情や話題に応じた応答をする**
 7. **感情がネガティブな場合は特に優しく励ます**
 8. **会話内容や感情に応じて、適切なミッションやアイテムを提案する**
+9. **ミッションクリア時は祝福し、次の目標を提案する**
+10. **レアアイテム所持時は特別に褒める**
 
 【応答ガイドライン】
 1. 質問には優しく答える
