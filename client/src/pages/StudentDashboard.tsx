@@ -9,8 +9,8 @@ import { LevelUpModal } from "@/components/LevelUpModal";
 import { LoginBonus } from "@/components/LoginBonus";
 import { DailyMissions } from "@/components/DailyMissions";
 import { toast } from "sonner";
-import StudentHeader from "@/components/StudentHeader";
-
+import StudentHeader from '../components/StudentHeader';
+import CharacterChat from '../components/CharacterChat';
 export default function StudentDashboard() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
@@ -211,50 +211,88 @@ export default function StudentDashboard() {
           )}
         </div>
 
+        {/* キャラクター会話 */}
+        {characters && characters.length > 0 && (
+          <CharacterChat
+            characterName={characters[selectedCharacterIndex].name}
+            characterEmoji={
+              characters[selectedCharacterIndex].animalType === 'rabbit' ? '🐰' :
+              characters[selectedCharacterIndex].animalType === 'cat' ? '🐱' :
+              characters[selectedCharacterIndex].animalType === 'dog' ? '🐶' :
+              characters[selectedCharacterIndex].animalType === 'bear' ? '🐻' :
+              characters[selectedCharacterIndex].animalType === 'fox' ? '🦊' : '🐰'
+            }
+            studentLevel={profile.level}
+            studentXP={profile.xp}
+          />
+        )}
+
         {/* アクションボタン */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="card-fun">
-            <h3 className="text-2xl font-bold mb-4">もんだいにチャレンジ!</h3>
-            <p className="mb-4 text-muted-foreground">たのしいもんだいをといてXPをゲット!</p>
+          {/* もんだいにチャレンジ */}
+          <Card className="p-6 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200 hover:border-blue-400">
+            <div className="text-center mb-4">
+              <div className="text-6xl mb-3">🎮</div>
+              <h3 className="text-2xl font-bold text-blue-800 mb-2">もんだいにチャレンジ</h3>
+              <p className="text-base text-blue-600 min-h-[48px] flex items-center justify-center">
+                たのしいもんだいをといてXPをゲット!
+              </p>
+            </div>
             <Button 
-              className="btn-fun bg-primary text-primary-foreground w-full"
+              className="w-full text-lg py-6 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold shadow-lg"
               onClick={() => setLocation('/play')}
             >
               あそぶ 🎮
             </Button>
           </Card>
 
-          <Card className="card-fun">
-            <h3 className="text-2xl font-bold mb-4">ガチャ</h3>
-            <p className="mb-4 text-muted-foreground">アイテムをげっとしよう!</p>
+          {/* ガチャ */}
+          <Card className="p-6 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 hover:border-purple-400">
+            <div className="text-center mb-4">
+              <div className="text-6xl mb-3">✨</div>
+              <h3 className="text-2xl font-bold text-purple-800 mb-2">ガチャ</h3>
+              <p className="text-base text-purple-600 min-h-[48px] flex items-center justify-center">
+                アイテムをげっとしよう!
+              </p>
+            </div>
             <Button 
-              className="btn-fun bg-gradient-to-r from-purple-500 to-pink-500 text-white w-full"
+              className="w-full text-lg py-6 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold shadow-lg"
               onClick={() => setLocation('/gacha')}
             >
               ガチャをひく ✨
             </Button>
           </Card>
 
-          <Card className="card-fun">
-            <h3 className="text-2xl font-bold mb-4">ぼうけん</h3>
-            <p className="mb-4 text-muted-foreground">たのしいおはなしをよもう!</p>
+          {/* ぼうけん */}
+          <Card className="p-6 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-orange-50 to-red-50 border-2 border-orange-200 hover:border-orange-400">
+            <div className="text-center mb-4">
+              <div className="text-6xl mb-3">🗺️</div>
+              <h3 className="text-2xl font-bold text-orange-800 mb-2">ぼうけん</h3>
+              <p className="text-base text-orange-600 min-h-[48px] flex items-center justify-center">
+                たのしいおはなしをよもう!
+              </p>
+            </div>
             <Button 
-              className="btn-fun bg-gradient-to-r from-orange-500 to-red-500 text-white w-full"
+              className="w-full text-lg py-6 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold shadow-lg"
               onClick={() => setLocation('/story')}
             >
               ぼうけんへ 🗺️
             </Button>
           </Card>
 
-          <Card className="card-fun">
-            <h3 className="text-2xl font-bold mb-4">スペシャルクエスト ⚔️</h3>
-            <p className="mb-4 text-muted-foreground">
-              {pendingTasks.length > 0 
-                ? `${pendingTasks.length}このクエストがあるよ!` 
-                : 'クエストはないよ!'}
-            </p>
+          {/* スペシャルクエスト */}
+          <Card className="p-6 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-indigo-50 to-blue-50 border-2 border-indigo-200 hover:border-indigo-400">
+            <div className="text-center mb-4">
+              <div className="text-6xl mb-3">⚔️</div>
+              <h3 className="text-2xl font-bold text-indigo-800 mb-2">スペシャルクエスト</h3>
+              <p className="text-base text-indigo-600 min-h-[48px] flex items-center justify-center">
+                {pendingTasks.length > 0 
+                  ? `${pendingTasks.length}このクエストがあるよ!` 
+                  : 'クエストはないよ!'}
+              </p>
+            </div>
             <Button 
-              className="btn-fun bg-gradient-to-r from-blue-500 to-indigo-500 text-white w-full"
+              className="w-full text-lg py-6 bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-bold shadow-lg"
               onClick={() => setLocation('/tasks')}
               disabled={pendingTasks.length === 0}
             >
