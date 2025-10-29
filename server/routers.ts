@@ -19,6 +19,7 @@ import { itemRouter, treasureRouter, achievementRouter, dailyMissionRouter, prog
 import { badgeRouter } from './routers/badge';
 import { rankingRouter } from './routers/ranking';
 import { chatRouter } from './routers/chat';
+import { characterRouter } from './routers/character';
 
 export const appRouter = router({
   system: systemRouter,
@@ -79,6 +80,7 @@ export const appRouter = router({
   badge: badgeRouter,
   ranking: rankingRouter,
   chat: chatRouter,
+  character: characterRouter,
   item: itemRouter,
   treasure: treasureRouter,
   achievement: achievementRouter,

@@ -667,3 +667,114 @@
 11. 冒険UI廃止と会話統合
 
 ---
+
+
+---
+
+## ✅ Phase 1.0完了: 長期記憶機能とコンテクスト依存会話システム（2025-10-30 09:09）
+
+### 実装完了内容
+
+#### 1.0.1 会話履歴の要約生成と感情記憶 ✅
+- [x] 会話履歴の要約生成（最近10件、感情優先）
+- [x] 感情履歴の記憶（過去7日間）
+- [x] トピック履歴の記憶（過去7日間）
+- ファイル: `server/db.ts`, `server/routers/chat.ts`
+
+#### 1.0.2 トピック記憶とミッション提案 ✅
+- [x] 会話内容に応じたミッション提案（トピック別）
+- [x] 最近完了したミッション情報の取得（過去24時間）
+- ファイル: `server/db.ts`, `server/routers/chat.ts`
+
+#### 1.0.3 コンテクスト依存会話（ミッション・アイテム） ✅
+- [x] ミッションクリア時の祝福メッセージ
+- [x] レアアイテム所持時の特別な褒め言葉
+- ファイル: `server/routers/chat.ts`
+
+#### 1.0.4 会話履歴可視化（講師・保護者・管理者） ✅
+- [x] 講師用会話履歴ページ（/teacher/conversations）
+  - 生徒選択ドロップダウン
+  - 感情分布表示（ポジティブ、ニュートラル、ネガティブ）
+  - トピック分布表示
+  - 会話履歴一覧（感情タグ、トピックタグ付き）
+  - TeacherDashboardに会話履歴ボタンを追加
+- [x] 保護者用会話履歴ページ（/parent/conversations）
+  - お子様選択ドロップダウン
+  - 感情分布表示
+  - トピック分布表示
+  - 会話履歴一覧
+  - ParentDashboardに会話履歴ボタンを追加
+- ファイル: `client/src/pages/TeacherConversations.tsx`, `client/src/pages/ParentConversations.tsx`, `client/src/App.tsx`, `client/src/pages/TeacherDashboard.tsx`, `client/src/pages/ParentDashboard.tsx`
+
+#### 1.0.5 冒険UI廃止と会話統合 ✅
+- [x] Story.tsx、StoryDetail.tsx、QuestComplete.tsx削除
+- [x] App.tsxから冒険関連ルートを削除
+- [x] StudentDashboardから冒険ボタンを削除
+- ファイル: `client/src/App.tsx`, `client/src/pages/StudentDashboard.tsx`
+
+### システム影響
+- キャラクターが過去の会話内容・感情・トピックを記憶し、生徒の状況に応じたパーソナライズされた会話が可能に
+- 講師・保護者が生徒の会話履歴を閲覧し、感情状態やトピック傾向を把握可能に
+- 冒険コンテンツがキャラクター会話に統合され、会話中心の学習体験を実現
+
+### チェックポイント
+- バージョン: 1607f9a7
+- 日時: 2025-10-30 09:09
+
+---
+
+
+---
+
+## 🚨 Phase 1.1: 緊急バグ修正と機能追加（優先度: 最高 - 即対応）
+
+### 1.1.1 仲間選択の問題修正
+- [x] **仒間を選べるようにする**
+  - 問題: character.tsルーターがPhase 0.9で削除され、`trpc.character.getAllTypes` APIが存在しなかった
+  - 影響: 仒間選択機能が使用不可
+  - 修正:
+    1. character.tsルーターを復元（チャット機能は除外、キャラクター管理機能のみ）
+    2. routers.tsにcharacterRouterを追加
+  - ファイル: `server/routers/character.ts`, `server/routers.ts`
+
+### 1.1.2 チャット履歴の表示改善
+- [ ] **チャット履歴を確認できるようにする**
+  - 問題: 生徒がチャット履歴を確認できない
+  - 影響: 過去の会話を振り返れない
+  - 実装:
+    1. StudentDashboardにチャット履歴表示機能を追加
+    2. 折りたたみ可能な会話履歴UI
+  - ファイル: `client/src/pages/StudentDashboard.tsx`, `client/src/components/CharacterChat.tsx`
+
+### 1.1.3 メール機能の追加
+- [ ] **AIが自動振り分けするメール機能を追加**
+  - 問題: 生徒が講師・保護者・管理者に連絡できない
+  - 影響: コミュニケーション手段が不足
+  - 実装:
+    1. messagesテーブルを作成（送信者、受信者、件名、本文、ステータス）
+    2. AIが内容を分析して適切な受信者を自動選択
+    3. 生徒用メール送信UI
+    4. 講師・保護者・管理者用メール受信箱
+  - ファイル: `drizzle/schema.ts`, `server/routers/message.ts`, `client/src/pages/Messages.tsx` (新規)
+
+### 1.1.4 AI使用制限時の世界観対応
+- [ ] **AI使用制限時に「小屋で休んでいる」設定を追加**
+  - 問題: AI使用制限時にエラーメッセージが表示され、世界観が崩れる
+  - 影響: ゲーム体験が損なわれる
+  - 実装:
+    1. AI使用制限チェック機能
+    2. 制限時は「キャラクターが小屋で休んでいる」メッセージを表示
+    3. 休憩中のキャラクター画像（小屋のイラスト）
+    4. 制限解除までの残り時間表示
+  - ファイル: `server/routers/chat.ts`, `client/src/components/CharacterChat.tsx`
+
+### 1.1.5 生徒ビューの冒険UI削除
+- [x] **生徒ビューから冒険UIを完全に削除**
+  - 問題: 生徒ビューでまだ冒険関連のテキストが残っていた
+  - 影響: 削除したはずの機能が言及される
+  - 修正:
+    1. StudentDashboard.tsxから「ぼうけん」テキストを削除
+    2. 「なかまをえらんでいっしょにがんばろう!」に変更
+  - ファイル: `client/src/pages/StudentDashboard.tsx`
+
+---

@@ -200,7 +200,7 @@ export default function StudentDashboard() {
           ) : (
             <Card className="p-8 text-center">
               <p className="text-xl mb-4">まだなかまがいないよ</p>
-              <p className="text-muted-foreground mb-4">なかまをえらんでぼうけんにでかけよう!</p>
+              <p className="text-muted-foreground mb-4">なかまをえらんでいっしょにがんばろう!</p>
               <Button 
                 className="btn-fun bg-gradient-to-r from-purple-500 to-pink-500 text-white"
                 onClick={() => setLocation('/character-select')}

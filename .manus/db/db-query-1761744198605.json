@@ -1,0 +1,110 @@
+{
+  "query": "SELECT * FROM characterTypes LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT * FROM characterTypes LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "ぱんだくん",
+      "species": "panda",
+      "description": "ちくわだいすきなぱんだだよ!いっしょにべんきょうしよう!",
+      "imageUrl": "/characters/panda.png",
+      "personality": "おだやかでやさしい",
+      "unlockLevel": "1",
+      "createdAt": "2025-10-28 22:45:45"
+    },
+    {
+      "id": "2",
+      "name": "うさぎちゃん",
+      "species": "rabbit",
+      "description": "げんきいっぱいのうさぎだよ!ぴょんぴょんとんでいこう!",
+      "imageUrl": "/characters/rabbit.png",
+      "personality": "げんきでかつどうてき",
+      "unlockLevel": "1",
+      "createdAt": "2025-10-28 22:45:45"
+    },
+    {
+      "id": "3",
+      "name": "ぺんぎんくん",
+      "species": "penguin",
+      "description": "さむいところからきたぺんぎんだよ!すべってあそぼう!",
+      "imageUrl": "/characters/penguin.png",
+      "personality": "ゆかいでたのしい",
+      "unlockLevel": "3",
+      "createdAt": "2025-10-28 22:45:45"
+    },
+    {
+      "id": "4",
+      "name": "きつねちゃん",
+      "species": "fox",
+      "description": "かしこいきつねのおうじょさまだよ!いっしょにかんがえよう!",
+      "imageUrl": "/characters/fox.png",
+      "personality": "かしこくておしゃれ",
+      "unlockLevel": "5",
+      "createdAt": "2025-10-28 22:45:45"
+    },
+    {
+      "id": "5",
+      "name": "ふくろうせんせい",
+      "species": "owl",
+      "description": "ものしりなふくろうせんせいだよ!たくさんおしえるね!",
+      "imageUrl": "/characters/owl.png",
+      "personality": "ちてきでおちついている",
+      "unlockLevel": "7",
+      "createdAt": "2025-10-28 22:45:46"
+    },
+    {
+      "id": "6",
+      "name": "いぬくん",
+      "species": "dog",
+      "description": "ちゅうじつないぬのなかまだよ!いっしょにがんばろう!",
+      "imageUrl": "/characters/dog.png",
+      "personality": "ちゅうじつでげんき",
+      "unlockLevel": "2",
+      "createdAt": "2025-10-28 22:45:46"
+    },
+    {
+      "id": "7",
+      "name": "りすちゃん",
+      "species": "squirrel",
+      "description": "どんぐりあつめがだいすきなりすだよ!たからものさがそう!",
+      "imageUrl": "/characters/squirrel.png",
+      "personality": "すばしっこくてかわいい",
+      "unlockLevel": "4",
+      "createdAt": "2025-10-28 22:45:46"
+    },
+    {
+      "id": "8",
+      "name": "ぞうさん",
+      "species": "elephant",
+      "description": "やさしくてつよいぞうさんだよ!いっしょにぼうけんしよう!",
+      "imageUrl": "/characters/elephant.png",
+      "personality": "やさしくてたくましい",
+      "unlockLevel": "6",
+      "createdAt": "2025-10-28 22:45:46"
+    },
+    {
+      "id": "9",
+      "name": "ねこちゃん",
+      "species": "cat",
+      "description": "かわいいねこのおんなのこだよ!いっしょにあそぼう!",
+      "imageUrl": "/characters/cat.png",
+      "personality": "じゆうほんぽうでかわいい",
+      "unlockLevel": "3",
+      "createdAt": "2025-10-28 22:45:47"
+    },
+    {
+      "id": "10",
+      "name": "くまくん",
+      "species": "bear",
+      "description": "ちからもちのくまくんだよ!いっしょにがんばろう!",
+      "imageUrl": "/characters/bear.png",
+      "personality": "ちからづよくてやさしい",
+      "unlockLevel": "5",
+      "createdAt": "2025-10-28 22:45:47"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tspecies\tdescription\timageUrl\tpersonality\tunlockLevel\tcreatedAt\n1\tぱんだくん\tpanda\tちくわだいすきなぱんだだよ!いっしょにべんきょうしよう!\t/characters/panda.png\tおだやかでやさしい\t1\t2025-10-28 22:45:45\n2\tうさぎちゃん\trabbit\tげんきいっぱいのうさぎだよ!ぴょんぴょんとんでいこう!\t/characters/rabbit.png\tげんきでかつどうてき\t1\t2025-10-28 22:45:45\n3\tぺんぎんくん\tpenguin\tさむいところからきたぺんぎんだよ!すべってあそぼう!\t/characters/penguin.png\tゆかいでたのしい\t3\t2025-10-28 22:45:45\n4\tきつねちゃん\tfox\tかしこいきつねのおうじょさまだよ!いっしょにかんがえよう!\t/characters/fox.png\tかしこくておしゃれ\t5\t2025-10-28 22:45:45\n5\tふくろうせんせい\towl\tものしりなふくろうせんせいだよ!たくさんおしえるね!\t/characters/owl.png\tちてきでおちついている\t7\t2025-10-28 22:45:46\n6\tいぬくん\tdog\tちゅうじつないぬのなかまだよ!いっしょにがんばろう!\t/characters/dog.png\tちゅうじつでげんき\t2\t2025-10-28 22:45:46\n7\tりすちゃん\tsquirrel\tどんぐりあつめがだいすきなりすだよ!たからものさがそう!\t/characters/squirrel.png\tすばしっこくてかわいい\t4\t2025-10-28 22:45:46\n8\tぞうさん\telephant\tやさしくてつよいぞうさんだよ!いっしょにぼうけんしよう!\t/characters/elephant.png\tやさしくてたくましい\t6\t2025-10-28 22:45:46\n9\tねこちゃん\tcat\tかわいいねこのおんなのこだよ!いっしょにあそぼう!\t/characters/cat.png\tじゆうほんぽうでかわいい\t3\t2025-10-28 22:45:47\n10\tくまくん\tbear\tちからもちのくまくんだよ!いっしょにがんばろう!\t/characters/bear.png\tちからづよくてやさしい\t5\t2025-10-28 22:45:47\n",
+  "stderr": "",
+  "execution_time_ms": 1567
+}
