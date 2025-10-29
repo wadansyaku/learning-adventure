@@ -1,0 +1,8 @@
+{
+  "query": "INSERT INTO dailyMissions (title, description, missionType, targetCount, coinReward, xpReward, requiredLevel) VALUES\n('もんだいを3もんとこう!', 'きょうのもんだいを3もんといてみよう', 'solve_problems', 3, 30, 15, 1),\n('もんだいを5もんとこう!', 'きょうのもんだいを5もんといてみよう', 'solve_problems', 5, 50, 25, 1),\n('ストーリーをよもう!', 'ストーリーを1つよんでみよう', 'read_story', 1, 20, 10, 1),\n('ガチャをひこう!', 'ガチャを1かいひいてみよう', 'gacha_pull', 1, 10, 5, 1),\n('ログインしよう!', 'まいにちログインしてボーナスをもらおう', 'daily_login', 1, 10, 5, 1);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute INSERT INTO dailyMissions (title, description, missionType, targetCount, coinReward, xpReward, requiredLevel) VALUES\n('もんだいを3もんとこう!', 'きょうのもんだいを3もんといてみよう', 'solve_problems', 3, 30, 15, 1),\n('もんだいを5もんとこう!', 'きょうのもんだいを5もんといてみよう', 'solve_problems', 5, 50, 25, 1),\n('ストーリーをよもう!', 'ストーリーを1つよんでみよう', 'read_story', 1, 20, 10, 1),\n('ガチャをひこう!', 'ガチャを1かいひいてみよう', 'gacha_pull', 1, 10, 5, 1),\n('ログインしよう!', 'まいにちログインしてボーナスをもらおう', 'daily_login', 1, 10, 5, 1);",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'requiredLevel' in 'field list'"
+  ]
+}
