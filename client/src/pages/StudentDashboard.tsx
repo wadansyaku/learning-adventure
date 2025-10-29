@@ -20,7 +20,7 @@ export default function StudentDashboard() {
   const [isCreatingProfile, setIsCreatingProfile] = useState(false);
   
   const { data: profile, isLoading: profileLoading, error: profileError, refetch } = trpc.student.getProfile.useQuery(undefined, {
-    enabled: isAuthenticated && user?.role === 'student',
+    enabled: isAuthenticated && (user?.role === 'student' || user?.role === 'admin'),
     retry: false,
   });
 
@@ -48,7 +48,7 @@ export default function StudentDashboard() {
 
   // プロフィールがない場合、自動作成
   useEffect(() => {
-    if (!profileLoading && !profile && isAuthenticated && user?.role === 'student' && !isCreatingProfile) {
+    if (!profileLoading && !profile && isAuthenticated && (user?.role === 'student' || user?.role === 'admin') && !isCreatingProfile) {
       console.log('[StudentDashboard] Profile not found, creating automatically');
       console.log('[StudentDashboard] User info:', user);
       setIsCreatingProfile(true);
@@ -60,11 +60,11 @@ export default function StudentDashboard() {
   }, [profileLoading, profile, isAuthenticated, user?.id, user?.role, isCreatingProfile]);
 
   const { data: tasks } = trpc.task.getMyTasks.useQuery(undefined, {
-    enabled: isAuthenticated && user?.role === 'student',
+    enabled: isAuthenticated && (user?.role === 'student' || user?.role === 'admin'),
   });
 
   const { data: characters } = trpc.character.getMyCharacters.useQuery(undefined, {
-    enabled: isAuthenticated && user?.role === 'student',
+    enabled: isAuthenticated && (user?.role === 'student' || user?.role === 'admin'),
   });
 
   useEffect(() => {
@@ -226,9 +226,13 @@ export default function StudentDashboard() {
                 ? `${pendingTasks.length}このしゅくだいがあるよ!` 
                 : 'しゅくだいはないよ!'}
             </p>
-            <div className="text-4xl text-center">
-              {pendingTasks.length > 0 ? '📚' : '✨'}
-            </div>
+            <Button 
+              className="btn-fun bg-gradient-to-r from-blue-500 to-indigo-500 text-white w-full"
+              onClick={() => setLocation('/tasks')}
+              disabled={pendingTasks.length === 0}
+            >
+              {pendingTasks.length > 0 ? 'しゅくだいをみる 📚' : 'しゅくだいはないよ ✨'}
+            </Button>
           </Card>
         </div>
 
