@@ -17,6 +17,7 @@ import StoryDetail from "./pages/StoryDetail";
 import CharacterChat from "./pages/CharacterChat";
 import Achievements from "./pages/Achievements";
 import CharacterSelect from "./pages/CharacterSelect";
+import Tasks from "./pages/Tasks";
 
 function Router() {
   return (
@@ -30,6 +31,7 @@ function Router() {
       <Route path={"/achievements"} component={Achievements} />
       <Route path={"/chat"} component={CharacterChat} />
       <Route path={"/character-select"} component={CharacterSelect} />
+      <Route path={"/tasks"} component={Tasks} />
       <Route path={"/parent"} component={ParentDashboard} />
       <Route path={"/play"} component={ProblemPlay} />
       <Route path={"/teacher/create-task"} component={CreateTask} />
