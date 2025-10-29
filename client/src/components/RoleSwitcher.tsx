@@ -18,25 +18,31 @@ export function RoleSwitcher() {
   const utils = trpc.useUtils();
 
   const switchRoleMutation = trpc.auth.switchRole.useMutation({
-    onSuccess: (data: { success: boolean; role: string }) => {
+    onSuccess: async (data: { success: boolean; role: string }) => {
       toast.success(`ロールを${getRoleLabel(data.role)}に切り替えました`);
-      utils.auth.me.invalidate();
       
-      // ロールに応じた画面にリダイレクト
-      switch (data.role) {
-        case 'student':
-          setLocation('/student');
-          break;
-        case 'teacher':
-          setLocation('/teacher');
-          break;
-        case 'parent':
-          setLocation('/parent');
-          break;
-        case 'admin':
-          setLocation('/');
-          break;
-      }
+      // ユーザー情報を再取得してキャッシュを更新
+      await utils.auth.me.invalidate();
+      await utils.auth.me.refetch();
+      
+      // 少し待ってからリダイレクト（キャッシュ更新を確実に）
+      setTimeout(() => {
+        // ロールに応じた画面にリダイレクト
+        switch (data.role) {
+          case 'student':
+            setLocation('/student');
+            break;
+          case 'teacher':
+            setLocation('/teacher');
+            break;
+          case 'parent':
+            setLocation('/parent');
+            break;
+          case 'admin':
+            setLocation('/');
+            break;
+        }
+      }, 100);
     },
     onError: (error: any) => {
       toast.error(`ロール切り替えに失敗しました: ${error.message}`);

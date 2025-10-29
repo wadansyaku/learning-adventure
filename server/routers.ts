@@ -37,12 +37,10 @@ export const appRouter = router({
     switchRole: protectedProcedure
       .input(z.object({ role: z.enum(['student', 'teacher', 'parent', 'admin']) }))
       .mutation(async ({ ctx, input }) => {
-        // Prevent admin from changing their role
-        if (ctx.user.role === 'admin') {
-          throw new TRPCError({ 
-            code: 'FORBIDDEN', 
-            message: '管理者はロールを変更できません。全てのビューを閲覧できます。' 
-          });
+        // 管理者はロール切り替えを許可（デモ・テスト目的）
+        // 管理者が同じロールに切り替えようとした場合はスキップ
+        if (ctx.user.role === input.role) {
+          return { success: true, role: input.role };
         }
         
         // Update user role in database
