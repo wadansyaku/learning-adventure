@@ -1,0 +1,22 @@
+{
+  "query": "SELECT * FROM characters WHERE studentId = 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT * FROM characters WHERE studentId = 1;",
+  "rows": [
+    {
+      "id": "1",
+      "studentId": "1",
+      "name": "ぱんだくん",
+      "animalType": "panda",
+      "imageUrl": "/characters/panda.png",
+      "level": "1",
+      "affection": "0",
+      "isActive": "1",
+      "createdAt": "2025-10-28 22:51:48",
+      "updatedAt": "2025-10-28 22:51:48"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstudentId\tname\tanimalType\timageUrl\tlevel\taffection\tisActive\tcreatedAt\tupdatedAt\n1\t1\tぱんだくん\tpanda\t/characters/panda.png\t1\t0\t1\t2025-10-28 22:51:48\t2025-10-28 22:51:48\n",
+  "stderr": "",
+  "execution_time_ms": 1554
+}

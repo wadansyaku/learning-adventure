@@ -228,7 +228,7 @@ export default function StudentDashboard() {
         )}
 
         {/* アクションボタン */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {/* もんだいにチャレンジ */}
           <Card className="p-6 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200 hover:border-blue-400">
             <div className="text-center mb-4">

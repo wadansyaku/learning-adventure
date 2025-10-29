@@ -21,20 +21,27 @@ export const characterRouter = router({
     .mutation(async ({ ctx, input }) => {
       const userId = ctx.user.id;
 
+      // userIdからstudentIdを取得
+      const student = await db.getStudentByUserId(userId);
+      if (!student) {
+        throw new Error("生徒プロフィールが見つかりません");
+      }
+
       // 既存のキャラクターを確認
-      const existingCharacter = await db.getCharacterByUserId(userId);
-      if (existingCharacter) {
+      const existingCharacters = await db.getCharactersByStudentId(student.id);
+      if (existingCharacters && existingCharacters.length > 0) {
         throw new Error("すでにキャラクターがいるよ");
       }
 
       // キャラクター作成
       const character = await db.createCharacter({
-        userId,
+        studentId: student.id,
         name: input.name,
         animalType: input.animalType,
         imageUrl: input.imageUrl,
         level: 1,
-        xp: 0,
+        affection: 0,
+        isActive: true,
       });
 
       return character;
@@ -43,6 +50,14 @@ export const characterRouter = router({
   // 自分のキャラクター取得
   getMy: studentProcedure.query(async ({ ctx }) => {
     const userId = ctx.user.id;
-    return await db.getCharacterByUserId(userId);
+    
+    // userIdからstudentIdを取得
+    const student = await db.getStudentByUserId(userId);
+    if (!student) {
+      return null;
+    }
+    
+    const characters = await db.getCharactersByStudentId(student.id);
+    return characters && characters.length > 0 ? characters[0] : null;
   }),
 });

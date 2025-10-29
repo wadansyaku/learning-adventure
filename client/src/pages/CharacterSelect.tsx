@@ -13,7 +13,10 @@ export default function CharacterSelect() {
 
   const { data: characterTypes, isLoading: typesLoading } = trpc.character.getAllTypes.useQuery();
   const { data: profile } = trpc.student.getProfile.useQuery(undefined, {
-    enabled: isAuthenticated && user?.role === 'student',
+    enabled: isAuthenticated && (user?.role === 'student' || user?.role === 'admin'),
+  });
+  const { data: existingCharacter } = trpc.character.getMy.useQuery(undefined, {
+    enabled: isAuthenticated && (user?.role === 'student' || user?.role === 'admin'),
   });
 
   const createCharacterMutation = trpc.character.create.useMutation({
@@ -22,8 +25,9 @@ export default function CharacterSelect() {
       setLocation('/student');
     },
     onError: (error) => {
-      toast.error('なかまをつくれなかったよ 😢');
       console.error('Failed to create character:', error);
+      const errorMessage = error.message || 'なかまをつくれなかったよ 😢';
+      toast.error(errorMessage);
     },
   });
 
@@ -32,8 +36,12 @@ export default function CharacterSelect() {
       setLocation('/');
     } else if (!authLoading && isAuthenticated && user?.role !== 'student' && user?.role !== 'admin') {
       setLocation('/');
+    } else if (!authLoading && isAuthenticated && existingCharacter) {
+      // 既にキャラクターを持っている場合は生徒ダッシュボードにリダイレクト
+      toast.info('もうなかまがいるよ!');
+      setLocation('/student');
     }
-  }, [authLoading, isAuthenticated, user, setLocation]);
+  }, [authLoading, isAuthenticated, user, existingCharacter, setLocation]);
 
   const handleSelectCharacter = (typeId: number) => {
     setSelectedCharacterTypeId(typeId);
