@@ -18,6 +18,8 @@ export function OpenAIUsageStats() {
   }
 
   const totalCost = parseFloat(summary.totalCost || "0");
+  const USD_TO_JPY = 150; // 為替レート (1 USD = 150 JPY)
+  const totalCostJPY = totalCost * USD_TO_JPY;
 
   return (
     <Card className="p-6">
@@ -34,7 +36,7 @@ export function OpenAIUsageStats() {
         <div className="bg-green-50 p-4 rounded-lg">
           <p className="text-sm text-muted-foreground mb-1">総コスト</p>
           <p className="text-3xl font-bold text-green-600">
-            ${totalCost.toFixed(4)}
+            ¥{totalCostJPY.toLocaleString('ja-JP', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
         </div>
 
