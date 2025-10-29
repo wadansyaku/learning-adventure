@@ -1,0 +1,25 @@
+{
+  "query": "SELECT * FROM students WHERE userId = 1",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT * FROM students WHERE userId = 1",
+  "rows": [
+    {
+      "id": "1",
+      "userId": "1",
+      "displayName": "男爵 音楽",
+      "avatarIcon": "🐰",
+      "level": "5",
+      "xp": "426",
+      "coins": "60",
+      "currentCharacterId": "NULL",
+      "loginStreak": "3",
+      "lastLoginDate": "2025-10-29 13:33:00",
+      "createdAt": "2025-10-28 20:39:12",
+      "updatedAt": "2025-10-29 13:36:36",
+      "gems": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tuserId\tdisplayName\tavatarIcon\tlevel\txp\tcoins\tcurrentCharacterId\tloginStreak\tlastLoginDate\tcreatedAt\tupdatedAt\tgems\n1\t1\t男爵 音楽\t🐰\t5\t426\t60\tNULL\t3\t2025-10-29 13:33:00\t2025-10-28 20:39:12\t2025-10-29 13:36:36\t0\n",
+  "stderr": "",
+  "execution_time_ms": 1522
+}

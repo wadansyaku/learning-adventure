@@ -9,6 +9,7 @@ import {
   characters,
   InsertCharacter,
   characterItems,
+  gachaItems,
   studentItems,
   tasks,
   InsertTask,
@@ -458,7 +459,8 @@ export async function getAllCharacterItems() {
   const db = await getDb();
   if (!db) return [];
   
-  return await db.select().from(characterItems);
+  // gachaItemsテーブルから取得（Phase 1で追加した帽子）
+  return await db.select().from(gachaItems);
 }
 
 export async function getStudentItems(studentId: number) {
@@ -1490,7 +1492,24 @@ export async function getStudentItemsWithDetails(studentId: number) {
   const database = await getDb();
   if (!database) return [];
   
-  return await database
+  // gachaItemsとcharacterItemsの両方とJOIN（古いアイテムと新しいアイテムの両方をサポート）
+  const itemsFromGacha = await database
+    .select({
+      id: studentItems.id,
+      studentId: studentItems.studentId,
+      itemId: studentItems.itemId,
+      isEquipped: studentItems.isEquipped,
+      acquiredAt: studentItems.acquiredAt,
+      name: gachaItems.name,
+      description: gachaItems.description,
+      imageUrl: gachaItems.imageUrl,
+      rarity: gachaItems.rarity,
+    })
+    .from(studentItems)
+    .leftJoin(gachaItems, eq(studentItems.itemId, gachaItems.id))
+    .where(eq(studentItems.studentId, studentId));
+  
+  const itemsFromCharacter = await database
     .select({
       id: studentItems.id,
       studentId: studentItems.studentId,
@@ -1498,14 +1517,35 @@ export async function getStudentItemsWithDetails(studentId: number) {
       isEquipped: studentItems.isEquipped,
       acquiredAt: studentItems.acquiredAt,
       name: characterItems.name,
-      description: characterItems.description,
       imageUrl: characterItems.imageUrl,
       rarity: characterItems.rarity,
     })
     .from(studentItems)
     .leftJoin(characterItems, eq(studentItems.itemId, characterItems.id))
-    .where(eq(studentItems.studentId, studentId))
-    .orderBy(desc(studentItems.acquiredAt));
+    .where(eq(studentItems.studentId, studentId));
+  
+  // 結果をマージ：gachaItemsにマッチすればそれを使用、なければcharacterItemsを使用
+  const mergedItems = itemsFromGacha.map((gachaItem, index) => {
+    const characterItem = itemsFromCharacter[index];
+    return {
+      id: gachaItem.id,
+      studentId: gachaItem.studentId,
+      itemId: gachaItem.itemId,
+      isEquipped: gachaItem.isEquipped,
+      acquiredAt: gachaItem.acquiredAt,
+      name: gachaItem.name || characterItem?.name || null,
+      description: gachaItem.description || null,
+      imageUrl: gachaItem.imageUrl || characterItem?.imageUrl || null,
+      rarity: gachaItem.rarity || characterItem?.rarity || null,
+    };
+  });
+  
+  // acquiredAtでソート
+  return mergedItems.sort((a, b) => {
+    const dateA = a.acquiredAt ? new Date(a.acquiredAt).getTime() : 0;
+    const dateB = b.acquiredAt ? new Date(b.acquiredAt).getTime() : 0;
+    return dateB - dateA;
+  });
 }
 
 /**

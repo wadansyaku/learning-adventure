@@ -14,10 +14,8 @@ export default function Gacha() {
   const [showResult, setShowResult] = useState(false);
 
   const { data: profile, refetch: refetchProfile } = trpc.student.getProfile.useQuery(undefined, {
-    enabled: isAuthenticated && user?.role === 'student',
+    enabled: isAuthenticated && (user?.role === 'student' || user?.role === 'admin'),
   });
-
-  const { data: items } = trpc.item.getAll.useQuery();
 
   const rollGachaMutation = trpc.gacha.roll.useMutation({
     onSuccess: (data) => {
@@ -45,7 +43,7 @@ export default function Gacha() {
   });
 
   useEffect(() => {
-    if (!authLoading && (!isAuthenticated || user?.role !== 'student')) {
+    if (!authLoading && (!isAuthenticated || (user?.role !== 'student' && user?.role !== 'admin'))) {
       setLocation('/');
     }
   }, [authLoading, isAuthenticated, user, setLocation]);
@@ -62,6 +60,11 @@ export default function Gacha() {
   }
 
   const handleRoll = () => {
+    if (!profile) {
+      toast.error('プロフィールがよみこめませんでした');
+      return;
+    }
+    
     if (profile.coins < 10) {
       toast.error('コインがたりないよ! もっとべんきょうしよう!');
       return;
@@ -262,23 +265,7 @@ export default function Gacha() {
           </div>
         </Card>
 
-        {/* アイテム一覧 */}
-        {items && items.length > 0 && (
-          <Card className="p-6 mt-6 bg-white/80">
-            <h3 className="text-2xl font-bold mb-4">でてくるアイテム</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {items.map((item) => (
-                <div
-                  key={item.id}
-                  className={`p-4 rounded-xl border-2 text-center ${getRarityColor(item.rarity)}`}
-                >
-                  <div className="text-4xl mb-2">{item.imageUrl || '🎁'}</div>
-                  <div className="text-sm font-bold">{item.name}</div>
-                </div>
-              ))}
-            </div>
-          </Card>
-        )}
+
       </div>
     </div>
   );

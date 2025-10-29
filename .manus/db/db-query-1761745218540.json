@@ -1,0 +1,60 @@
+{
+  "query": "SELECT id, name, rarity FROM gachaItems ORDER BY id LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, name, rarity FROM gachaItems ORDER BY id LIMIT 10",
+  "rows": [
+    {
+      "id": "1",
+      "name": "シルクハット",
+      "rarity": "epic"
+    },
+    {
+      "id": "2",
+      "name": "ウィザードハット",
+      "rarity": "rare"
+    },
+    {
+      "id": "3",
+      "name": "カウボーイハット",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "4",
+      "name": "ベレー帽",
+      "rarity": "common"
+    },
+    {
+      "id": "5",
+      "name": "キャップ",
+      "rarity": "common"
+    },
+    {
+      "id": "6",
+      "name": "ニット帽",
+      "rarity": "common"
+    },
+    {
+      "id": "7",
+      "name": "ハンチング",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "8",
+      "name": "ソンブレロ",
+      "rarity": "rare"
+    },
+    {
+      "id": "9",
+      "name": "フェドーラ",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "10",
+      "name": "トップハット",
+      "rarity": "epic"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\trarity\n1\tシルクハット\tepic\n2\tウィザードハット\trare\n3\tカウボーイハット\tuncommon\n4\tベレー帽\tcommon\n5\tキャップ\tcommon\n6\tニット帽\tcommon\n7\tハンチング\tuncommon\n8\tソンブレロ\trare\n9\tフェドーラ\tuncommon\n10\tトップハット\tepic\n",
+  "stderr": "",
+  "execution_time_ms": 1549
+}

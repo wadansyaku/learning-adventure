@@ -1,0 +1,30 @@
+{
+  "query": "SELECT rarity, COUNT(*) as count FROM gachaItems GROUP BY rarity",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT rarity, COUNT(*) as count FROM gachaItems GROUP BY rarity",
+  "rows": [
+    {
+      "rarity": "uncommon",
+      "count": "8"
+    },
+    {
+      "rarity": "rare",
+      "count": "9"
+    },
+    {
+      "rarity": "legendary",
+      "count": "6"
+    },
+    {
+      "rarity": "common",
+      "count": "4"
+    },
+    {
+      "rarity": "epic",
+      "count": "8"
+    }
+  ],
+  "messages": [],
+  "stdout": "rarity\tcount\nuncommon\t8\nrare\t9\nlegendary\t6\ncommon\t4\nepic\t8\n",
+  "stderr": "",
+  "execution_time_ms": 1538
+}

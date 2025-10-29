@@ -1,0 +1,90 @@
+{
+  "query": "SELECT si.id, si.studentId, si.itemId, si.isEquipped, gi.name, gi.rarity FROM studentItems si LEFT JOIN gachaItems gi ON si.itemId = gi.id WHERE si.studentId = 1 LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT si.id, si.studentId, si.itemId, si.isEquipped, gi.name, gi.rarity FROM studentItems si LEFT JOIN gachaItems gi ON si.itemId = gi.id WHERE si.studentId = 1 LIMIT 10",
+  "rows": [
+    {
+      "id": "1",
+      "studentId": "1",
+      "itemId": "2",
+      "isEquipped": "0",
+      "name": "ウィザードハット",
+      "rarity": "rare"
+    },
+    {
+      "id": "30001",
+      "studentId": "1",
+      "itemId": "30047",
+      "isEquipped": "0",
+      "name": "NULL",
+      "rarity": "NULL"
+    },
+    {
+      "id": "30002",
+      "studentId": "1",
+      "itemId": "30125",
+      "isEquipped": "0",
+      "name": "NULL",
+      "rarity": "NULL"
+    },
+    {
+      "id": "30003",
+      "studentId": "1",
+      "itemId": "30413",
+      "isEquipped": "0",
+      "name": "NULL",
+      "rarity": "NULL"
+    },
+    {
+      "id": "30004",
+      "studentId": "1",
+      "itemId": "30129",
+      "isEquipped": "0",
+      "name": "NULL",
+      "rarity": "NULL"
+    },
+    {
+      "id": "30005",
+      "studentId": "1",
+      "itemId": "30430",
+      "isEquipped": "0",
+      "name": "NULL",
+      "rarity": "NULL"
+    },
+    {
+      "id": "30006",
+      "studentId": "1",
+      "itemId": "30111",
+      "isEquipped": "0",
+      "name": "NULL",
+      "rarity": "NULL"
+    },
+    {
+      "id": "30007",
+      "studentId": "1",
+      "itemId": "30108",
+      "isEquipped": "0",
+      "name": "NULL",
+      "rarity": "NULL"
+    },
+    {
+      "id": "30008",
+      "studentId": "1",
+      "itemId": "30070",
+      "isEquipped": "0",
+      "name": "NULL",
+      "rarity": "NULL"
+    },
+    {
+      "id": "30009",
+      "studentId": "1",
+      "itemId": "30109",
+      "isEquipped": "0",
+      "name": "NULL",
+      "rarity": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstudentId\titemId\tisEquipped\tname\trarity\n1\t1\t2\t0\tウィザードハット\trare\n30001\t1\t30047\t0\tNULL\tNULL\n30002\t1\t30125\t0\tNULL\tNULL\n30003\t1\t30413\t0\tNULL\tNULL\n30004\t1\t30129\t0\tNULL\tNULL\n30005\t1\t30430\t0\tNULL\tNULL\n30006\t1\t30111\t0\tNULL\tNULL\n30007\t1\t30108\t0\tNULL\tNULL\n30008\t1\t30070\t0\tNULL\tNULL\n30009\t1\t30109\t0\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 1548
+}

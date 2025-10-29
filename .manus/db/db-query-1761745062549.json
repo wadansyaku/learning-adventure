@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) as total_gacha_items FROM gachaItems",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT COUNT(*) as total_gacha_items FROM gachaItems",
+  "rows": [
+    {
+      "total_gacha_items": "35"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_gacha_items\n35\n",
+  "stderr": "",
+  "execution_time_ms": 1559
+}
