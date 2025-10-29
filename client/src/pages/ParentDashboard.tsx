@@ -9,7 +9,7 @@ import {
   BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, 
   ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar
 } from 'recharts';
-import { TrendingUp, Target, Clock, Activity, User, BarChart3, Brain, CheckCircle2 } from "lucide-react";
+import { TrendingUp, Target, Clock, Activity, User, BarChart3, Brain, CheckCircle2, MessageCircle } from "lucide-react";
 
 export default function ParentDashboard() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
@@ -124,7 +124,18 @@ export default function ParentDashboard() {
                 <p className="text-sm text-slate-400">お子様: {selectedChild.displayName}</p>
               </div>
             </div>
-            <RoleSwitcher />
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setLocation('/parent/conversations')}
+                className="bg-purple-600 hover:bg-purple-700 text-white border-purple-500"
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                会話履歴
+              </Button>
+              <RoleSwitcher />
+            </div>
           </div>
         </div>
       </div>

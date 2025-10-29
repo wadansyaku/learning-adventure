@@ -272,23 +272,6 @@ export default function StudentDashboard() {
             </div>
           </Card>
 
-          {/* ぼうけん */}
-          <Card className="p-6 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-orange-50 to-red-50 border-2 border-orange-200 hover:border-orange-400">
-            <div className="text-center mb-4">
-              <div className="text-6xl mb-3">🗺️</div>
-              <h3 className="text-2xl font-bold text-orange-800 mb-2">ぼうけん</h3>
-              <p className="text-base text-orange-600 min-h-[48px] flex items-center justify-center">
-                たのしいおはなしをよもう!
-              </p>
-            </div>
-            <Button 
-              className="w-full text-lg py-6 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold shadow-lg"
-              onClick={() => setLocation('/story')}
-            >
-              ぼうけんへ 🗺️
-            </Button>
-          </Card>
-
           {/* スペシャルクエスト */}
           <Card className="p-6 hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-indigo-50 to-blue-50 border-2 border-indigo-200 hover:border-indigo-400">
             <div className="text-center mb-4">

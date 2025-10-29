@@ -12,16 +12,16 @@ import ParentDashboard from "./pages/ParentDashboard";
 import ProblemPlay from "./pages/ProblemPlay";
 import CreateTask from "./pages/CreateTask";
 import CreateProblem from "./pages/CreateProblem";
-import Story from "./pages/Story";
-import StoryDetail from "./pages/StoryDetail";
+
 
 import Achievements from "./pages/Achievements";
 import CharacterSelect from "./pages/CharacterSelect";
 import Tasks from "./pages/Tasks";
-import QuestComplete from './pages/QuestComplete';
+
 import Ranking from './pages/Ranking';
 import Inventory from './pages/Inventory';
 import TeacherConversations from './pages/TeacherConversations';
+import ParentConversations from './pages/ParentConversations';
 
 function Router() {
   return (
@@ -30,13 +30,11 @@ function Router() {
       <Route path={"/student"} component={StudentDashboard} />
       <Route path={"/teacher"} component={TeacherDashboard} />
       <Route path={"/gacha"} component={Gacha} />
-      <Route path={"/story"} component={Story} />
-      <Route path={"/story/:id"} component={StoryDetail} />
+
       <Route path={"/achievements"} component={Achievements} />
 
       <Route path={"/character-select"} component={CharacterSelect} />
-      <Route path={"/tasks"} component={Tasks} />
-      <Route path={"/quest/:id"} component={QuestComplete} />      <Route path={"/ranking"} component={Ranking} />
+      <Route path={"/tasks"} component={Tasks} />      <Route path={"/ranking"} component={Ranking} />
       <Route path={"/inventory"} component={Inventory} />
       <Route path={"/parent"} component={ParentDashboard} />
       <Route path={"/play"} component={ProblemPlay} />
@@ -44,6 +42,8 @@ function Router() {
       <Route path={"/teacher/create-problem"} component={CreateProblem} />
       <Route path={"/teacher/conversations/:studentId"} component={TeacherConversations} />
       <Route path={"/teacher/conversations"} component={TeacherConversations} />
+      <Route path={"/parent/conversations/:studentId"} component={ParentConversations} />
+      <Route path={"/parent/conversations"} component={ParentConversations} />
       <Route path={"/404"} component={NotFound} />
       <Route component={NotFound} />
     </Switch>
