@@ -293,6 +293,29 @@ export const appRouter = router({
         const content = response.choices[0].message.content;
         const responseText = typeof content === 'string' ? content : 'ごめんね、よくわからなかったよ 😅';
         
+        // OpenAI使用状況を記録
+        if (response.usage) {
+          const inputTokens = response.usage.prompt_tokens || 0;
+          const outputTokens = response.usage.completion_tokens || 0;
+          const totalTokens = response.usage.total_tokens || 0;
+          
+          // GPT-3.5-turboの価格: $0.0015/1K input tokens, $0.002/1K output tokens
+          const inputCost = (inputTokens / 1000) * 0.0015;
+          const outputCost = (outputTokens / 1000) * 0.002;
+          const totalCost = inputCost + outputCost;
+          
+          await db.logOpenAIUsage({
+            userId: ctx.user.id,
+            endpoint: 'character.chat',
+            model: 'gpt-3.5-turbo',
+            promptTokens: inputTokens,
+            completionTokens: outputTokens,
+            totalTokens,
+            estimatedCost: totalCost.toFixed(4),
+            purpose: 'character_chat',
+          });
+        }
+        
         return { 
           response: responseText
         };
