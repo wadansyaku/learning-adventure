@@ -264,11 +264,30 @@ export default function StudentDashboard() {
           </Card>
         </div>
 
+        {/* ランキングボタン */}
+        <Card className="p-6 mb-8 bg-gradient-to-r from-purple-100 to-indigo-100">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="text-5xl">🏆</div>
+              <div>
+                <h3 className="text-2xl font-bold mb-1">ランキング</h3>
+                <p className="text-muted-foreground">みんなとせいせきをくらべよう!</p>
+              </div>
+            </div>
+            <Button 
+              className="btn-fun bg-gradient-to-r from-purple-500 to-indigo-500 text-white"
+              onClick={() => setLocation('/ranking')}
+            >
+              ランキングをみる 🏆
+            </Button>
+          </div>
+        </Card>
+
         {/* 実績ボタン */}
         <Card className="p-6 mb-8 bg-gradient-to-r from-yellow-100 to-orange-100">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="text-5xl">🏆</div>
+              <div className="text-5xl">🎖️</div>
               <div>
                 <h3 className="text-2xl font-bold mb-1">じっせき</h3>
                 <p className="text-muted-foreground">あちこうしたことをみよう!</p>
@@ -278,7 +297,7 @@ export default function StudentDashboard() {
               className="btn-fun bg-gradient-to-r from-yellow-500 to-orange-500 text-white"
               onClick={() => setLocation('/achievements')}
             >
-              じっせきをみる 🏆
+              じっせきをみる 🎖️
             </Button>
           </div>
         </Card>

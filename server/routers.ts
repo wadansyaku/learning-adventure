@@ -10,17 +10,13 @@ import { teacherRouter } from "./routers/teacher";
 import { parentRouter } from "./routers/parent";
 import { adminRouter } from "./routers/admin";
 import { taskRouter } from "./routers/task";
-import { characterRouter } from "./routers/character";
-import { gachaRouter } from "./routers/gacha";
-import { problemRouter } from "./routers/problem";
-import { storyRouter } from "./routers/story";
-import { 
-  itemRouter, 
-  treasureRouter, 
-  achievementRouter, 
-  dailyMissionRouter, 
-  progressRouter 
-} from "./routers/misc";
+import { characterRouter } from './routers/character';
+import { gachaRouter } from './routers/gacha';
+import { problemRouter } from './routers/problem';
+import { storyRouter } from './routers/story';
+import { itemRouter, treasureRouter, achievementRouter, dailyMissionRouter, progressRouter } from './routers/misc';
+import { badgeRouter } from './routers/badge';
+import { rankingRouter } from './routers/ranking';
 
 export const appRouter = router({
   system: systemRouter,
@@ -72,6 +68,8 @@ export const appRouter = router({
   gacha: gachaRouter,
   problem: problemRouter,
   story: storyRouter,
+  badge: badgeRouter,
+  ranking: rankingRouter,
   item: itemRouter,
   treasure: treasureRouter,
   achievement: achievementRouter,

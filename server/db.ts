@@ -28,7 +28,10 @@ import {
   dailyMissions,
   studentDailyProgress,
   teachers,
-  teacherStudents
+  teacherStudents,
+  parents,
+  badges,
+  studentBadges
 } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
@@ -1108,5 +1111,285 @@ export async function checkStudentUsageLimits(studentId: number) {
       oneMonth: { cost: oneMonthCostJPY, limit: limits.oneMonth, percent: oneMonthPercent },
     },
     maxPercent,
+  };
+}
+
+
+/**
+ * Get all badges
+ */
+export async function getAllBadges() {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  return await database.select().from(badges);
+}
+
+/**
+ * Get student's earned badges
+ */
+export async function getStudentBadges(studentId: number) {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  const earnedBadges = await database
+    .select({
+      id: studentBadges.id,
+      badgeId: studentBadges.badgeId,
+      earnedAt: studentBadges.earnedAt,
+      name: badges.name,
+      description: badges.description,
+      icon: badges.icon,
+      rarity: badges.rarity,
+    })
+    .from(studentBadges)
+    .leftJoin(badges, eq(studentBadges.badgeId, badges.id))
+    .where(eq(studentBadges.studentId, studentId));
+  
+  return earnedBadges;
+}
+
+/**
+ * Award badge to student
+ */
+export async function awardBadge(studentId: number, badgeId: number) {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  // Check if student already has this badge
+  const existing = await database
+    .select()
+    .from(studentBadges)
+    .where(
+      and(
+        eq(studentBadges.studentId, studentId),
+        eq(studentBadges.badgeId, badgeId)
+      )
+    )
+    .limit(1);
+  
+  if (existing.length > 0) {
+    return null; // Already has this badge
+  }
+  
+  // Award the badge
+  await database.insert(studentBadges).values({
+    studentId,
+    badgeId,
+  });
+  
+  return badgeId;
+}
+
+/**
+ * Check and award badges based on student progress
+ */
+export async function checkAndAwardBadges(studentId: number) {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  const student = await getStudentByUserId(studentId);
+  if (!student) return [];
+  
+  const allBadges = await getAllBadges();
+  const newBadges = [];
+  
+  for (const badge of allBadges) {
+    const condition = JSON.parse(badge.condition);
+    let shouldAward = false;
+    
+    switch (condition.type) {
+      case 'first_login':
+        shouldAward = true; // Award on first check
+        break;
+      
+      case 'problems_solved':
+        const solvedCount = await database
+          .select({ count: sql<number>`count(*)` })
+          .from(studentProgress)
+          .where(
+            and(
+              eq(studentProgress.studentId, student.id),
+              eq(studentProgress.isCorrect, true)
+            )
+          );
+        shouldAward = (solvedCount[0]?.count || 0) >= condition.count;
+        break;
+      
+      case 'coins_earned':
+        shouldAward = student.coins >= condition.count;
+        break;
+      
+      case 'gems_earned':
+        shouldAward = student.gems >= condition.count;
+        break;
+      
+      case 'login_streak':
+        shouldAward = student.loginStreak >= condition.days;
+        break;
+      
+      case 'level_reached':
+        shouldAward = student.level >= condition.level;
+        break;
+      
+      case 'quests_completed':
+        const completedQuests = await database
+          .select({ count: sql<number>`count(*)` })
+          .from(tasks)
+          .where(
+            and(
+              eq(tasks.studentId, student.id),
+              eq(tasks.status, 'completed')
+            )
+          );
+        shouldAward = (completedQuests[0]?.count || 0) >= condition.count;
+        break;
+      
+      case 'stories_completed':
+        const completedStories = await database
+          .select({ count: sql<number>`count(*)` })
+          .from(studentStoryProgress)
+          .where(
+            and(
+              eq(studentStoryProgress.studentId, student.id),
+              sql`${studentStoryProgress.completedAt} IS NOT NULL`
+            )
+          );
+        shouldAward = (completedStories[0]?.count || 0) >= condition.count;
+        break;
+    }
+    
+    if (shouldAward) {
+      const awarded = await awardBadge(student.id, badge.id);
+      if (awarded) {
+        newBadges.push(badge);
+      }
+    }
+  }
+  
+  return newBadges;
+}
+
+
+// ==================== Ranking Functions ====================
+
+export async function getGlobalRanking(limit: number = 100) {
+  const database = await getDb();
+  if (!database) return [];
+  
+  return await database
+    .select({
+      studentId: students.id,
+      displayName: students.displayName,
+      avatarIcon: students.avatarIcon,
+      level: students.level,
+      xp: students.xp,
+      coins: students.coins,
+      gems: students.gems,
+    })
+    .from(students)
+    .orderBy(desc(students.level), desc(students.xp))
+    .limit(limit);
+}
+
+export async function getWeeklyRanking(limit: number = 100) {
+  const database = await getDb();
+  if (!database) return [];
+  
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  
+  // Get students with their weekly XP gain
+  const weeklyProgress = await database
+    .select({
+      studentId: studentProgress.studentId,
+      weeklyXP: sql<number>`SUM(${studentProgress.xpEarned})`.as('weeklyXP'),
+    })
+    .from(studentProgress)
+    .where(gte(studentProgress.attemptedAt, oneWeekAgo))
+    .groupBy(studentProgress.studentId)
+    .orderBy(desc(sql`SUM(${studentProgress.xpEarned})`))
+    .limit(limit);
+  
+  // Join with students table to get display info
+  const studentIds = weeklyProgress.map(p => p.studentId);
+  if (studentIds.length === 0) return [];
+  
+  const studentsData = await database
+    .select()
+    .from(students)
+    .where(sql`${students.id} IN (${sql.join(studentIds.map(id => sql`${id}`), sql`, `)})`);
+  
+  return weeklyProgress.map(wp => {
+    const student = studentsData.find(s => s.id === wp.studentId);
+    return {
+      studentId: wp.studentId,
+      displayName: student?.displayName || '不明',
+      avatarIcon: student?.avatarIcon || '🐰',
+      level: student?.level || 1,
+      weeklyXP: wp.weeklyXP,
+    };
+  });
+}
+
+export async function getMonthlyRanking(limit: number = 100) {
+  const database = await getDb();
+  if (!database) return [];
+  
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+  
+  // Get students with their monthly XP gain
+  const monthlyProgress = await database
+    .select({
+      studentId: studentProgress.studentId,
+      monthlyXP: sql<number>`SUM(${studentProgress.xpEarned})`.as('monthlyXP'),
+    })
+    .from(studentProgress)
+    .where(gte(studentProgress.attemptedAt, oneMonthAgo))
+    .groupBy(studentProgress.studentId)
+    .orderBy(desc(sql`SUM(${studentProgress.xpEarned})`))
+    .limit(limit);
+  
+  // Join with students table to get display info
+  const studentIds = monthlyProgress.map(p => p.studentId);
+  if (studentIds.length === 0) return [];
+  
+  const studentsData = await database
+    .select()
+    .from(students)
+    .where(sql`${students.id} IN (${sql.join(studentIds.map(id => sql`${id}`), sql`, `)})`);
+  
+  return monthlyProgress.map(mp => {
+    const student = studentsData.find(s => s.id === mp.studentId);
+    return {
+      studentId: mp.studentId,
+      displayName: student?.displayName || '不明',
+      avatarIcon: student?.avatarIcon || '🐰',
+      level: student?.level || 1,
+      monthlyXP: mp.monthlyXP,
+    };
+  });
+}
+
+export async function getStudentRank(studentId: number) {
+  const database = await getDb();
+  if (!database) return null;
+  
+  // Get global rank
+  const allStudents = await database
+    .select({
+      id: students.id,
+      level: students.level,
+      xp: students.xp,
+    })
+    .from(students)
+    .orderBy(desc(students.level), desc(students.xp));
+  
+  const globalRank = allStudents.findIndex(s => s.id === studentId) + 1;
+  
+  return {
+    globalRank,
+    totalStudents: allStudents.length,
   };
 }

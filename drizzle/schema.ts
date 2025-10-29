@@ -415,3 +415,33 @@ export const teacherStudents = mysqlTable("teacherStudents", {
 
 export type TeacherStudent = typeof teacherStudents.$inferSelect;
 export type InsertTeacherStudent = typeof teacherStudents.$inferInsert;
+
+
+/**
+ * Badges - バッジマスターデータ
+ */
+export const badges = mysqlTable("badges", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(), // バッジ名
+  description: text("description").notNull(), // バッジの説明
+  icon: varchar("icon", { length: 255 }), // アイコン（絵文字またはURL）
+  rarity: mysqlEnum("rarity", ["common", "rare", "epic", "legendary"]).default("common").notNull(),
+  condition: text("condition").notNull(), // 獲得条件（JSON）
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Badge = typeof badges.$inferSelect;
+export type InsertBadge = typeof badges.$inferInsert;
+
+/**
+ * Student Badges - 生徒が獲得したバッジ
+ */
+export const studentBadges = mysqlTable("studentBadges", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("studentId").notNull().references(() => students.id),
+  badgeId: int("badgeId").notNull().references(() => badges.id),
+  earnedAt: timestamp("earnedAt").defaultNow().notNull(),
+});
+
+export type StudentBadge = typeof studentBadges.$inferSelect;
+export type InsertStudentBadge = typeof studentBadges.$inferInsert;
