@@ -85,6 +85,13 @@
       "when": 1761731872594,
       "tag": "0011_nifty_fabian_cortez",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1761738714192,
+      "tag": "0012_majestic_genesis",
+      "breakpoints": true
     }
   ]
 }

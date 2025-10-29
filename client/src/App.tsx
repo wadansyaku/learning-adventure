@@ -14,7 +14,7 @@ import CreateTask from "./pages/CreateTask";
 import CreateProblem from "./pages/CreateProblem";
 import Story from "./pages/Story";
 import StoryDetail from "./pages/StoryDetail";
-import CharacterChat from "./pages/CharacterChat";
+
 import Achievements from "./pages/Achievements";
 import CharacterSelect from "./pages/CharacterSelect";
 import Tasks from "./pages/Tasks";
@@ -32,7 +32,7 @@ function Router() {
       <Route path={"/story"} component={Story} />
       <Route path={"/story/:id"} component={StoryDetail} />
       <Route path={"/achievements"} component={Achievements} />
-      <Route path={"/chat"} component={CharacterChat} />
+
       <Route path={"/character-select"} component={CharacterSelect} />
       <Route path={"/tasks"} component={Tasks} />
       <Route path={"/quest/:id"} component={QuestComplete} />      <Route path={"/ranking"} component={Ranking} />

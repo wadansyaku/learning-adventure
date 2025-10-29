@@ -456,6 +456,8 @@ export const aiConversations = mysqlTable("aiConversations", {
   aiResponse: text("aiResponse").notNull(), // AIの返答
   tokensUsed: int("tokensUsed").default(0).notNull(), // 使用トークン数
   model: varchar("model", { length: 50 }).default("gpt-3.5-turbo").notNull(), // 使用モデル
+  sentiment: mysqlEnum("sentiment", ["positive", "neutral", "negative"]), // 感情分析結果
+  topics: text("topics"), // トピック（JSON配列）
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 

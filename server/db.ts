@@ -1543,3 +1543,105 @@ export async function unequipStudentItem(studentItemId: number) {
     .set({ isEquipped: false })
     .where(eq(studentItems.id, studentItemId));
 }
+
+
+// ========================================
+// AI Conversation Functions
+// ========================================
+
+/**
+ * Get conversation history for a student
+ */
+export async function getConversationHistory(studentId: number, limit: number = 50) {
+  const database = await getDb();
+  if (!database) return [];
+  
+  return await database
+    .select()
+    .from(aiConversations)
+    .where(eq(aiConversations.studentId, studentId))
+    .orderBy(desc(aiConversations.createdAt))
+    .limit(limit);
+}
+
+/**
+ * Get conversation history with sentiment filter
+ */
+export async function getConversationHistoryBySentiment(
+  studentId: number,
+  sentiment: 'positive' | 'neutral' | 'negative',
+  limit: number = 50
+) {
+  const database = await getDb();
+  if (!database) return [];
+  
+  return await database
+    .select()
+    .from(aiConversations)
+    .where(
+      and(
+        eq(aiConversations.studentId, studentId),
+        eq(aiConversations.sentiment, sentiment)
+      )
+    )
+    .orderBy(desc(aiConversations.createdAt))
+    .limit(limit);
+}
+
+/**
+ * Get sentiment distribution for a student
+ */
+export async function getSentimentDistribution(studentId: number) {
+  const database = await getDb();
+  if (!database) return { positive: 0, neutral: 0, negative: 0, total: 0 };
+  
+  const conversations = await database
+    .select()
+    .from(aiConversations)
+    .where(eq(aiConversations.studentId, studentId));
+
+  const distribution = {
+    positive: 0,
+    neutral: 0,
+    negative: 0,
+    total: conversations.length,
+  };
+
+  conversations.forEach((conv) => {
+    if (conv.sentiment === 'positive') distribution.positive++;
+    else if (conv.sentiment === 'neutral') distribution.neutral++;
+    else if (conv.sentiment === 'negative') distribution.negative++;
+  });
+
+  return distribution;
+}
+
+/**
+ * Get topic distribution for a student
+ */
+export async function getTopicDistribution(studentId: number) {
+  const database = await getDb();
+  if (!database) return {};
+  
+  const conversations = await database
+    .select()
+    .from(aiConversations)
+    .where(eq(aiConversations.studentId, studentId));
+
+  const topicCounts: { [key: string]: number } = {};
+
+  conversations.forEach((conv) => {
+    if (conv.topics) {
+      try {
+        const topics = JSON.parse(conv.topics);
+        topics.forEach((topic: string) => {
+          topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+        });
+      } catch (e) {
+        // Ignore JSON parse errors
+      }
+    }
+  });
+
+  return topicCounts;
+}

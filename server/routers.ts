@@ -11,7 +11,7 @@ import { teacherRouter } from "./routers/teacher";
 import { parentRouter } from "./routers/parent";
 import { adminRouter } from "./routers/admin";
 import { taskRouter } from "./routers/task";
-import { characterRouter } from './routers/character';
+
 import { gachaRouter } from './routers/gacha';
 import { problemRouter } from './routers/problem';
 import { storyRouter } from './routers/story';
@@ -72,7 +72,7 @@ export const appRouter = router({
   parent: parentRouter,
   admin: adminRouter,
   task: taskRouter,
-  character: characterRouter,
+
   gacha: gachaRouter,
   problem: problemRouter,
   story: storyRouter,
