@@ -73,8 +73,8 @@ export default function StudentDashboard() {
     if (!authLoading && !isAuthenticated) {
       console.log('[StudentDashboard] Redirecting to home - not authenticated');
       setLocation('/');
-    } else if (!authLoading && isAuthenticated && user?.role !== 'student') {
-      console.log('[StudentDashboard] Redirecting to home - not student');
+    } else if (!authLoading && isAuthenticated && user?.role !== 'student' && user?.role !== 'admin') {
+      console.log('[StudentDashboard] Redirecting to home - not student or admin');
       setLocation('/');
     }
   }, [authLoading, isAuthenticated, user, setLocation]);

@@ -1,0 +1,766 @@
+{
+  "query": "\nSELECT id, name, description, iconUrl, condition, xpReward, coinReward\nFROM achievements\nORDER BY name, id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute \nSELECT id, name, description, iconUrl, condition, xpReward, coinReward\nFROM achievements\nORDER BY name, id;\n",
+  "rows": [
+    {
+      "id": "30004",
+      "name": "100もんクリア",
+      "description": "100このもんだいをといたよ!",
+      "iconUrl": "💫",
+      "condition": "solve_100_problems",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30024",
+      "name": "100もんクリア",
+      "description": "100このもんだいをといたよ!",
+      "iconUrl": "💫",
+      "condition": "solve_100_problems",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30044",
+      "name": "100もんクリア",
+      "description": "100このもんだいをといたよ!",
+      "iconUrl": "💫",
+      "condition": "solve_100_problems",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30064",
+      "name": "100もんクリア",
+      "description": "100このもんだいをといたよ!",
+      "iconUrl": "💫",
+      "condition": "solve_100_problems",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30002",
+      "name": "10もんクリア",
+      "description": "10このもんだいをといたよ!",
+      "iconUrl": "⭐",
+      "condition": "solve_10_problems",
+      "xpReward": "100",
+      "coinReward": "50"
+    },
+    {
+      "id": "30022",
+      "name": "10もんクリア",
+      "description": "10このもんだいをといたよ!",
+      "iconUrl": "⭐",
+      "condition": "solve_10_problems",
+      "xpReward": "100",
+      "coinReward": "50"
+    },
+    {
+      "id": "30042",
+      "name": "10もんクリア",
+      "description": "10このもんだいをといたよ!",
+      "iconUrl": "⭐",
+      "condition": "solve_10_problems",
+      "xpReward": "100",
+      "coinReward": "50"
+    },
+    {
+      "id": "30062",
+      "name": "10もんクリア",
+      "description": "10このもんだいをといたよ!",
+      "iconUrl": "⭐",
+      "condition": "solve_10_problems",
+      "xpReward": "100",
+      "coinReward": "50"
+    },
+    {
+      "id": "30003",
+      "name": "50もんクリア",
+      "description": "50このもんだいをといたよ!",
+      "iconUrl": "🌟",
+      "condition": "solve_50_problems",
+      "xpReward": "200",
+      "coinReward": "100"
+    },
+    {
+      "id": "30023",
+      "name": "50もんクリア",
+      "description": "50このもんだいをといたよ!",
+      "iconUrl": "🌟",
+      "condition": "solve_50_problems",
+      "xpReward": "200",
+      "coinReward": "100"
+    },
+    {
+      "id": "30043",
+      "name": "50もんクリア",
+      "description": "50このもんだいをといたよ!",
+      "iconUrl": "🌟",
+      "condition": "solve_50_problems",
+      "xpReward": "200",
+      "coinReward": "100"
+    },
+    {
+      "id": "30063",
+      "name": "50もんクリア",
+      "description": "50このもんだいをといたよ!",
+      "iconUrl": "🌟",
+      "condition": "solve_50_problems",
+      "xpReward": "200",
+      "coinReward": "100"
+    },
+    {
+      "id": "30011",
+      "name": "おかねもち",
+      "description": "1000コインためたよ!",
+      "iconUrl": "💰",
+      "condition": "earn_1000_coins",
+      "xpReward": "300",
+      "coinReward": "0"
+    },
+    {
+      "id": "30031",
+      "name": "おかねもち",
+      "description": "1000コインためたよ!",
+      "iconUrl": "💰",
+      "condition": "earn_1000_coins",
+      "xpReward": "300",
+      "coinReward": "0"
+    },
+    {
+      "id": "30051",
+      "name": "おかねもち",
+      "description": "1000コインためたよ!",
+      "iconUrl": "💰",
+      "condition": "earn_1000_coins",
+      "xpReward": "300",
+      "coinReward": "0"
+    },
+    {
+      "id": "30071",
+      "name": "おかねもち",
+      "description": "1000コインためたよ!",
+      "iconUrl": "💰",
+      "condition": "earn_1000_coins",
+      "xpReward": "300",
+      "coinReward": "0"
+    },
+    {
+      "id": "30020",
+      "name": "きせき",
+      "description": "すべてのじっせきをかくとくしたよ!",
+      "iconUrl": "🌈",
+      "condition": "unlock_all_achievements",
+      "xpReward": "5000",
+      "coinReward": "2500"
+    },
+    {
+      "id": "30040",
+      "name": "きせき",
+      "description": "すべてのじっせきをかくとくしたよ!",
+      "iconUrl": "🌈",
+      "condition": "unlock_all_achievements",
+      "xpReward": "5000",
+      "coinReward": "2500"
+    },
+    {
+      "id": "30060",
+      "name": "きせき",
+      "description": "すべてのじっせきをかくとくしたよ!",
+      "iconUrl": "🌈",
+      "condition": "unlock_all_achievements",
+      "xpReward": "5000",
+      "coinReward": "2500"
+    },
+    {
+      "id": "30080",
+      "name": "きせき",
+      "description": "すべてのじっせきをかくとくしたよ!",
+      "iconUrl": "🌈",
+      "condition": "unlock_all_achievements",
+      "xpReward": "5000",
+      "coinReward": "2500"
+    },
+    {
+      "id": "30019",
+      "name": "さんすうてんさい",
+      "description": "すべてのもんだいタイプをマスターしたよ!",
+      "iconUrl": "🧮",
+      "condition": "master_all_types",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30039",
+      "name": "さんすうてんさい",
+      "description": "すべてのもんだいタイプをマスターしたよ!",
+      "iconUrl": "🧮",
+      "condition": "master_all_types",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30059",
+      "name": "さんすうてんさい",
+      "description": "すべてのもんだいタイプをマスターしたよ!",
+      "iconUrl": "🧮",
+      "condition": "master_all_types",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30079",
+      "name": "さんすうてんさい",
+      "description": "すべてのもんだいタイプをマスターしたよ!",
+      "iconUrl": "🧮",
+      "condition": "master_all_types",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30017",
+      "name": "たしざんマスター",
+      "description": "たしざんを100もんといたよ!",
+      "iconUrl": "➕",
+      "condition": "solve_100_addition",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30037",
+      "name": "たしざんマスター",
+      "description": "たしざんを100もんといたよ!",
+      "iconUrl": "➕",
+      "condition": "solve_100_addition",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30057",
+      "name": "たしざんマスター",
+      "description": "たしざんを100もんといたよ!",
+      "iconUrl": "➕",
+      "condition": "solve_100_addition",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30077",
+      "name": "たしざんマスター",
+      "description": "たしざんを100もんといたよ!",
+      "iconUrl": "➕",
+      "condition": "solve_100_addition",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30012",
+      "name": "だいふごう",
+      "description": "5000コインためたよ!",
+      "iconUrl": "💎",
+      "condition": "earn_5000_coins",
+      "xpReward": "1000",
+      "coinReward": "0"
+    },
+    {
+      "id": "30032",
+      "name": "だいふごう",
+      "description": "5000コインためたよ!",
+      "iconUrl": "💎",
+      "condition": "earn_5000_coins",
+      "xpReward": "1000",
+      "coinReward": "0"
+    },
+    {
+      "id": "30052",
+      "name": "だいふごう",
+      "description": "5000コインためたよ!",
+      "iconUrl": "💎",
+      "condition": "earn_5000_coins",
+      "xpReward": "1000",
+      "coinReward": "0"
+    },
+    {
+      "id": "30072",
+      "name": "だいふごう",
+      "description": "5000コインためたよ!",
+      "iconUrl": "💎",
+      "condition": "earn_5000_coins",
+      "xpReward": "1000",
+      "coinReward": "0"
+    },
+    {
+      "id": "30010",
+      "name": "つづけるちから",
+      "description": "30にちれんぞくでログインしたよ!",
+      "iconUrl": "🏅",
+      "condition": "login_streak_30",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30030",
+      "name": "つづけるちから",
+      "description": "30にちれんぞくでログインしたよ!",
+      "iconUrl": "🏅",
+      "condition": "login_streak_30",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30050",
+      "name": "つづけるちから",
+      "description": "30にちれんぞくでログインしたよ!",
+      "iconUrl": "🏅",
+      "condition": "login_streak_30",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30070",
+      "name": "つづけるちから",
+      "description": "30にちれんぞくでログインしたよ!",
+      "iconUrl": "🏅",
+      "condition": "login_streak_30",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30016",
+      "name": "でんせつのゆうしゃ",
+      "description": "すべてのストーリーをクリアしたよ!",
+      "iconUrl": "👑",
+      "condition": "complete_all_chapters",
+      "xpReward": "2000",
+      "coinReward": "1000"
+    },
+    {
+      "id": "30036",
+      "name": "でんせつのゆうしゃ",
+      "description": "すべてのストーリーをクリアしたよ!",
+      "iconUrl": "👑",
+      "condition": "complete_all_chapters",
+      "xpReward": "2000",
+      "coinReward": "1000"
+    },
+    {
+      "id": "30056",
+      "name": "でんせつのゆうしゃ",
+      "description": "すべてのストーリーをクリアしたよ!",
+      "iconUrl": "👑",
+      "condition": "complete_all_chapters",
+      "xpReward": "2000",
+      "coinReward": "1000"
+    },
+    {
+      "id": "30076",
+      "name": "でんせつのゆうしゃ",
+      "description": "すべてのストーリーをクリアしたよ!",
+      "iconUrl": "👑",
+      "condition": "complete_all_chapters",
+      "xpReward": "2000",
+      "coinReward": "1000"
+    },
+    {
+      "id": "1",
+      "name": "はじめのいっぽ",
+      "description": "はじめてもんだいをといたよ!",
+      "iconUrl": "NULL",
+      "condition": "{\"type\":\"first_problem\"}",
+      "xpReward": "10",
+      "coinReward": "5"
+    },
+    {
+      "id": "30001",
+      "name": "はじめのいっぽ",
+      "description": "さいしょのもんだいをといたよ!",
+      "iconUrl": "🎯",
+      "condition": "solve_1_problem",
+      "xpReward": "50",
+      "coinReward": "20"
+    },
+    {
+      "id": "30021",
+      "name": "はじめのいっぽ",
+      "description": "さいしょのもんだいをといたよ!",
+      "iconUrl": "🎯",
+      "condition": "solve_1_problem",
+      "xpReward": "50",
+      "coinReward": "20"
+    },
+    {
+      "id": "30041",
+      "name": "はじめのいっぽ",
+      "description": "さいしょのもんだいをといたよ!",
+      "iconUrl": "🎯",
+      "condition": "solve_1_problem",
+      "xpReward": "50",
+      "coinReward": "20"
+    },
+    {
+      "id": "30061",
+      "name": "はじめのいっぽ",
+      "description": "さいしょのもんだいをといたよ!",
+      "iconUrl": "🎯",
+      "condition": "solve_1_problem",
+      "xpReward": "50",
+      "coinReward": "20"
+    },
+    {
+      "id": "30018",
+      "name": "ひきざんマスター",
+      "description": "ひきざんを100もんといたよ!",
+      "iconUrl": "➖",
+      "condition": "solve_100_subtraction",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30038",
+      "name": "ひきざんマスター",
+      "description": "ひきざんを100もんといたよ!",
+      "iconUrl": "➖",
+      "condition": "solve_100_subtraction",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30058",
+      "name": "ひきざんマスター",
+      "description": "ひきざんを100もんといたよ!",
+      "iconUrl": "➖",
+      "condition": "solve_100_subtraction",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30078",
+      "name": "ひきざんマスター",
+      "description": "ひきざんを100もんといたよ!",
+      "iconUrl": "➖",
+      "condition": "solve_100_subtraction",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30015",
+      "name": "ぼうけんしゃ",
+      "description": "ストーリーを5しょうクリアしたよ!",
+      "iconUrl": "🗺️",
+      "condition": "complete_5_chapters",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30035",
+      "name": "ぼうけんしゃ",
+      "description": "ストーリーを5しょうクリアしたよ!",
+      "iconUrl": "🗺️",
+      "condition": "complete_5_chapters",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30055",
+      "name": "ぼうけんしゃ",
+      "description": "ストーリーを5しょうクリアしたよ!",
+      "iconUrl": "🗺️",
+      "condition": "complete_5_chapters",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30075",
+      "name": "ぼうけんしゃ",
+      "description": "ストーリーを5しょうクリアしたよ!",
+      "iconUrl": "🗺️",
+      "condition": "complete_5_chapters",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30009",
+      "name": "まいにちがんばる",
+      "description": "7にちれんぞくでログインしたよ!",
+      "iconUrl": "📅",
+      "condition": "login_streak_7",
+      "xpReward": "200",
+      "coinReward": "100"
+    },
+    {
+      "id": "30029",
+      "name": "まいにちがんばる",
+      "description": "7にちれんぞくでログインしたよ!",
+      "iconUrl": "📅",
+      "condition": "login_streak_7",
+      "xpReward": "200",
+      "coinReward": "100"
+    },
+    {
+      "id": "30049",
+      "name": "まいにちがんばる",
+      "description": "7にちれんぞくでログインしたよ!",
+      "iconUrl": "📅",
+      "condition": "login_streak_7",
+      "xpReward": "200",
+      "coinReward": "100"
+    },
+    {
+      "id": "30069",
+      "name": "まいにちがんばる",
+      "description": "7にちれんぞくでログインしたよ!",
+      "iconUrl": "📅",
+      "condition": "login_streak_7",
+      "xpReward": "200",
+      "coinReward": "100"
+    },
+    {
+      "id": "3",
+      "name": "もんだいマスター",
+      "description": "10もんせいかいしたよ!",
+      "iconUrl": "NULL",
+      "condition": "{\"type\":\"correct_answers\",\"count\":10}",
+      "xpReward": "30",
+      "coinReward": "15"
+    },
+    {
+      "id": "2",
+      "name": "れんぞくログイン",
+      "description": "3にちつづけてログインしたよ!",
+      "iconUrl": "NULL",
+      "condition": "{\"type\":\"login_streak\",\"days\":3}",
+      "xpReward": "20",
+      "coinReward": "10"
+    },
+    {
+      "id": "30013",
+      "name": "ガチャマスター",
+      "description": "ガチャも50かいひいたよ!",
+      "iconUrl": "🎰",
+      "condition": "gacha_50_times",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30033",
+      "name": "ガチャマスター",
+      "description": "ガチャも50かいひいたよ!",
+      "iconUrl": "🎰",
+      "condition": "gacha_50_times",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30053",
+      "name": "ガチャマスター",
+      "description": "ガチャも50かいひいたよ!",
+      "iconUrl": "🎰",
+      "condition": "gacha_50_times",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30073",
+      "name": "ガチャマスター",
+      "description": "ガチャも50かいひいたよ!",
+      "iconUrl": "🎰",
+      "condition": "gacha_50_times",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30014",
+      "name": "コレクター",
+      "description": "アイテムも50こあつめたよ!",
+      "iconUrl": "🎁",
+      "condition": "collect_50_items",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30034",
+      "name": "コレクター",
+      "description": "アイテムも50こあつめたよ!",
+      "iconUrl": "🎁",
+      "condition": "collect_50_items",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30054",
+      "name": "コレクター",
+      "description": "アイテムも50こあつめたよ!",
+      "iconUrl": "🎁",
+      "condition": "collect_50_items",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30074",
+      "name": "コレクター",
+      "description": "アイテムも50こあつめたよ!",
+      "iconUrl": "🎁",
+      "condition": "collect_50_items",
+      "xpReward": "500",
+      "coinReward": "250"
+    },
+    {
+      "id": "30005",
+      "name": "パーフェクト",
+      "description": "10もんれんぞくでせいかいしたよ!",
+      "iconUrl": "🎊",
+      "condition": "streak_10",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30025",
+      "name": "パーフェクト",
+      "description": "10もんれんぞくでせいかいしたよ!",
+      "iconUrl": "🎊",
+      "condition": "streak_10",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30045",
+      "name": "パーフェクト",
+      "description": "10もんれんぞくでせいかいしたよ!",
+      "iconUrl": "🎊",
+      "condition": "streak_10",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30065",
+      "name": "パーフェクト",
+      "description": "10もんれんぞくでせいかいしたよ!",
+      "iconUrl": "🎊",
+      "condition": "streak_10",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30007",
+      "name": "レベル10",
+      "description": "レベル10になったよ!",
+      "iconUrl": "⚡",
+      "condition": "reach_level_10",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30027",
+      "name": "レベル10",
+      "description": "レベル10になったよ!",
+      "iconUrl": "⚡",
+      "condition": "reach_level_10",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30047",
+      "name": "レベル10",
+      "description": "レベル10になったよ!",
+      "iconUrl": "⚡",
+      "condition": "reach_level_10",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30067",
+      "name": "レベル10",
+      "description": "レベル10になったよ!",
+      "iconUrl": "⚡",
+      "condition": "reach_level_10",
+      "xpReward": "300",
+      "coinReward": "150"
+    },
+    {
+      "id": "30008",
+      "name": "レベル20",
+      "description": "レベル20になったよ!",
+      "iconUrl": "💎",
+      "condition": "reach_level_20",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30028",
+      "name": "レベル20",
+      "description": "レベル20になったよ!",
+      "iconUrl": "💎",
+      "condition": "reach_level_20",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30048",
+      "name": "レベル20",
+      "description": "レベル20になったよ!",
+      "iconUrl": "💎",
+      "condition": "reach_level_20",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30068",
+      "name": "レベル20",
+      "description": "レベル20になったよ!",
+      "iconUrl": "💎",
+      "condition": "reach_level_20",
+      "xpReward": "1000",
+      "coinReward": "500"
+    },
+    {
+      "id": "30006",
+      "name": "レベル5",
+      "description": "レベル5になったよ!",
+      "iconUrl": "🔥",
+      "condition": "reach_level_5",
+      "xpReward": "100",
+      "coinReward": "50"
+    },
+    {
+      "id": "30026",
+      "name": "レベル5",
+      "description": "レベル5になったよ!",
+      "iconUrl": "🔥",
+      "condition": "reach_level_5",
+      "xpReward": "100",
+      "coinReward": "50"
+    },
+    {
+      "id": "30046",
+      "name": "レベル5",
+      "description": "レベル5になったよ!",
+      "iconUrl": "🔥",
+      "condition": "reach_level_5",
+      "xpReward": "100",
+      "coinReward": "50"
+    },
+    {
+      "id": "30066",
+      "name": "レベル5",
+      "description": "レベル5になったよ!",
+      "iconUrl": "🔥",
+      "condition": "reach_level_5",
+      "xpReward": "100",
+      "coinReward": "50"
+    },
+    {
+      "id": "4",
+      "name": "レベルアップ!",
+      "description": "レベル5になったよ!",
+      "iconUrl": "NULL",
+      "condition": "{\"type\":\"reach_level\",\"level\":5}",
+      "xpReward": "50",
+      "coinReward": "25"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tdescription\ticonUrl\tcondition\txpReward\tcoinReward\n30004\t100もんクリア\t100このもんだいをといたよ!\t💫\tsolve_100_problems\t500\t250\n30024\t100もんクリア\t100このもんだいをといたよ!\t💫\tsolve_100_problems\t500\t250\n30044\t100もんクリア\t100このもんだいをといたよ!\t💫\tsolve_100_problems\t500\t250\n30064\t100もんクリア\t100このもんだいをといたよ!\t💫\tsolve_100_problems\t500\t250\n30002\t10もんクリア\t10このもんだいをといたよ!\t⭐\tsolve_10_problems\t100\t50\n30022\t10もんクリア\t10このもんだいをといたよ!\t⭐\tsolve_10_problems\t100\t50\n30042\t10もんクリア\t10このもんだいをといたよ!\t⭐\tsolve_10_problems\t100\t50\n30062\t10もんクリア\t10このもんだいをといたよ!\t⭐\tsolve_10_problems\t100\t50\n30003\t50もんクリア\t50このもんだいをといたよ!\t🌟\tsolve_50_problems\t200\t100\n30023\t50もんクリア\t50このもんだいをといたよ!\t🌟\tsolve_50_problems\t200\t100\n30043\t50もんクリア\t50このもんだいをといたよ!\t🌟\tsolve_50_problems\t200\t100\n30063\t50もんクリア\t50このもんだいをといたよ!\t🌟\tsolve_50_problems\t200\t100\n30011\tおかねもち\t1000コインためたよ!\t💰\tearn_1000_coins\t300\t0\n30031\tおかねもち\t1000コインためたよ!\t💰\tearn_1000_coins\t300\t0\n30051\tおかねもち\t1000コインためたよ!\t💰\tearn_1000_coins\t300\t0\n30071\tおかねもち\t1000コインためたよ!\t💰\tearn_1000_coins\t300\t0\n30020\tきせき\tすべてのじっせきをかくとくしたよ!\t🌈\tunlock_all_achievements\t5000\t2500\n30040\tきせき\tすべてのじっせきをかくとくしたよ!\t🌈\tunlock_all_achievements\t5000\t2500\n30060\tきせき\tすべてのじっせきをかくとくしたよ!\t🌈\tunlock_all_achievements\t5000\t2500\n30080\tきせき\tすべてのじっせきをかくとくしたよ!\t🌈\tunlock_all_achievements\t5000\t2500\n30019\tさんすうてんさい\tすべてのもんだいタイプをマスターしたよ!\t🧮\tmaster_all_types\t1000\t500\n30039\tさんすうてんさい\tすべてのもんだいタイプをマスターしたよ!\t🧮\tmaster_all_types\t1000\t500\n30059\tさんすうてんさい\tすべてのもんだいタイプをマスターしたよ!\t🧮\tmaster_all_types\t1000\t500\n30079\tさんすうてんさい\tすべてのもんだいタイプをマスターしたよ!\t🧮\tmaster_all_types\t1000\t500\n30017\tたしざんマスター\tたしざんを100もんといたよ!\t➕\tsolve_100_addition\t300\t150\n30037\tたしざんマスター\tたしざんを100もんといたよ!\t➕\tsolve_100_addition\t300\t150\n30057\tたしざんマスター\tたしざんを100もんといたよ!\t➕\tsolve_100_addition\t300\t150\n30077\tたしざんマスター\tたしざんを100もんといたよ!\t➕\tsolve_100_addition\t300\t150\n30012\tだいふごう\t5000コインためたよ!\t💎\tearn_5000_coins\t1000\t0\n30032\tだいふごう\t5000コインためたよ!\t💎\tearn_5000_coins\t1000\t0\n30052\tだいふごう\t5000コインためたよ!\t💎\tearn_5000_coins\t1000\t0\n30072\tだいふごう\t5000コインためたよ!\t💎\tearn_5000_coins\t1000\t0\n30010\tつづけるちから\t30にちれんぞくでログインしたよ!\t🏅\tlogin_streak_30\t1000\t500\n30030\tつづけるちから\t30にちれんぞくでログインしたよ!\t🏅\tlogin_streak_30\t1000\t500\n30050\tつづけるちから\t30にちれんぞくでログインしたよ!\t🏅\tlogin_streak_30\t1000\t500\n30070\tつづけるちから\t30にちれんぞくでログインしたよ!\t🏅\tlogin_streak_30\t1000\t500\n30016\tでんせつのゆうしゃ\tすべてのストーリーをクリアしたよ!\t👑\tcomplete_all_chapters\t2000\t1000\n30036\tでんせつのゆうしゃ\tすべてのストーリーをクリアしたよ!\t👑\tcomplete_all_chapters\t2000\t1000\n30056\tでんせつのゆうしゃ\tすべてのストーリーをクリアしたよ!\t👑\tcomplete_all_chapters\t2000\t1000\n30076\tでんせつのゆうしゃ\tすべてのストーリーをクリアしたよ!\t👑\tcomplete_all_chapters\t2000\t1000\n1\tはじめのいっぽ\tはじめてもんだいをといたよ!\tNULL\t{\"type\":\"first_problem\"}\t10\t5\n30001\tはじめのいっぽ\tさいしょのもんだいをといたよ!\t🎯\tsolve_1_problem\t50\t20\n30021\tはじめのいっぽ\tさいしょのもんだいをといたよ!\t🎯\tsolve_1_problem\t50\t20\n30041\tはじめのいっぽ\tさいしょのもんだいをといたよ!\t🎯\tsolve_1_problem\t50\t20\n30061\tはじめのいっぽ\tさいしょのもんだいをといたよ!\t🎯\tsolve_1_problem\t50\t20\n30018\tひきざんマスター\tひきざんを100もんといたよ!\t➖\tsolve_100_subtraction\t300\t150\n30038\tひきざんマスター\tひきざんを100もんといたよ!\t➖\tsolve_100_subtraction\t300\t150\n30058\tひきざんマスター\tひきざんを100もんといたよ!\t➖\tsolve_100_subtraction\t300\t150\n30078\tひきざんマスター\tひきざんを100もんといたよ!\t➖\tsolve_100_subtraction\t300\t150\n30015\tぼうけんしゃ\tストーリーを5しょうクリアしたよ!\t🗺️\tcomplete_5_chapters\t500\t250\n30035\tぼうけんしゃ\tストーリーを5しょうクリアしたよ!\t🗺️\tcomplete_5_chapters\t500\t250\n30055\tぼうけんしゃ\tストーリーを5しょうクリアしたよ!\t🗺️\tcomplete_5_chapters\t500\t250\n30075\tぼうけんしゃ\tストーリーを5しょうクリアしたよ!\t🗺️\tcomplete_5_chapters\t500\t250\n30009\tまいにちがんばる\t7にちれんぞくでログインしたよ!\t📅\tlogin_streak_7\t200\t100\n30029\tまいにちがんばる\t7にちれんぞくでログインしたよ!\t📅\tlogin_streak_7\t200\t100\n30049\tまいにちがんばる\t7にちれんぞくでログインしたよ!\t📅\tlogin_streak_7\t200\t100\n30069\tまいにちがんばる\t7にちれんぞくでログインしたよ!\t📅\tlogin_streak_7\t200\t100\n3\tもんだいマスター\t10もんせいかいしたよ!\tNULL\t{\"type\":\"correct_answers\",\"count\":10}\t30\t15\n2\tれんぞくログイン\t3にちつづけてログインしたよ!\tNULL\t{\"type\":\"login_streak\",\"days\":3}\t20\t10\n30013\tガチャマスター\tガチャも50かいひいたよ!\t🎰\tgacha_50_times\t500\t250\n30033\tガチャマスター\tガチャも50かいひいたよ!\t🎰\tgacha_50_times\t500\t250\n30053\tガチャマスター\tガチャも50かいひいたよ!\t🎰\tgacha_50_times\t500\t250\n30073\tガチャマスター\tガチャも50かいひいたよ!\t🎰\tgacha_50_times\t500\t250\n30014\tコレクター\tアイテムも50こあつめたよ!\t🎁\tcollect_50_items\t500\t250\n30034\tコレクター\tアイテムも50こあつめたよ!\t🎁\tcollect_50_items\t500\t250\n30054\tコレクター\tアイテムも50こあつめたよ!\t🎁\tcollect_50_items\t500\t250\n30074\tコレクター\tアイテムも50こあつめたよ!\t🎁\tcollect_50_items\t500\t250\n30005\tパーフェクト\t10もんれんぞくでせいかいしたよ!\t🎊\tstreak_10\t300\t150\n30025\tパーフェクト\t10もんれんぞくでせいかいしたよ!\t🎊\tstreak_10\t300\t150\n30045\tパーフェクト\t10もんれんぞくでせいかいしたよ!\t🎊\tstreak_10\t300\t150\n30065\tパーフェクト\t10もんれんぞくでせいかいしたよ!\t🎊\tstreak_10\t300\t150\n30007\tレベル10\tレベル10になったよ!\t⚡\treach_level_10\t300\t150\n30027\tレベル10\tレベル10になったよ!\t⚡\treach_level_10\t300\t150\n30047\tレベル10\tレベル10になったよ!\t⚡\treach_level_10\t300\t150\n30067\tレベル10\tレベル10になったよ!\t⚡\treach_level_10\t300\t150\n30008\tレベル20\tレベル20になったよ!\t💎\treach_level_20\t1000\t500\n30028\tレベル20\tレベル20になったよ!\t💎\treach_level_20\t1000\t500\n30048\tレベル20\tレベル20になったよ!\t💎\treach_level_20\t1000\t500\n30068\tレベル20\tレベル20になったよ!\t💎\treach_level_20\t1000\t500\n30006\tレベル5\tレベル5になったよ!\t🔥\treach_level_5\t100\t50\n30026\tレベル5\tレベル5になったよ!\t🔥\treach_level_5\t100\t50\n30046\tレベル5\tレベル5になったよ!\t🔥\treach_level_5\t100\t50\n30066\tレベル5\tレベル5になったよ!\t🔥\treach_level_5\t100\t50\n4\tレベルアップ!\tレベル5になったよ!\tNULL\t{\"type\":\"reach_level\",\"level\":5}\t50\t25\n",
+  "stderr": "",
+  "execution_time_ms": 1561
+}

@@ -1,0 +1,90 @@
+{
+  "query": "SELECT name, COUNT(*) as count FROM achievements GROUP BY name HAVING count > 1;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT name, COUNT(*) as count FROM achievements GROUP BY name HAVING count > 1;",
+  "rows": [
+    {
+      "name": "レベル10",
+      "count": "4"
+    },
+    {
+      "name": "レベル20",
+      "count": "4"
+    },
+    {
+      "name": "コレクター",
+      "count": "4"
+    },
+    {
+      "name": "でんせつのゆうしゃ",
+      "count": "4"
+    },
+    {
+      "name": "つづけるちから",
+      "count": "4"
+    },
+    {
+      "name": "10もんクリア",
+      "count": "4"
+    },
+    {
+      "name": "パーフェクト",
+      "count": "4"
+    },
+    {
+      "name": "50もんクリア",
+      "count": "4"
+    },
+    {
+      "name": "ぼうけんしゃ",
+      "count": "4"
+    },
+    {
+      "name": "ひきざんマスター",
+      "count": "4"
+    },
+    {
+      "name": "きせき",
+      "count": "4"
+    },
+    {
+      "name": "だいふごう",
+      "count": "4"
+    },
+    {
+      "name": "レベル5",
+      "count": "4"
+    },
+    {
+      "name": "さんすうてんさい",
+      "count": "4"
+    },
+    {
+      "name": "おかねもち",
+      "count": "4"
+    },
+    {
+      "name": "はじめのいっぽ",
+      "count": "5"
+    },
+    {
+      "name": "ガチャマスター",
+      "count": "4"
+    },
+    {
+      "name": "まいにちがんばる",
+      "count": "4"
+    },
+    {
+      "name": "100もんクリア",
+      "count": "4"
+    },
+    {
+      "name": "たしざんマスター",
+      "count": "4"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\tcount\nレベル10\t4\nレベル20\t4\nコレクター\t4\nでんせつのゆうしゃ\t4\nつづけるちから\t4\n10もんクリア\t4\nパーフェクト\t4\n50もんクリア\t4\nぼうけんしゃ\t4\nひきざんマスター\t4\nきせき\t4\nだいふごう\t4\nレベル5\t4\nさんすうてんさい\t4\nおかねもち\t4\nはじめのいっぽ\t5\nガチャマスター\t4\nまいにちがんばる\t4\n100もんクリア\t4\nたしざんマスター\t4\n",
+  "stderr": "",
+  "execution_time_ms": 1545
+}

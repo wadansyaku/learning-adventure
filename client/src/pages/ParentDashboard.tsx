@@ -42,7 +42,7 @@ export default function ParentDashboard() {
   );
 
   useEffect(() => {
-    if (!authLoading && (!isAuthenticated || user?.role !== 'parent')) {
+    if (!authLoading && (!isAuthenticated || (user?.role !== 'parent' && user?.role !== 'admin'))) {
       setLocation('/');
     }
   }, [authLoading, isAuthenticated, user, setLocation]);

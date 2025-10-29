@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT id, name, description, emoji, required_count, created_at\nFROM achievements\nORDER BY name, id\nLIMIT 50;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute \nSELECT id, name, description, emoji, required_count, created_at\nFROM achievements\nORDER BY name, id\nLIMIT 50;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'emoji' in 'field list'"
+  ]
+}

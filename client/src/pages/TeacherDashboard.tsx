@@ -20,7 +20,7 @@ export default function TeacherDashboard() {
   });
 
   useEffect(() => {
-    if (!authLoading && (!isAuthenticated || user?.role !== 'teacher')) {
+    if (!authLoading && (!isAuthenticated || (user?.role !== 'teacher' && user?.role !== 'admin'))) {
       setLocation('/');
     }
   }, [authLoading, isAuthenticated, user, setLocation]);

@@ -31,8 +31,23 @@ export const adminProcedure = t.procedure.use(
   t.middleware(async opts => {
     const { ctx, next } = opts;
 
-    if (!ctx.user || ctx.user.role !== 'admin') {
-      throw new TRPCError({ code: "FORBIDDEN", message: NOT_ADMIN_ERR_MSG });
+    if (!ctx.user) {
+      console.error('[adminProcedure] User not authenticated');
+      throw new TRPCError({ 
+        code: "UNAUTHORIZED", 
+        message: "認証が必要です。ログインしてください。" 
+      });
+    }
+
+    if (ctx.user.role !== 'admin') {
+      console.error('[adminProcedure] User is not admin', { 
+        userId: ctx.user.id, 
+        role: ctx.user.role 
+      });
+      throw new TRPCError({ 
+        code: "FORBIDDEN", 
+        message: NOT_ADMIN_ERR_MSG 
+      });
     }
 
     return next({

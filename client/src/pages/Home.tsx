@@ -12,33 +12,38 @@ import { Users, GraduationCap, UserCircle, BarChart3, Settings, TrendingUp } fro
 
 export default function Home() {
   const { user, loading, isAuthenticated } = useAuth();
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const utils = trpc.useUtils();
 
   // 管理者はロール切り替え不要、直接各画面にアクセス
 
   useEffect(() => {
-    console.log('[Home] Auth state:', { isAuthenticated, user, loading });
-    if (isAuthenticated && user) {
-      console.log('[Home] User authenticated, role:', user.role);
-      // ロール別にリダイレクト
-      if (user.role === 'student') {
-        console.log('[Home] Redirecting to /student');
-        setLocation('/student');
-      } else if (user.role === 'teacher') {
-        console.log('[Home] Redirecting to /teacher');
-        setLocation('/teacher');
-      } else if (user.role === 'parent') {
-        console.log('[Home] Redirecting to /parent');
-        setLocation('/parent');
-      } else if (user.role === 'admin') {
-        console.log('[Home] Admin user, staying on home page');
-        // 管理者はホーム画面に留まる(リダイレクトしない)
-      } else {
-        console.log('[Home] Unknown role:', user.role);
-      }
+    console.log('[Home] Auth state:', { isAuthenticated, user, loading, location });
+    
+    // 現在のパスが"/"でない場合、またはユーザーが認証されていない場合は何もしない
+    if (location !== '/' || !isAuthenticated || !user) {
+      console.log('[Home] Skipping redirect:', { location, isAuthenticated, hasUser: !!user });
+      return;
     }
-  }, [isAuthenticated, user, loading, setLocation]);
+    
+    console.log('[Home] User authenticated on home page, role:', user.role);
+    // ロール別にリダイレクト（ホームページにいる場合のみ）
+    if (user.role === 'student') {
+      console.log('[Home] Redirecting to /student');
+      setLocation('/student');
+    } else if (user.role === 'teacher') {
+      console.log('[Home] Redirecting to /teacher');
+      setLocation('/teacher');
+    } else if (user.role === 'parent') {
+      console.log('[Home] Redirecting to /parent');
+      setLocation('/parent');
+    } else if (user.role === 'admin') {
+      console.log('[Home] Admin user, staying on home page');
+      // 管理者はホーム画面に留まる(リダイレクトしない)
+    } else {
+      console.log('[Home] Unknown role:', user.role);
+    }
+  }, [location, isAuthenticated, user]);
 
   if (loading) {
     return (
