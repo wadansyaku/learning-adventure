@@ -1,0 +1,17 @@
+{
+  "query": "SELECT id, studentId, itemId, characterId, isEquipped FROM studentItems WHERE studentId = 1 AND isEquipped = 1",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, studentId, itemId, characterId, isEquipped FROM studentItems WHERE studentId = 1 AND isEquipped = 1",
+  "rows": [
+    {
+      "id": "270018",
+      "studentId": "1",
+      "itemId": "4",
+      "characterId": "NULL",
+      "isEquipped": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstudentId\titemId\tcharacterId\tisEquipped\n270018\t1\t4\tNULL\t1\n",
+  "stderr": "",
+  "execution_time_ms": 1547
+}

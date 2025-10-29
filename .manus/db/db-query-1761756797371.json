@@ -1,0 +1,65 @@
+{
+  "query": "SELECT si.*, gi.name, gi.imageUrl, gi.rarity FROM studentItems si LEFT JOIN gachaItems gi ON si.itemId = gi.id WHERE si.studentId = 1 LIMIT 5",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT si.*, gi.name, gi.imageUrl, gi.rarity FROM studentItems si LEFT JOIN gachaItems gi ON si.itemId = gi.id WHERE si.studentId = 1 LIMIT 5",
+  "rows": [
+    {
+      "id": "1",
+      "studentId": "1",
+      "itemId": "2",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-28 21:00:44",
+      "name": "ウィザードハット",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/DmQafYtVTiKueUGv.webp",
+      "rarity": "rare"
+    },
+    {
+      "id": "30001",
+      "studentId": "1",
+      "itemId": "30047",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-28 21:33:25",
+      "name": "NULL",
+      "imageUrl": "NULL",
+      "rarity": "NULL"
+    },
+    {
+      "id": "30002",
+      "studentId": "1",
+      "itemId": "30125",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-28 21:33:30",
+      "name": "NULL",
+      "imageUrl": "NULL",
+      "rarity": "NULL"
+    },
+    {
+      "id": "30003",
+      "studentId": "1",
+      "itemId": "30413",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-28 21:33:34",
+      "name": "NULL",
+      "imageUrl": "NULL",
+      "rarity": "NULL"
+    },
+    {
+      "id": "30004",
+      "studentId": "1",
+      "itemId": "30129",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-28 21:33:37",
+      "name": "NULL",
+      "imageUrl": "NULL",
+      "rarity": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstudentId\titemId\tcharacterId\tisEquipped\tacquiredAt\tname\timageUrl\trarity\n1\t1\t2\tNULL\t0\t2025-10-28 21:00:44\tウィザードハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/DmQafYtVTiKueUGv.webp\trare\n30001\t1\t30047\tNULL\t0\t2025-10-28 21:33:25\tNULL\tNULL\tNULL\n30002\t1\t30125\tNULL\t0\t2025-10-28 21:33:30\tNULL\tNULL\tNULL\n30003\t1\t30413\tNULL\t0\t2025-10-28 21:33:34\tNULL\tNULL\tNULL\n30004\t1\t30129\tNULL\t0\t2025-10-28 21:33:37\tNULL\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 1522
+}

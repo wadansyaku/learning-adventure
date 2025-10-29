@@ -27,6 +27,10 @@ export default function StudentDashboard() {
     retry: false,
   });
 
+  const { data: myItems } = trpc.gacha.getMyItems.useQuery(undefined, {
+    enabled: isAuthenticated && (user?.role === 'student' || user?.role === 'admin'),
+  });
+
   const createProfileMutation = trpc.student.createProfile.useMutation({
     onSuccess: () => {
       console.log('[StudentDashboard] Profile created successfully');
@@ -66,7 +70,7 @@ export default function StudentDashboard() {
     enabled: isAuthenticated && (user?.role === 'student' || user?.role === 'admin'),
   });
 
-  const { data: characters } = trpc.character.getMyCharacters.useQuery(undefined, {
+  const { data: characters } = trpc.character.getMy.useQuery(undefined, {
     enabled: isAuthenticated && (user?.role === 'student' || user?.role === 'admin'),
   });
 
@@ -191,21 +195,31 @@ export default function StudentDashboard() {
           {characters && characters.length > 0 ? (
             <div className="character-stage">
               <div className="flex flex-col items-center justify-center h-full">
-                {characters[selectedCharacterIndex].imageUrl ? (
-                  <img 
-                    src={characters[selectedCharacterIndex].imageUrl} 
-                    alt={characters[selectedCharacterIndex].name}
-                    className="w-64 h-64 object-contain animate-bounce-slow"
-                  />
-                ) : (
-                  <div className="text-9xl animate-bounce-slow">
-                    {characters[selectedCharacterIndex].animalType === 'rabbit' && '🐰'}
-                    {characters[selectedCharacterIndex].animalType === 'cat' && '🐱'}
-                    {characters[selectedCharacterIndex].animalType === 'dog' && '🐶'}
-                    {characters[selectedCharacterIndex].animalType === 'bear' && '🐻'}
-                    {characters[selectedCharacterIndex].animalType === 'fox' && '🦊'}
-                  </div>
-                )}
+                <div className="relative">
+                  {characters[selectedCharacterIndex].imageUrl ? (
+                    <img 
+                      src={characters[selectedCharacterIndex].imageUrl} 
+                      alt={characters[selectedCharacterIndex].name}
+                      className="w-64 h-64 object-contain animate-bounce-slow"
+                    />
+                  ) : (
+                    <div className="text-9xl animate-bounce-slow">
+                      {characters[selectedCharacterIndex].animalType === 'rabbit' && '🐰'}
+                      {characters[selectedCharacterIndex].animalType === 'cat' && '🐱'}
+                      {characters[selectedCharacterIndex].animalType === 'dog' && '🐶'}
+                      {characters[selectedCharacterIndex].animalType === 'bear' && '🐻'}
+                      {characters[selectedCharacterIndex].animalType === 'fox' && '🦊'}
+                    </div>
+                  )}
+                  {/* 装備中の帽子を表示 */}
+                  {myItems && myItems.find(item => item.isEquipped && (item.characterId === null || item.characterId === characters[selectedCharacterIndex].id)) && (
+                    <img 
+                      src={myItems.find(item => item.isEquipped && (item.characterId === null || item.characterId === characters[selectedCharacterIndex].id))!.imageUrl || ''}
+                      alt="装備中の帽子"
+                      className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/4 w-32 h-32 object-contain"
+                    />
+                  )}
+                </div>
                 <div className="mt-4 text-center">
                   <p className="text-2xl font-bold">{characters[selectedCharacterIndex].name}</p>
                   <p className="text-lg text-muted-foreground">Lv.{characters[selectedCharacterIndex].level}</p>

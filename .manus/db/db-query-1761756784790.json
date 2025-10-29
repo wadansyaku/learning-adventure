@@ -1,0 +1,9 @@
+{
+  "query": "SELECT si.*, gi.name, gi.imageUrl FROM studentItems si LEFT JOIN gachaItems gi ON si.itemId = gi.id WHERE si.studentId = 1 AND si.isEquipped = 1",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT si.*, gi.name, gi.imageUrl FROM studentItems si LEFT JOIN gachaItems gi ON si.itemId = gi.id WHERE si.studentId = 1 AND si.isEquipped = 1",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1513
+}

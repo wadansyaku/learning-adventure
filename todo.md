@@ -120,13 +120,18 @@
   - ファイル: `client/src/pages/Inventory.tsx` (新規), `server/routers/gacha.ts`, `client/src/App.tsx`
 
 #### 4.3 キャラクターに帽子を装備する機能
-- [ ] **キャラクターに帽子を装備する機能を実装** (推定30分)
+- [x] **キャラクターに帽子を装備する機能を実装** (推定30分)
   - 問題: 帽子を取得しても装備できない
   - 実装:
     1. StudentDashboardでキャラクター画像に帽子を重ねて表示
     2. 帽子の装備状態を管理
     3. 帽子のプレビュー機能
-  - ファイル: `client/src/pages/StudentDashboard.tsx`, `server/routers/gacha.ts`
+  - 修正内容:
+    1. `trpc.character.getMyCharacters` → `trpc.character.getMy` に修正
+    2. `character.getMy`エンドポイントを配列を返すように修正
+    3. `getStudentItemsWithDetails()`に`characterId`フィールドを追加
+    4. StudentDashboard.tsxで`characterId`が`null`または一致する場合に装備を表示
+  - ファイル: `client/src/pages/StudentDashboard.tsx`, `server/routers/character.ts`, `server/db.ts`
 
 ---
 

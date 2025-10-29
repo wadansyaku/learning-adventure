@@ -58,6 +58,6 @@ export const characterRouter = router({
     }
     
     const characters = await db.getCharactersByStudentId(student.id);
-    return characters && characters.length > 0 ? characters[0] : null;
+    return characters || [];
   }),
 });
