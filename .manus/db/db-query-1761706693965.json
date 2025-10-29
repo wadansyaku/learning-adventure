@@ -1,0 +1,16 @@
+{
+  "query": "SELECT p.id, p.userId, u.name, u.role FROM parents p JOIN users u ON p.userId = u.id WHERE u.name LIKE '%桂真%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT p.id, p.userId, u.name, u.role FROM parents p JOIN users u ON p.userId = u.id WHERE u.name LIKE '%桂真%';",
+  "rows": [
+    {
+      "id": "1",
+      "userId": "540011",
+      "name": "桂真 鬼飛",
+      "role": "parent"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tuserId\tname\trole\n1\t540011\t桂真 鬼飛\tparent\n",
+  "stderr": "",
+  "execution_time_ms": 1501
+}

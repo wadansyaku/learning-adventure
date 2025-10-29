@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { OpenAIUsageStats } from "@/components/OpenAIUsageStats";
+import { ParentRelationshipManager } from "@/pages/ParentRelationshipManager";
 import { Users, GraduationCap, UserCircle, BarChart3, Settings, TrendingUp } from "lucide-react";
 
 export default function Home() {
@@ -89,6 +90,15 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 py-8">
           {/* OpenAI使用状況 */}
           <OpenAIUsageStats />
+
+          {/* 親子関係管理 */}
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold text-slate-900 mb-4 flex items-center gap-2">
+              <Users className="w-5 h-5 text-purple-600" />
+              親子関係管理
+            </h2>
+            <ParentRelationshipManager />
+          </div>
 
           {/* 管理メニュー */}
           <div className="mt-8">

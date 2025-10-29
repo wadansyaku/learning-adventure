@@ -1,0 +1,16 @@
+{
+  "query": "\nSELECT pc.id, pu.name as parent_name, su.name as student_name, pc.relationship\nFROM parentChildren pc\nJOIN users pu ON pc.parentUserId = pu.id\nJOIN students s ON pc.studentId = s.id\nJOIN users su ON s.userId = su.id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute \nSELECT pc.id, pu.name as parent_name, su.name as student_name, pc.relationship\nFROM parentChildren pc\nJOIN users pu ON pc.parentUserId = pu.id\nJOIN students s ON pc.studentId = s.id\nJOIN users su ON s.userId = su.id;\n",
+  "rows": [
+    {
+      "id": "2",
+      "parent_name": "桂真 鬼飛",
+      "student_name": "山田 ビジネス陽大",
+      "relationship": "parent"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tparent_name\tstudent_name\trelationship\n2\t桂真 鬼飛\t山田 ビジネス陽大\tparent\n",
+  "stderr": "",
+  "execution_time_ms": 1524
+}

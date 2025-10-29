@@ -904,3 +904,98 @@ export async function updateTeacherStudentNotes(teacherId: number, studentId: nu
   
   return result;
 }
+
+// ========================================
+// 親子関係管理API
+// ========================================
+
+/**
+ * 全ての親子関係を取得
+ */
+export async function getAllParentChildren() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+
+  const result = await db
+    .select({
+      id: parentChildren.id,
+      parentUserId: parentChildren.parentUserId,
+      parentName: users.name,
+      studentId: parentChildren.studentId,
+      studentName: sql<string>`student_users.name`,
+      relationship: parentChildren.relationship,
+      createdAt: parentChildren.createdAt,
+    })
+    .from(parentChildren)
+    .innerJoin(users, eq(parentChildren.parentUserId, users.id))
+    .innerJoin(students, eq(parentChildren.studentId, students.id))
+    .innerJoin(sql`users as student_users`, sql`students.userId = student_users.id`);
+
+  return result;
+}
+
+/**
+ * 親子関係を追加
+ */
+export async function addParentChild(parentUserId: number, studentId: number, relationship: string = 'parent') {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+
+  const result = await db.insert(parentChildren).values({
+    parentUserId,
+    studentId,
+    relationship,
+  });
+
+  return result;
+}
+
+/**
+ * 親子関係を削除
+ */
+export async function removeParentChild(id: number) {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+
+  const result = await db.delete(parentChildren).where(eq(parentChildren.id, id));
+  return result;
+}
+
+/**
+ * 全ての保護者ユーザーを取得
+ */
+export async function getAllParents() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+
+  const result = await db
+    .select({
+      id: users.id,
+      name: users.name,
+      email: users.email,
+    })
+    .from(users)
+    .where(eq(users.role, 'parent'));
+
+  return result;
+}
+
+/**
+ * 全ての生徒を詳細情報付きで取得
+ */
+export async function getAllStudentsWithDetails() {
+  const db = await getDb();
+  if (!db) throw new Error('Database not initialized');
+
+  const result = await db
+    .select({
+      id: students.id,
+      userId: students.userId,
+      displayName: students.displayName,
+      userName: users.name,
+    })
+    .from(students)
+    .innerJoin(users, eq(students.userId, users.id));
+
+  return result;
+}

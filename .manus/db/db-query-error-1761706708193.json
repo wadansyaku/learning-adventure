@@ -1,0 +1,8 @@
+{
+  "query": "\nINSERT INTO parentChildren (parentId, studentId, createdAt, updatedAt)\nSELECT p.id, s.id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP\nFROM parents p\nJOIN users pu ON p.userId = pu.id\nCROSS JOIN students s\nJOIN users su ON s.userId = su.id\nWHERE pu.name LIKE '%桂真%' AND su.name LIKE '%山田%';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute \nINSERT INTO parentChildren (parentId, studentId, createdAt, updatedAt)\nSELECT p.id, s.id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP\nFROM parents p\nJOIN users pu ON p.userId = pu.id\nCROSS JOIN students s\nJOIN users su ON s.userId = su.id\nWHERE pu.name LIKE '%桂真%' AND su.name LIKE '%山田%';\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'parentId' in 'field list'"
+  ]
+}

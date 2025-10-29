@@ -1,0 +1,9 @@
+{
+  "query": "\nINSERT INTO parentChildren (parentUserId, studentId, relationship, createdAt)\nSELECT pu.id, s.id, 'parent', CURRENT_TIMESTAMP\nFROM users pu\nCROSS JOIN students s\nJOIN users su ON s.userId = su.id\nWHERE pu.name LIKE '%桂真%' AND su.name LIKE '%山田%' AND pu.role = 'parent';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute \nINSERT INTO parentChildren (parentUserId, studentId, relationship, createdAt)\nSELECT pu.id, s.id, 'parent', CURRENT_TIMESTAMP\nFROM users pu\nCROSS JOIN students s\nJOIN users su ON s.userId = su.id\nWHERE pu.name LIKE '%桂真%' AND su.name LIKE '%山田%' AND pu.role = 'parent';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1520
+}

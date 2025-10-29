@@ -1,0 +1,16 @@
+{
+  "query": "SELECT s.id, s.userId, u.name, u.role FROM students s JOIN users u ON s.userId = u.id WHERE u.name LIKE '%山田%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT s.id, s.userId, u.name, u.role FROM students s JOIN users u ON s.userId = u.id WHERE u.name LIKE '%山田%';",
+  "rows": [
+    {
+      "id": "30001",
+      "userId": "480030",
+      "name": "山田 ビジネス陽大",
+      "role": "student"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tuserId\tname\trole\n30001\t480030\t山田 ビジネス陽大\tstudent\n",
+  "stderr": "",
+  "execution_time_ms": 1556
+}

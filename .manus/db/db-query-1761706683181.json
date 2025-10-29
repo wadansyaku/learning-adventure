@@ -1,0 +1,22 @@
+{
+  "query": "SELECT id, openId, name, role FROM users WHERE name LIKE '%桂真%' OR name LIKE '%山田%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, openId, name, role FROM users WHERE name LIKE '%桂真%' OR name LIKE '%山田%';",
+  "rows": [
+    {
+      "id": "480030",
+      "openId": "VK8akJCh4RkNFPPybS72F6",
+      "name": "山田 ビジネス陽大",
+      "role": "student"
+    },
+    {
+      "id": "540011",
+      "openId": "6GCTgRQf9Ed5nCG6rD6rXr",
+      "name": "桂真 鬼飛",
+      "role": "parent"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\topenId\tname\trole\n480030\tVK8akJCh4RkNFPPybS72F6\t山田 ビジネス陽大\tstudent\n540011\t6GCTgRQf9Ed5nCG6rD6rXr\t桂真 鬼飛\tparent\n",
+  "stderr": "",
+  "execution_time_ms": 1576
+}
