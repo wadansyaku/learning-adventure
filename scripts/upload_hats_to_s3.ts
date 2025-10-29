@@ -67,10 +67,17 @@ async function uploadHatsToS3() {
       console.log(`Uploading ${webpFiles[i]} to S3...`);
       
       const { stdout } = await execAsync(`manus-upload-file "${filePath}"`);
-      const imageUrl = stdout.trim();
+      // Extract the CDN URL from the last line
+      const lines = stdout.trim().split('\n');
+      let imageUrl = lines[lines.length - 1].trim();
+      // Remove "CDN URL: " prefix if present
+      if (imageUrl.startsWith('CDN URL: ')) {
+        imageUrl = imageUrl.substring('CDN URL: '.length);
+      }
       
       if (!imageUrl || !imageUrl.startsWith('http')) {
-        console.error(`Failed to upload ${webpFiles[i]}: ${stdout}`);
+        console.error(`Failed to upload ${webpFiles[i]}: Invalid URL - ${imageUrl}`);
+        console.error(`Full output: ${stdout}`);
         continue;
       }
 

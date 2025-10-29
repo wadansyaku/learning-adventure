@@ -516,12 +516,28 @@ export async function getOpenAIUsageSummary() {
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   
+  // openaiUsageLogsの集計
   const logs = await db.select().from(openaiUsageLogs)
     .where(sql`${openaiUsageLogs.createdAt} >= ${firstDayOfMonth}`);
   
-  const totalTokens = logs.reduce((sum, log) => sum + log.totalTokens, 0);
-  const totalCost = logs.reduce((sum, log) => sum + parseFloat(log.estimatedCost), 0);
-  const totalCalls = logs.length;
+  let totalTokens = logs.reduce((sum, log) => sum + log.totalTokens, 0);
+  let totalCost = logs.reduce((sum, log) => sum + parseFloat(log.estimatedCost), 0);
+  let totalCalls = logs.length;
+  
+  // aiConversationsの集計を追加
+  const conversations = await db.select().from(aiConversations)
+    .where(sql`${aiConversations.createdAt} >= ${firstDayOfMonth}`);
+  
+  const conversationTokens = conversations.reduce((sum, conv) => sum + (conv.tokensUsed || 0), 0);
+  const conversationCalls = conversations.length;
+  
+  // GPT-3.5-turboのコスト計算 (input: $0.0015/1K tokens, output: $0.002/1K tokens)
+  // 簡略化のため、平均コストを使用: $0.00175/1K tokens
+  const conversationCost = (conversationTokens / 1000) * 0.00175;
+  
+  totalTokens += conversationTokens;
+  totalCost += conversationCost;
+  totalCalls += conversationCalls;
   
   // 目的別の集計
   const byPurpose = logs.reduce((acc, log) => {
@@ -534,6 +550,16 @@ export async function getOpenAIUsageSummary() {
     acc[purpose].cost += parseFloat(log.estimatedCost);
     return acc;
   }, {} as Record<string, { calls: number; tokens: number; cost: number }>);
+  
+  // aiConversationsを「character_chat」として追加
+  if (conversationCalls > 0) {
+    if (!byPurpose['character_chat']) {
+      byPurpose['character_chat'] = { calls: 0, tokens: 0, cost: 0 };
+    }
+    byPurpose['character_chat'].calls += conversationCalls;
+    byPurpose['character_chat'].tokens += conversationTokens;
+    byPurpose['character_chat'].cost += conversationCost;
+  }
   
   return {
     totalTokens,
@@ -744,11 +770,13 @@ export async function getChildWeeklyData(childId: number) {
     
     const problemsCount = progress.length;
     const correctCount = progress.filter((p: any) => p.isCorrect).length;
+    const totalTimeSpent = progress.reduce((sum: number, p: any) => sum + (p.timeSpent || 0), 0);
     
     weeklyData.push({
       date: dateStr,
       problems: problemsCount,
-      correct: correctCount
+      correct: correctCount,
+      timeSpent: totalTimeSpent // 秒単位
     });
   }
   

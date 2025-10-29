@@ -97,10 +97,12 @@ export default function ParentDashboard() {
         weeklyData.reduce((sum, d) => sum + (d.problems || 0), 0)) * 100)
     : 0;
 
-  // 総学習時間の計算（仮）
-  const totalStudyHours = weeklyData && weeklyData.length > 0
-    ? Math.round(weeklyData.reduce((sum, d) => sum + (d.problems || 0), 0) * 0.5)
+  // 総学習時間の計算（秒→時間に変換）
+  const totalStudySeconds = weeklyData && weeklyData.length > 0
+    ? weeklyData.reduce((sum, d) => sum + (d.timeSpent || 0), 0)
     : 0;
+  const totalStudyHours = Math.floor(totalStudySeconds / 3600);
+  const totalStudyMinutes = Math.floor((totalStudySeconds % 3600) / 60);
 
   // 完了タスク数
   const completedTasks = weeklyData && weeklyData.length > 0
@@ -156,7 +158,9 @@ export default function ParentDashboard() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">{totalStudyHours}h</div>
+              <div className="text-3xl font-bold text-white">
+                {totalStudyHours > 0 ? `${totalStudyHours}h ${totalStudyMinutes}m` : `${totalStudyMinutes}m`}
+              </div>
               <p className="text-sm text-slate-500 mt-1">今週の学習時間</p>
             </CardContent>
           </Card>

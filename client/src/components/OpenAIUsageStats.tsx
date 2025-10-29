@@ -1,8 +1,18 @@
 import { Card } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
+import { useEffect } from "react";
 
 export function OpenAIUsageStats() {
-  const { data: summary, isLoading } = trpc.admin.getOpenAIUsageSummary.useQuery();
+  const { data: summary, isLoading, refetch } = trpc.admin.getOpenAIUsageSummary.useQuery();
+  
+  // 30秒ごとに自動更新
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, 30000); // 30秒
+    
+    return () => clearInterval(interval);
+  }, [refetch]);
 
   if (isLoading) {
     return (
