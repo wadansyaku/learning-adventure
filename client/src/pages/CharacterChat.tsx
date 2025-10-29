@@ -49,8 +49,8 @@ export default function CharacterChat() {
     setIsTyping(true);
 
     chatMutation.mutate({
+      characterId: 1, // Default character ID
       message: userMessage,
-      studentLevel: profile?.level || 1,
     });
   };
 
