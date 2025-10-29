@@ -5,6 +5,7 @@ import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
 import { RoleSwitcher } from "@/components/RoleSwitcher";
+import { LogOut } from "lucide-react";
 import { LevelUpModal } from "@/components/LevelUpModal";
 import { LoginBonus } from "@/components/LoginBonus";
 import { DailyMissions } from "@/components/DailyMissions";
@@ -126,7 +127,21 @@ export default function StudentDashboard() {
             </h1>
             <p className="text-xl text-muted-foreground">がんばってるね!</p>
           </div>
-          <RoleSwitcher />
+          <div className="flex items-center gap-2">
+            <RoleSwitcher />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={async () => {
+                await user.logout();
+                setLocation('/');
+              }}
+              className="flex items-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              ログアウト
+            </Button>
+          </div>
         </div>
 
         {/* ステータスヘッダー */}
@@ -277,11 +292,25 @@ export default function StudentDashboard() {
             <div className="text-center mb-4">
               <div className="text-6xl mb-3">⚔️</div>
               <h3 className="text-2xl font-bold text-indigo-800 mb-2">スペシャルクエスト</h3>
-              <p className="text-base text-indigo-600 min-h-[48px] flex items-center justify-center">
+              <p className="text-base text-indigo-600 mb-3">
                 {pendingTasks.length > 0 
                   ? `${pendingTasks.length}このクエストがあるよ!` 
                   : 'クエストはないよ!'}
               </p>
+              {tasks && tasks.length > 0 && (
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm text-indigo-700">
+                    <span>進捗状況</span>
+                    <span>{completedTasks.length} / {tasks.length}</span>
+                  </div>
+                  <div className="w-full bg-indigo-200 rounded-full h-3 overflow-hidden">
+                    <div 
+                      className="bg-gradient-to-r from-indigo-500 to-blue-500 h-full rounded-full transition-all duration-500"
+                      style={{ width: `${tasks.length > 0 ? (completedTasks.length / tasks.length) * 100 : 0}%` }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
             <Button 
               className="w-full text-lg py-6 bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-bold shadow-lg"

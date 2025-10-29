@@ -1,0 +1,70 @@
+{
+  "query": "SELECT * FROM students LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT * FROM students LIMIT 10",
+  "rows": [
+    {
+      "id": "1",
+      "userId": "1",
+      "displayName": "男爵 音楽",
+      "avatarIcon": "🐰",
+      "level": "5",
+      "xp": "446",
+      "coins": "90",
+      "currentCharacterId": "NULL",
+      "loginStreak": "3",
+      "lastLoginDate": "2025-10-29 13:33:00",
+      "createdAt": "2025-10-28 20:39:12",
+      "updatedAt": "2025-10-29 14:29:00",
+      "gems": "0"
+    },
+    {
+      "id": "30001",
+      "userId": "480030",
+      "displayName": "山田 ビジネス陽大",
+      "avatarIcon": "🐰",
+      "level": "7",
+      "xp": "698",
+      "coins": "11",
+      "currentCharacterId": "NULL",
+      "loginStreak": "2",
+      "lastLoginDate": "2025-10-29 00:00:26",
+      "createdAt": "2025-10-28 23:11:09",
+      "updatedAt": "2025-10-29 15:07:23",
+      "gems": "1"
+    },
+    {
+      "id": "60001",
+      "userId": "540011",
+      "displayName": "桂真 鬼飛",
+      "avatarIcon": "🐰",
+      "level": "1",
+      "xp": "13",
+      "coins": "26",
+      "currentCharacterId": "NULL",
+      "loginStreak": "2",
+      "lastLoginDate": "2025-10-29 01:31:38",
+      "createdAt": "2025-10-28 23:40:12",
+      "updatedAt": "2025-10-29 01:31:38",
+      "gems": "0"
+    },
+    {
+      "id": "60002",
+      "userId": "540022",
+      "displayName": "Knew-on",
+      "avatarIcon": "🐰",
+      "level": "1",
+      "xp": "6",
+      "coins": "12",
+      "currentCharacterId": "NULL",
+      "loginStreak": "1",
+      "lastLoginDate": "2025-10-28 23:41:48",
+      "createdAt": "2025-10-28 23:41:46",
+      "updatedAt": "2025-10-28 23:41:48",
+      "gems": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tuserId\tdisplayName\tavatarIcon\tlevel\txp\tcoins\tcurrentCharacterId\tloginStreak\tlastLoginDate\tcreatedAt\tupdatedAt\tgems\n1\t1\t男爵 音楽\t🐰\t5\t446\t90\tNULL\t3\t2025-10-29 13:33:00\t2025-10-28 20:39:12\t2025-10-29 14:29:00\t0\n30001\t480030\t山田 ビジネス陽大\t🐰\t7\t698\t11\tNULL\t2\t2025-10-29 00:00:26\t2025-10-28 23:11:09\t2025-10-29 15:07:23\t1\n60001\t540011\t桂真 鬼飛\t🐰\t1\t13\t26\tNULL\t2\t2025-10-29 01:31:38\t2025-10-28 23:40:12\t2025-10-29 01:31:38\t0\n60002\t540022\tKnew-on\t🐰\t1\t6\t12\tNULL\t1\t2025-10-28 23:41:48\t2025-10-28 23:41:46\t2025-10-28 23:41:48\t0\n",
+  "stderr": "",
+  "execution_time_ms": 1523
+}

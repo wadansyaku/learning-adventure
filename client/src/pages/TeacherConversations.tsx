@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'wouter';
 import { trpc } from '@/lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { Loader2 } from 'lucide-react';
+import { Button } from '../components/ui/button';
+import { Loader2, ArrowLeft } from 'lucide-react';
 
 export default function TeacherConversations() {
   const { studentId } = useParams<{ studentId: string }>();
@@ -27,7 +28,7 @@ export default function TeacherConversations() {
   );
 
   useEffect(() => {
-    if (!authLoading && (!user || user.role !== 'teacher')) {
+    if (!authLoading && (!user || (user.role !== 'teacher' && user.role !== 'admin'))) {
       setLocation('/');
     }
   }, [user, authLoading, setLocation]);
@@ -43,7 +44,17 @@ export default function TeacherConversations() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-purple-900 mb-6">会話履歴</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold text-purple-900">会話履歴</h1>
+          <Button
+            variant="outline"
+            onClick={() => setLocation('/teacher')}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            ダッシュボードにもどる
+          </Button>
+        </div>
 
         {/* 生徒選択 */}
         <Card className="mb-6">

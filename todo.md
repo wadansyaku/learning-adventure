@@ -947,3 +947,68 @@
 - [x] **ガチャシステムの動作確認**
   - 確認: ガチャは正常に動作している（コイン不足の場合は正しくエラーメッセージを表示）
   - ファイル: `client/src/pages/Gacha.tsx`
+
+
+---
+
+## 🚨 Phase 1.3: 緊急バグ修正と新機能追加（2025-10-30）
+
+### 緊急バグ修正
+
+- [ ] **ガチャのデータベースエラー修正**
+  - 問題: ガチャを引くと`studentItems`テーブルへの挿入時に`characterId`カラムエラーが発生
+  - エラー: `Failed query: insert into studentItems (id, studentId, itemId, characterId, isEquipped, acquiredAt) values (default, ?, default, ?, default) params: 30001,6,false`
+  - 原因: `addStudentItem`関数で不要な`characterId`を指定している
+  - ファイル: `server/db.ts`, `server/routers/gacha.ts`
+
+- [ ] **キャラクター選択の問題修正**
+  - 問題: 「なかまをえらぶ」ボタンを押すと「もう仲間がいるよ」と表示されるが、実際にはキャラクターが設定されていない
+  - 原因: キャラクター選択ロジックの不具合
+  - ファイル: `client/src/pages/CharacterSelect.tsx`, `server/routers/character.ts`
+
+### 新機能追加
+
+- [ ] **ガチャで新キャラクター獲得時の特別なポップアップ/アニメーション**
+  - 実装: キャラクターガチャ結果に特別なエフェクトを追加
+  - ファイル: `client/src/pages/Gacha.tsx`
+
+- [ ] **スペシャルクエストの進捗状況の視覚化**
+  - 実装: プログレスバーやパーセンテージ表示を追加
+  - ファイル: `client/src/pages/StudentDashboard.tsx`
+
+- [ ] **生徒画面にログアウトボタン**
+  - 実装: StudentHeaderにログアウトボタンを追加
+  - ファイル: `client/src/components/StudentHeader.tsx`
+
+- [ ] **ログイン後のロール選択画面**
+  - 実装: ログイン直後にロール選択画面を表示
+  - ファイル: `client/src/pages/RoleSelection.tsx` (新規), `client/src/App.tsx`
+
+- [ ] **保護者UIで会話履歴から戻るボタン**
+  - 実装: 会話履歴ページに「戻る」ボタンを追加
+  - ファイル: `client/src/pages/ParentConversationHistory.tsx`
+
+- [ ] **講師・管理者UIでも会話履歴を表示**
+  - 実装: 講師・管理者ダッシュボードに会話履歴セクションを追加
+  - ファイル: `client/src/pages/TeacherDashboard.tsx`, `client/src/pages/AdminDashboard.tsx`
+
+
+---
+
+## 🚨 Phase 1.3: 緊急バグ修正と新機能追加（2025-10-30）
+
+### 緊急バグ修正
+- [x] ガチャのデータベースエラー修正（`characterId: null`を追加）
+- [x] キャラクター選択の`userId`/`studentId`混同問題を修正
+- [x] 既存キャラクターチェックを追加（重複作成防止）
+- [x] 生徒ダッシュボードの3列レイアウトに変更
+- [ ] ガチャ結果表示問題の修正（KNOWN_ISSUES.mdに記録済み、後回し）
+
+### 新機能追加
+- [ ] ガチャで新キャラクター獲得時の特別なポップアップ/アニメーション
+- [x] スペシャルクエストの進捗状況の視覚化
+- [x] 生徒画面にログアウトボタン
+- [ ] ログイン後のロール選択画面
+- [x] 保護者UIで会話履歴から戻るボタン
+- [x] 講師・管理者UIでも会話履歴を表示
+

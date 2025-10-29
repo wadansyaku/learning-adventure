@@ -223,6 +223,7 @@ export async function addStudentItem(studentId: number, itemId: number) {
   await db.insert(studentItems).values({
     studentId,
     itemId,
+    characterId: null,
     isEquipped: false,
   });
 }
