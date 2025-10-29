@@ -461,3 +461,32 @@ export const aiConversations = mysqlTable("aiConversations", {
 
 export type AiConversation = typeof aiConversations.$inferSelect;
 export type InsertAiConversation = typeof aiConversations.$inferInsert;
+
+/**
+ * Gacha Items - ガチャアイテムマスターデータ
+ */
+export const gachaItems = mysqlTable("gachaItems", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(), // アイテム名
+  description: text("description").notNull(), // アイテムの説明
+  itemType: mysqlEnum("itemType", ["hat", "accessory", "background", "character"]).default("hat").notNull(),
+  rarity: mysqlEnum("rarity", ["common", "uncommon", "rare", "epic", "legendary"]).default("common").notNull(),
+  imageUrl: varchar("imageUrl", { length: 500 }).notNull(), // 画像URL
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type GachaItem = typeof gachaItems.$inferSelect;
+export type InsertGachaItem = typeof gachaItems.$inferInsert;
+
+/**
+ * Student Inventory - 生徒のアイテム所持情報
+ */
+export const studentInventory = mysqlTable("studentInventory", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("studentId").notNull().references(() => students.id),
+  gachaItemId: int("gachaItemId").notNull().references(() => gachaItems.id),
+  obtainedAt: timestamp("obtainedAt").defaultNow().notNull(),
+});
+
+export type StudentInventory = typeof studentInventory.$inferSelect;
+export type InsertStudentInventory = typeof studentInventory.$inferInsert;

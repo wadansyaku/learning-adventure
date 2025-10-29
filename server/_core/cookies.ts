@@ -23,26 +23,21 @@ function isSecureRequest(req: Request) {
 
 export function getSessionCookieOptions(
   req: Request
-): Pick<CookieOptions, "domain" | "httpOnly" | "path" | "sameSite" | "secure"> {
-  // const hostname = req.hostname;
-  // const shouldSetDomain =
-  //   hostname &&
-  //   !LOCAL_HOSTS.has(hostname) &&
-  //   !isIpAddress(hostname) &&
-  //   hostname !== "127.0.0.1" &&
-  //   hostname !== "::1";
+): Pick<CookieOptions, "domain" | "httpOnly" | "path" | "sameSite" | "secure"> & { partitioned?: boolean } {
+  const isSecure = isSecureRequest(req);
+  const isDevelopment = process.env.NODE_ENV !== "production";
 
-  // const domain =
-  //   shouldSetDomain && !hostname.startsWith(".")
-  //     ? `.${hostname}`
-  //     : shouldSetDomain
-  //       ? hostname
-  //       : undefined;
+  // 開発環境ではsameSiteを"lax"に設定してプレビューでのクッキー送信を許可
+  // 本番環境では"none"を使用してCORS対応
+  const sameSite = isDevelopment ? "lax" : "none";
 
   return {
     httpOnly: true,
     path: "/",
-    sameSite: "none",
-    secure: isSecureRequest(req),
+    sameSite,
+    secure: isSecure,
+    // CHIPS (Cookies Having Independent Partitioned State) を使用
+    // Chrome 114+でサポートされ、サードパーティクッキーを許可
+    partitioned: isSecure && !isDevelopment,
   };
 }
