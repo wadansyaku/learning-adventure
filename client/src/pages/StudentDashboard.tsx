@@ -342,25 +342,6 @@ export default function StudentDashboard() {
         {/* デイリーミッション */}
         <DailyMissions />
 
-        {/* キャラクター会話ボタン */}
-        <Card className="p-6 mb-8 bg-gradient-to-r from-purple-100 to-pink-100">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="text-5xl">🐻</div>
-              <div>
-                <h3 className="text-2xl font-bold mb-1">おはなししよう!</h3>
-                <p className="text-muted-foreground">キャラクターとおはなししよう</p>
-              </div>
-            </div>
-            <Button 
-              className="btn-fun bg-gradient-to-r from-purple-500 to-pink-500 text-white"
-              onClick={() => setLocation('/chat')}
-            >
-              おはなしする 💬
-            </Button>
-          </div>
-        </Card>
-
         {/* 進捗表示 */}
         {completedTasks.length > 0 && (
           <Card className="p-6">

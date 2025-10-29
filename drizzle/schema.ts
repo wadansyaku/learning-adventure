@@ -445,3 +445,19 @@ export const studentBadges = mysqlTable("studentBadges", {
 
 export type StudentBadge = typeof studentBadges.$inferSelect;
 export type InsertStudentBadge = typeof studentBadges.$inferInsert;
+
+/**
+ * AI Conversations table - AI会話ログ
+ */
+export const aiConversations = mysqlTable("aiConversations", {
+  id: int("id").autoincrement().primaryKey(),
+  studentId: int("studentId").notNull().references(() => students.id),
+  userMessage: text("userMessage").notNull(), // 生徒のメッセージ
+  aiResponse: text("aiResponse").notNull(), // AIの返答
+  tokensUsed: int("tokensUsed").default(0).notNull(), // 使用トークン数
+  model: varchar("model", { length: 50 }).default("gpt-3.5-turbo").notNull(), // 使用モデル
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AiConversation = typeof aiConversations.$inferSelect;
+export type InsertAiConversation = typeof aiConversations.$inferInsert;

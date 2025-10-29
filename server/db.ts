@@ -24,6 +24,8 @@ import {
   studentStoryProgress,
   studentTreasures,
   openaiUsageLogs,
+  aiConversations,
+  InsertAiConversation,
   parentChildren,
   dailyMissions,
   studentDailyProgress,
@@ -1392,4 +1394,58 @@ export async function getStudentRank(studentId: number) {
     globalRank,
     totalStudents: allStudents.length,
   };
+}
+
+
+// ========================================
+// AI会話ログ管理API
+// ========================================
+
+/**
+ * AI会話ログを保存
+ */
+export async function createAiConversation(conversation: InsertAiConversation) {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  return await database.insert(aiConversations).values(conversation);
+}
+
+/**
+ * 生徒のAI会話ログを取得
+ */
+export async function getStudentAiConversations(studentId: number, limit: number = 50) {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  return await database
+    .select()
+    .from(aiConversations)
+    .where(eq(aiConversations.studentId, studentId))
+    .orderBy(desc(aiConversations.createdAt))
+    .limit(limit);
+}
+
+/**
+ * 全AI会話ログを取得（管理者用）
+ */
+export async function getAllAiConversations(limit: number = 100) {
+  const database = await getDb();
+  if (!database) throw new Error('Database not initialized');
+  
+  return await database
+    .select({
+      id: aiConversations.id,
+      studentId: aiConversations.studentId,
+      studentName: students.displayName,
+      userMessage: aiConversations.userMessage,
+      aiResponse: aiConversations.aiResponse,
+      tokensUsed: aiConversations.tokensUsed,
+      model: aiConversations.model,
+      createdAt: aiConversations.createdAt,
+    })
+    .from(aiConversations)
+    .leftJoin(students, eq(aiConversations.studentId, students.id))
+    .orderBy(desc(aiConversations.createdAt))
+    .limit(limit);
 }

@@ -162,12 +162,12 @@ export default function Ranking() {
                         )}
                         {activeTab === 'weekly' && (
                           <p className={`text-sm ${isTop3 ? 'text-white/90' : 'text-gray-600'}`}>
-げっかんXP {student.monthlyXP.toLocaleString()}
+しゅうかんXP {(student.weeklyXP || 0).toLocaleString()}
                           </p>
                         )}
                         {activeTab === 'monthly' && (
                           <p className={`text-sm ${isTop3 ? 'text-white/90' : 'text-gray-600'}`}>
-                げっかんXP {student.monthlyXP.toLocaleString()}
+                げっかんXP {(student.monthlyXP || 0).toLocaleString()}
                           </p>
                         )}
                       </div>

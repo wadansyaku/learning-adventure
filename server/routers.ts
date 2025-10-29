@@ -1,6 +1,7 @@
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import * as db from "./db";
 
@@ -36,6 +37,14 @@ export const appRouter = router({
     switchRole: protectedProcedure
       .input(z.object({ role: z.enum(['student', 'teacher', 'parent', 'admin']) }))
       .mutation(async ({ ctx, input }) => {
+        // Prevent admin from changing their role
+        if (ctx.user.role === 'admin') {
+          throw new TRPCError({ 
+            code: 'FORBIDDEN', 
+            message: '管理者はロールを変更できません。全てのビューを閲覧できます。' 
+          });
+        }
+        
         // Update user role in database
         await db.updateUserRole(ctx.user.id, input.role);
         

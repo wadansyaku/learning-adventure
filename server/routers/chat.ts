@@ -8,7 +8,7 @@ import { students, problems } from '../../drizzle/schema';
 const OPENAI_API_KEY = process.env.BUILT_IN_FORGE_API_KEY;
 const OPENAI_API_URL = process.env.BUILT_IN_FORGE_API_URL || 'https://api.openai.com/v1/chat/completions';
 
-async function callOpenAI(messages: { role: string; content: string }[]): Promise<string> {
+async function callOpenAI(messages: { role: string; content: string }[]): Promise<{ content: string; tokensUsed: number }> {
   if (!OPENAI_API_KEY) {
     throw new Error('OpenAI API key is not configured');
   }
@@ -33,7 +33,10 @@ async function callOpenAI(messages: { role: string; content: string }[]): Promis
   }
 
   const data = await response.json();
-  return data.choices[0].message.content;
+  return {
+    content: data.choices[0].message.content,
+    tokensUsed: data.usage?.total_tokens || 0,
+  };
 }
 
 async function getStudentContext(userId: number) {
@@ -89,10 +92,19 @@ export const chatRouter = router({
 挨拶メッセージを生成してください。生徒の状況に応じて、励ましたり、褒めたり、学習を促したりしてください。
 メッセージは2-3文、50文字以内で簡潔に。`;
 
-      const aiMessage = await callOpenAI([
+      const { content: aiMessage, tokensUsed } = await callOpenAI([
         { role: 'system', content: systemPrompt },
         { role: 'user', content: '挨拶してください' },
       ]);
+
+      // AI会話ログを保存
+      await db.createAiConversation({
+        studentId: student.id,
+        userMessage: '挨拶してください',
+        aiResponse: aiMessage,
+        tokensUsed,
+        model: 'gpt-4o-mini',
+      });
 
       return {
         message: aiMessage,
@@ -136,10 +148,19 @@ export const chatRouter = router({
 
 重要: 必ず子供向けの優しい言葉遣いで、ひらがなを多く使ってください。`;
 
-      const aiMessage = await callOpenAI([
+      const { content: aiMessage, tokensUsed } = await callOpenAI([
         { role: 'system', content: systemPrompt },
         { role: 'user', content: input.message },
       ]);
+
+      // AI会話ログを保存
+      await db.createAiConversation({
+        studentId: student.id,
+        userMessage: input.message,
+        aiResponse: aiMessage,
+        tokensUsed,
+        model: 'gpt-4o-mini',
+      });
 
       return {
         message: aiMessage,
