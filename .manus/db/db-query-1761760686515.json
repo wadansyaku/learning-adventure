@@ -1,0 +1,13 @@
+{
+  "query": "SELECT MAX(id) as max_id FROM gachaItems",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT MAX(id) as max_id FROM gachaItems",
+  "rows": [
+    {
+      "max_id": "35"
+    }
+  ],
+  "messages": [],
+  "stdout": "max_id\n35\n",
+  "stderr": "",
+  "execution_time_ms": 1492
+}

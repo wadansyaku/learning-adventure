@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE characterItems ci JOIN gachaItems gi ON ci.id = gi.id SET ci.imageUrl = gi.imageUrl WHERE gi.imageUrl IS NOT NULL",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute UPDATE characterItems ci JOIN gachaItems gi ON ci.id = gi.id SET ci.imageUrl = gi.imageUrl WHERE gi.imageUrl IS NOT NULL",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1569
+}

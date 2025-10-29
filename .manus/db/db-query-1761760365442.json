@@ -1,0 +1,124 @@
+{
+  "query": "SELECT si.id, si.itemId, ci.name, ci.imageUrl FROM studentItems si JOIN characterItems ci ON si.itemId = ci.id WHERE si.studentId = 1",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT si.id, si.itemId, ci.name, ci.imageUrl FROM studentItems si JOIN characterItems ci ON si.itemId = ci.id WHERE si.studentId = 1",
+  "rows": [
+    {
+      "id": "1",
+      "itemId": "2",
+      "name": "ウィザードハット",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/DmQafYtVTiKueUGv.webp"
+    },
+    {
+      "id": "270018",
+      "itemId": "4",
+      "name": "ベレー帽",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp"
+    },
+    {
+      "id": "270014",
+      "itemId": "5",
+      "name": "キャップ",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp"
+    },
+    {
+      "id": "390001",
+      "itemId": "6",
+      "name": "ニット帽",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp"
+    },
+    {
+      "id": "90003",
+      "itemId": "30040",
+      "name": "まほうのきいろのうみ",
+      "imageUrl": ""
+    },
+    {
+      "id": "30001",
+      "itemId": "30047",
+      "name": "まほうのしろのネックレス",
+      "imageUrl": ""
+    },
+    {
+      "id": "90002",
+      "itemId": "30063",
+      "name": "きらきらむらさきのネックレス",
+      "imageUrl": ""
+    },
+    {
+      "id": "30008",
+      "itemId": "30070",
+      "name": "かっこいいきいろのよろい",
+      "imageUrl": ""
+    },
+    {
+      "id": "30007",
+      "itemId": "30108",
+      "name": "かわいいしろのそら",
+      "imageUrl": ""
+    },
+    {
+      "id": "30009",
+      "itemId": "30109",
+      "name": "ふしぎなあおのはな",
+      "imageUrl": ""
+    },
+    {
+      "id": "30006",
+      "itemId": "30111",
+      "name": "まほうのむらさきのネックレス",
+      "imageUrl": ""
+    },
+    {
+      "id": "30002",
+      "itemId": "30125",
+      "name": "きらきらくろのヘッドホン",
+      "imageUrl": ""
+    },
+    {
+      "id": "30004",
+      "itemId": "30129",
+      "name": "まほうのくろのリボン",
+      "imageUrl": ""
+    },
+    {
+      "id": "90001",
+      "itemId": "30355",
+      "name": "かっこいいあおのくつ",
+      "imageUrl": ""
+    },
+    {
+      "id": "30003",
+      "itemId": "30413",
+      "name": "ふしぎなピンクのおうかん",
+      "imageUrl": ""
+    },
+    {
+      "id": "60001",
+      "itemId": "30422",
+      "name": "かっこいいむらさきのマント",
+      "imageUrl": ""
+    },
+    {
+      "id": "60003",
+      "itemId": "30430",
+      "name": "まほうのピンクのドレス",
+      "imageUrl": ""
+    },
+    {
+      "id": "30005",
+      "itemId": "30430",
+      "name": "まほうのピンクのドレス",
+      "imageUrl": ""
+    },
+    {
+      "id": "60002",
+      "itemId": "30435",
+      "name": "まほうのむらさきのかばん",
+      "imageUrl": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "id\titemId\tname\timageUrl\n1\t2\tウィザードハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/DmQafYtVTiKueUGv.webp\n270018\t4\tベレー帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp\n270014\t5\tキャップ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp\n390001\t6\tニット帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp\n90003\t30040\tまほうのきいろのうみ\t\n30001\t30047\tまほうのしろのネックレス\t\n90002\t30063\tきらきらむらさきのネックレス\t\n30008\t30070\tかっこいいきいろのよろい\t\n30007\t30108\tかわいいしろのそら\t\n30009\t30109\tふしぎなあおのはな\t\n30006\t30111\tまほうのむらさきのネックレス\t\n30002\t30125\tきらきらくろのヘッドホン\t\n30004\t30129\tまほうのくろのリボン\t\n90001\t30355\tかっこいいあおのくつ\t\n30003\t30413\tふしぎなピンクのおうかん\t\n60001\t30422\tかっこいいむらさきのマント\t\n60003\t30430\tまほうのピンクのドレス\t\n30005\t30430\tまほうのピンクのドレス\t\n60002\t30435\tまほうのむらさきのかばん\t\n",
+  "stderr": "",
+  "execution_time_ms": 1547
+}

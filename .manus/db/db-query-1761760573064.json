@@ -1,0 +1,40 @@
+{
+  "query": "SELECT id, name, imageUrl FROM characterItems WHERE id IN (10, 11, 12, 13, 14, 15) ORDER BY id",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, name, imageUrl FROM characterItems WHERE id IN (10, 11, 12, 13, 14, 15) ORDER BY id",
+  "rows": [
+    {
+      "id": "10",
+      "name": "トップハット",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/OOfhEpgLpOHwxFkT.webp"
+    },
+    {
+      "id": "11",
+      "name": "バケットハット",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/rsGAsmeAXOoVPQNv.webp"
+    },
+    {
+      "id": "12",
+      "name": "パナマハット",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/FueNXdttqtlPvUUE.webp"
+    },
+    {
+      "id": "13",
+      "name": "ボーラーハット",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ajmTXwiQJGjhQSsE.webp"
+    },
+    {
+      "id": "14",
+      "name": "トリルビー",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/mvCJdrcmQcjInBHs.webp"
+    },
+    {
+      "id": "15",
+      "name": "クロッシェ",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/qBjFRgBnybRAfdOP.webp"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\timageUrl\n10\tトップハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/OOfhEpgLpOHwxFkT.webp\n11\tバケットハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/rsGAsmeAXOoVPQNv.webp\n12\tパナマハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/FueNXdttqtlPvUUE.webp\n13\tボーラーハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ajmTXwiQJGjhQSsE.webp\n14\tトリルビー\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/mvCJdrcmQcjInBHs.webp\n15\tクロッシェ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/qBjFRgBnybRAfdOP.webp\n",
+  "stderr": "",
+  "execution_time_ms": 1605
+}

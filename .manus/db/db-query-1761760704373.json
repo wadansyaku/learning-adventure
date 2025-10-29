@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO characterItems (id, name, imageUrl, rarity, coinCost) SELECT id, name, imageUrl, rarity, 0 FROM gachaItems ON DUPLICATE KEY UPDATE imageUrl = VALUES(imageUrl), name = VALUES(name), rarity = VALUES(rarity)",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute INSERT INTO characterItems (id, name, imageUrl, rarity, coinCost) SELECT id, name, imageUrl, rarity, 0 FROM gachaItems ON DUPLICATE KEY UPDATE imageUrl = VALUES(imageUrl), name = VALUES(name), rarity = VALUES(rarity)",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1547
+}

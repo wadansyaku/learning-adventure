@@ -1,0 +1,100 @@
+{
+  "query": "SELECT id, name, SUBSTRING(imageUrl, 1, 80) as imageUrl_preview, rarity FROM characterItems ORDER BY id LIMIT 15",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, name, SUBSTRING(imageUrl, 1, 80) as imageUrl_preview, rarity FROM characterItems ORDER BY id LIMIT 15",
+  "rows": [
+    {
+      "id": "1",
+      "name": "シルクハット",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "epic"
+    },
+    {
+      "id": "2",
+      "name": "ウィザードハット",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "rare"
+    },
+    {
+      "id": "3",
+      "name": "カウボーイハット",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "4",
+      "name": "ベレー帽",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "common"
+    },
+    {
+      "id": "5",
+      "name": "キャップ",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "common"
+    },
+    {
+      "id": "6",
+      "name": "ニット帽",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "common"
+    },
+    {
+      "id": "7",
+      "name": "ハンチング",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "8",
+      "name": "ソンブレロ",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "rare"
+    },
+    {
+      "id": "9",
+      "name": "フェドーラ",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "10",
+      "name": "トップハット",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "epic"
+    },
+    {
+      "id": "11",
+      "name": "バケットハット",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "common"
+    },
+    {
+      "id": "12",
+      "name": "パナマハット",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "13",
+      "name": "ボーラーハット",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "rare"
+    },
+    {
+      "id": "14",
+      "name": "トリルビー",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "uncommon"
+    },
+    {
+      "id": "15",
+      "name": "クロッシェ",
+      "imageUrl_preview": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305",
+      "rarity": "rare"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\timageUrl_preview\trarity\n1\tシルクハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\tepic\n2\tウィザードハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\trare\n3\tカウボーイハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\tuncommon\n4\tベレー帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\tcommon\n5\tキャップ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\tcommon\n6\tニット帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\tcommon\n7\tハンチング\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\tuncommon\n8\tソンブレロ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\trare\n9\tフェドーラ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\tuncommon\n10\tトップハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\tepic\n11\tバケットハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\tcommon\n12\tパナマハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\tuncommon\n13\tボーラーハット\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\trare\n14\tトリルビー\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\tuncommon\n15\tクロッシェ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305\trare\n",
+  "stderr": "",
+  "execution_time_ms": 1538
+}

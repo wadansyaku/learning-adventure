@@ -460,8 +460,8 @@ export async function getAllCharacterItems() {
   const db = await getDb();
   if (!db) return [];
   
-  // gachaItemsテーブルから取得（Phase 1で追加した帽子）
-  return await db.select().from(gachaItems);
+  // characterItemsテーブルから取得
+  return await db.select().from(characterItems);
 }
 
 export async function getStudentItems(studentId: number) {
@@ -1493,59 +1493,50 @@ export async function getStudentItemsWithDetails(studentId: number) {
   const database = await getDb();
   if (!database) return [];
   
-  // gachaItemsとcharacterItemsの両方とJOIN（古いアイテムと新しいアイテムの両方をサポート）
-  const itemsFromGacha = await database
-    .select({
-      id: studentItems.id,
-      studentId: studentItems.studentId,
-      itemId: studentItems.itemId,
-      characterId: studentItems.characterId,
-      isEquipped: studentItems.isEquipped,
-      acquiredAt: studentItems.acquiredAt,
-      name: gachaItems.name,
-      description: gachaItems.description,
-      imageUrl: gachaItems.imageUrl,
-      rarity: gachaItems.rarity,
-    })
+  // studentItemsを取得
+  const items = await database
+    .select()
     .from(studentItems)
-    .leftJoin(gachaItems, eq(studentItems.itemId, gachaItems.id))
     .where(eq(studentItems.studentId, studentId));
   
-  const itemsFromCharacter = await database
-    .select({
-      id: studentItems.id,
-      studentId: studentItems.studentId,
-      itemId: studentItems.itemId,
-      characterId: studentItems.characterId,
-      isEquipped: studentItems.isEquipped,
-      acquiredAt: studentItems.acquiredAt,
-      name: characterItems.name,
-      imageUrl: characterItems.imageUrl,
-      rarity: characterItems.rarity,
-    })
-    .from(studentItems)
-    .leftJoin(characterItems, eq(studentItems.itemId, characterItems.id))
-    .where(eq(studentItems.studentId, studentId));
+  // すべてのcharacterItemsを取得（名前マッチング用）
+  const allCharacterItems = await database.select().from(characterItems);
+  const characterItemsMap = new Map(allCharacterItems.map(item => [item.name, item]));
   
-  // 結果をマージ：gachaItemsにマッチすればそれを使用、なければcharacterItemsを使用
-  const mergedItems = itemsFromGacha.map((gachaItem, index) => {
-    const characterItem = itemsFromCharacter[index];
+  // すべてのgachaItemsを取得（名前マッチング用）
+  const allGachaItems = await database.select().from(gachaItems);
+  const gachaItemsMap = new Map(allGachaItems.map(item => [item.id, item]));
+  
+  // 各studentItemに対して詳細情報をマッピング
+  const detailedItems = items.map(item => {
+    // まずgachaItemsからitemIdで検索
+    const gachaItem = gachaItemsMap.get(item.itemId);
+    
+    // gachaItemが見つかった場合、名前でcharacterItemsを検索
+    let characterItem = null;
+    if (gachaItem) {
+      characterItem = characterItemsMap.get(gachaItem.name);
+    } else {
+      // gachaItemが見つからない場合、itemIdでcharacterItemsを直接検索
+      characterItem = allCharacterItems.find(ci => ci.id === item.itemId);
+    }
+    
     return {
-      id: gachaItem.id,
-      studentId: gachaItem.studentId,
-      itemId: gachaItem.itemId,
-      characterId: gachaItem.characterId,
-      isEquipped: gachaItem.isEquipped,
-      acquiredAt: gachaItem.acquiredAt,
-      name: gachaItem.name || characterItem?.name || null,
-      description: gachaItem.description || null,
-      imageUrl: gachaItem.imageUrl || characterItem?.imageUrl || null,
-      rarity: gachaItem.rarity || characterItem?.rarity || null,
+      id: item.id,
+      studentId: item.studentId,
+      itemId: item.itemId,
+      characterId: item.characterId,
+      isEquipped: item.isEquipped,
+      acquiredAt: item.acquiredAt,
+      name: characterItem?.name || gachaItem?.name || null,
+      description: gachaItem?.description || null,
+      imageUrl: characterItem?.imageUrl || gachaItem?.imageUrl || null,
+      rarity: characterItem?.rarity || gachaItem?.rarity || null,
     };
   });
   
   // acquiredAtでソート
-  return mergedItems.sort((a, b) => {
+  return detailedItems.sort((a, b) => {
     const dateA = a.acquiredAt ? new Date(a.acquiredAt).getTime() : 0;
     const dateB = b.acquiredAt ? new Date(b.acquiredAt).getTime() : 0;
     return dateB - dateA;
