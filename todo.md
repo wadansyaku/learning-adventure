@@ -160,3 +160,34 @@
 - [ ] **不要なデータベースクエリを削減** (推定1時間)
   - 分析: 同じデータを複数回取得している可能性
   - 改善: クエリを最適化し、キャッシュを活用
+
+
+---
+
+## 🚨 Phase 1: 最優先バグ修正（2025-10-30追加）
+
+### 1.1 チャット機能のエラー修正
+- [x] **「(void 0) is not a function」エラーを修正** (推定45分) - ✅ 完了
+  - 問題: キャラクターとチャットしようとすると500エラーが発生し、メッセージが送信できない
+  - 原因: `getStudentAchievementsByStudentId`関数が存在せず、正しい関数名は`getStudentAchievements`だった
+  - 修正内容:
+    1. chat.tsの107行目で`db.getStudentAchievementsByStudentId(student.id)`を`db.getStudentAchievements(student.id)`に修正
+    2. getStudentContext関数に詳細なログとエラーハンドリングを追加
+    3. getGreeting procedureにエラーハンドリングとログを追加
+  - 結果: チャット機能が完全に動作し、挨拶メッセージとユーザーメッセージへの応答が正常に表示される
+  - ファイル: `server/routers/chat.ts`
+
+### 1.2 「なかまをえらぶ」ボタンの問題修正
+- [ ] **「もう仲間がいるよ」エラーを修正** (推定30分)
+  - 問題: 「なかまをえらぶ」ボタンを押すと「もう仲間がいるよ」と表示され、画面移行できない
+  - 原因: CharacterSelect.tsxの条件チェックが厳しすぎる
+  - 修正: キャラクター選択画面のロジックを修正
+  - ファイル: `client/src/pages/CharacterSelect.tsx`
+
+### 1.3 生徒ビュー全体のトースト通知削除
+- [ ] **生徒ビューのすべての右下トースト通知を削除** (推定30分)
+  - 問題: 生徒ビューで右下にトースト通知が表示される
+  - 修正: すべてのtoast.success()、toast.error()、toast.info()を削除または無効化
+  - ファイル: `client/src/pages/StudentDashboard.tsx`, `client/src/pages/Inventory.tsx`, `client/src/pages/GachaPage.tsx`, `client/src/components/CharacterChat.tsx`
+
+---

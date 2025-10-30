@@ -86,33 +86,49 @@ async function extractTopics(userMessage: string): Promise<string[]> {
 }
 
 async function getStudentContext(userId: number) {
-  // 生徒プロファイル取得
-  const student = await db.getStudentByUserId(userId);
+  try {
+    console.log('[Chat] getStudentContext called with userId:', userId);
+    
+    // 生徒プロファイル取得
+    const student = await db.getStudentByUserId(userId);
+    console.log('[Chat] student:', student);
 
-  if (!student) {
-    return null;
-  }
+    if (!student) {
+      console.log('[Chat] Student not found for userId:', userId);
+      return null;
+    }
 
   // 最近の学習進捗を取得（直近10問）
-  const recentProgressList = await db.getStudentProgressByStudentId(student.id, 10);
-  const totalProblems = recentProgressList.length;
-  const correctAnswers = recentProgressList.filter((p: any) => p.isCorrect).length;
-  const recentAccuracy = totalProblems > 0 ? (correctAnswers / totalProblems) * 100 : 0;
+    console.log('[Chat] Fetching student progress...');
+    const recentProgressList = await db.getStudentProgressByStudentId(student.id, 10);
+    console.log('[Chat] recentProgressList length:', recentProgressList.length);
+    const totalProblems = recentProgressList.length;
+    const correctAnswers = recentProgressList.filter((p: any) => p.isCorrect).length;
+    const recentAccuracy = totalProblems > 0 ? (correctAnswers / totalProblems) * 100 : 0;
 
-  // 総学習時間を計算（秒→分）
-  const totalTimeSpent = recentProgressList.reduce((sum: number, p: any) => sum + (p.timeSpent || 0), 0);
-  const totalTimeMinutes = Math.floor(totalTimeSpent / 60);
+    // 総学習時間を計算（秒→分）
+    const totalTimeSpent = recentProgressList.reduce((sum: number, p: any) => sum + (p.timeSpent || 0), 0);
+    const totalTimeMinutes = Math.floor(totalTimeSpent / 60);
+    console.log('[Chat] totalTimeMinutes:', totalTimeMinutes);
 
   // 装備中の帽子を取得
-  const equippedItem = await db.getEquippedItemByStudentId(student.id);
-  // 最近の実績を取得（直近10件）
-  const recentAchievements = await db.getStudentAchievementsByStudentId(student.id, 5);
+    console.log('[Chat] Fetching equipped item for studentId:', student.id);
+    const equippedItem = await db.getEquippedItemByStudentId(student.id);
+    console.log('[Chat] equippedItem:', equippedItem);
+  // 最近の実績を取得
+    console.log('[Chat] Fetching recent achievements...');
+    const recentAchievements = await db.getStudentAchievements(student.id);
+    console.log('[Chat] recentAchievements length:', recentAchievements.length);
 
-  // 会話履歴の要約を取得
-  const conversationSummary = await db.getConversationSummary(student.id, 10);
+    // 会話履歴の要約を取得
+    console.log('[Chat] Fetching conversation summary...');
+    const conversationSummary = await db.getConversationSummary(student.id, 10);
+    console.log('[Chat] conversationSummary:', conversationSummary ? 'exists' : 'null');
 
-  // 最近の感情履歴を取得（過去7日間）
-  const sentimentHistory = await db.getRecentSentimentHistory(student.id, 7);
+    // 最近の感情履歴を取得（過去7日間）
+    console.log('[Chat] Fetching sentiment history...');
+    const sentimentHistory = await db.getRecentSentimentHistory(student.id, 7);
+    console.log('[Chat] sentimentHistory length:', sentimentHistory.length);
   const sentimentCounts = {
     positive: sentimentHistory.filter((c: any) => c.sentiment === 'positive').length,
     neutral: sentimentHistory.filter((c: any) => c.sentiment === 'neutral').length,
@@ -120,17 +136,23 @@ async function getStudentContext(userId: number) {
   };
 
   // 最近のトピック履歴を取得（過去7日間）
-  const topicHistory = await db.getRecentTopicHistory(student.id, 7);
+    console.log('[Chat] Fetching topic history...');
+    const topicHistory = await db.getRecentTopicHistory(student.id, 7);
+    console.log('[Chat] topicHistory:', topicHistory);
   const topTopics = Object.entries(topicHistory)
     .sort(([, a], [, b]) => (b as number) - (a as number))
     .slice(0, 3)
     .map(([topic]) => topic);
 
   // 最近完了したミッションを取得（過去24時間）
-  const recentCompletedMissions = await db.getRecentCompletedMissions(student.id, 24);
+    console.log('[Chat] Fetching recent completed missions...');
+    const recentCompletedMissions = await db.getRecentCompletedMissions(student.id, 24);
+    console.log('[Chat] recentCompletedMissions length:', recentCompletedMissions.length);
 
-  // トピックに応じたミッション提案
-  const missionSuggestion = topTopics.length > 0 ? db.suggestMissionByTopic(topTopics[0]) : null;
+    // トピックに応じたミッション提案
+    console.log('[Chat] Suggesting mission by topic...');
+    const missionSuggestion = topTopics.length > 0 ? db.suggestMissionByTopic(topTopics[0]) : null;
+    console.log('[Chat] missionSuggestion:', missionSuggestion);
 
   return {
     student,
@@ -146,20 +168,28 @@ async function getStudentContext(userId: number) {
     topTopics,
     recentCompletedMissions,
     missionSuggestion,
-  };
+    };
+  } catch (error) {
+    console.error('[Chat] Error in getStudentContext:', error);
+    throw error;
+  }
 }
 
 export const chatRouter = router({
   // 挨拶メッセージを生成
   getGreeting: studentProcedure
     .mutation(async ({ ctx }) => {
-      const context = await getStudentContext(ctx.user.id);
+      try {
+        console.log('[Chat] getGreeting called for userId:', ctx.user.id);
+        const context = await getStudentContext(ctx.user.id);
+        console.log('[Chat] context retrieved successfully');
 
-      if (!context) {
-        return {
-          message: 'こんにちは！いっしょにがんばろうね！',
-        };
-      }
+        if (!context) {
+          console.log('[Chat] No context found, returning default greeting');
+          return {
+            message: 'こんにちは！いっしょにがんばろうね！',
+          };
+        }
 
       const { student, recentAccuracy, totalProblems, totalTimeMinutes, equippedItem, recentAchievements, conversationSummary, sentimentCounts, topTopics, recentCompletedMissions, missionSuggestion } = context;
 
@@ -261,23 +291,30 @@ ${contextHints.length > 0 ? contextHints.map(hint => `- ${hint}`).join('\n') : '
 
 挨拶メッセージを生成してください。`;
 
-      const { content: aiMessage, tokensUsed } = await callOpenAI([
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: '挨拶してください' },
-      ]);
+        console.log('[Chat] Calling OpenAI API...');
+        const { content: aiMessage, tokensUsed } = await callOpenAI([
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: '挨拶してください' },
+        ]);
+        console.log('[Chat] OpenAI API response received:', aiMessage.substring(0, 50));
 
-      // AI会話ログを保存
-      await db.createAiConversation({
-        studentId: student.id,
-        userMessage: '挨拶してください',
-        aiResponse: aiMessage,
-        tokensUsed,
-        model: 'gpt-4o-mini',
-      });
+        // AI会話ログを保存
+        await db.createAiConversation({
+          studentId: student.id,
+          userMessage: '挨拶してください',
+          aiResponse: aiMessage,
+          tokensUsed,
+          model: 'gpt-4o-mini',
+        });
 
-      return {
-        message: aiMessage,
-      };
+        console.log('[Chat] Returning greeting message');
+        return {
+          message: aiMessage,
+        };
+      } catch (error) {
+        console.error('[Chat] Error in getGreeting:', error);
+        throw error;
+      }
     }),
 
   // メッセージを送信
