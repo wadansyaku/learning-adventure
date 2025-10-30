@@ -55,14 +55,25 @@ export const studentRouter = router({
       }
     }
 
-    // Calculate bonus based on streak
+    // Calculate new streak (same logic as claimLoginBonus)
+    let newStreak = 1;
+    if (lastLogin) {
+      const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+      const lastLoginDay = new Date(lastLogin.getFullYear(), lastLogin.getMonth(), lastLogin.getDate());
+      
+      if (yesterday.getTime() === lastLoginDay.getTime()) {
+        newStreak = student.loginStreak + 1;
+      }
+    }
+
+    // Calculate bonus based on new streak
     const baseCoins = 10;
     const baseXP = 5;
-    const streakBonus = Math.min(student.loginStreak, 7); // Max 7 days bonus
+    const streakBonus = Math.min(newStreak, 7); // Max 7 days bonus
     
     return {
       eligible: true,
-      loginStreak: student.loginStreak + 1,
+      loginStreak: newStreak,
       coinsEarned: baseCoins + streakBonus * 2,
       xpEarned: baseXP + streakBonus,
     };

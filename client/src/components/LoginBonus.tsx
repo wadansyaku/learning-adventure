@@ -28,12 +28,10 @@ export function LoginBonus({ onClose }: LoginBonusProps) {
 
   const claimLoginBonusMutation = trpc.student.claimLoginBonus.useMutation({
     onSuccess: (data) => {
-      toast.success(`ログインボーナス! ${data.coinsEarned}コイン と ${data.xpEarned}XP をゲット!`, {
-        duration: 3000,
-      });
+      // トースト通知を削除（ダイアログで十分情報が表示されているため）
       setTimeout(() => {
         onClose();
-      }, 2000);
+      }, 1000);
     },
   });
 

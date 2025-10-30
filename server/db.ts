@@ -1493,54 +1493,26 @@ export async function getStudentItemsWithDetails(studentId: number) {
   const database = await getDb();
   if (!database) return [];
   
-  // studentItemsを取得
+  // studentItemsをcharacterItemsとJOINして取得
   const items = await database
-    .select()
+    .select({
+      id: studentItems.id,
+      studentId: studentItems.studentId,
+      itemId: studentItems.itemId,
+      characterId: studentItems.characterId,
+      isEquipped: studentItems.isEquipped,
+      acquiredAt: studentItems.acquiredAt,
+      name: characterItems.name,
+      imageUrl: characterItems.imageUrl,
+      rarity: characterItems.rarity,
+      itemType: characterItems.itemType,
+    })
     .from(studentItems)
-    .where(eq(studentItems.studentId, studentId));
+    .leftJoin(characterItems, eq(studentItems.itemId, characterItems.id))
+    .where(eq(studentItems.studentId, studentId))
+    .orderBy(desc(studentItems.acquiredAt));
   
-  // すべてのcharacterItemsを取得（名前マッチング用）
-  const allCharacterItems = await database.select().from(characterItems);
-  const characterItemsMap = new Map(allCharacterItems.map(item => [item.name, item]));
-  
-  // すべてのgachaItemsを取得（名前マッチング用）
-  const allGachaItems = await database.select().from(gachaItems);
-  const gachaItemsMap = new Map(allGachaItems.map(item => [item.id, item]));
-  
-  // 各studentItemに対して詳細情報をマッピング
-  const detailedItems = items.map(item => {
-    // まずgachaItemsからitemIdで検索
-    const gachaItem = gachaItemsMap.get(item.itemId);
-    
-    // gachaItemが見つかった場合、名前でcharacterItemsを検索
-    let characterItem = null;
-    if (gachaItem) {
-      characterItem = characterItemsMap.get(gachaItem.name);
-    } else {
-      // gachaItemが見つからない場合、itemIdでcharacterItemsを直接検索
-      characterItem = allCharacterItems.find(ci => ci.id === item.itemId);
-    }
-    
-    return {
-      id: item.id,
-      studentId: item.studentId,
-      itemId: item.itemId,
-      characterId: item.characterId,
-      isEquipped: item.isEquipped,
-      acquiredAt: item.acquiredAt,
-      name: characterItem?.name || gachaItem?.name || null,
-      description: gachaItem?.description || null,
-      imageUrl: characterItem?.imageUrl || gachaItem?.imageUrl || null,
-      rarity: characterItem?.rarity || gachaItem?.rarity || null,
-    };
-  });
-  
-  // acquiredAtでソート
-  return detailedItems.sort((a, b) => {
-    const dateA = a.acquiredAt ? new Date(a.acquiredAt).getTime() : 0;
-    const dateB = b.acquiredAt ? new Date(b.acquiredAt).getTime() : 0;
-    return dateB - dateA;
-  });
+  return items;
 }
 
 /**
