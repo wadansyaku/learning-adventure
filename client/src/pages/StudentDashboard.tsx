@@ -34,13 +34,13 @@ export default function StudentDashboard() {
   const createProfileMutation = trpc.student.createProfile.useMutation({
     onSuccess: () => {
       console.log('[StudentDashboard] Profile created successfully');
-      toast.success('プロフィールを作成しました!');
+      // toast.success('プロフィールを作成しました!');
       refetch();
       setIsCreatingProfile(false);
     },
     onError: (error) => {
       console.error('[StudentDashboard] Failed to create profile:', error);
-      toast.error('プロフィールの作成に失敗しました');
+      // toast.error('プロフィールの作成に失敗しました');
       setIsCreatingProfile(false);
     },
   });

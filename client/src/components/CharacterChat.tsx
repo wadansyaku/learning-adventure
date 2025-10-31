@@ -36,7 +36,8 @@ export default function CharacterChat({ characterName, characterEmoji, studentLe
       }]);
     },
     onError: (error) => {
-      toast.error(`エラー: ${error.message}`);
+      // toast.error(`エラー: ${error.message}`);
+      console.error('Failed to send message:', error);
     }
   });
 

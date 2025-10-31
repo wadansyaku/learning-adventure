@@ -178,16 +178,26 @@
   - ファイル: `server/routers/chat.ts`
 
 ### 1.2 「なかまをえらぶ」ボタンの問題修正
-- [ ] **「もう仲間がいるよ」エラーを修正** (推定30分)
+- [x] **「もう仲間がいるよ」エラーを修正** (推定30分) - ✅ 完了
   - 問題: 「なかまをえらぶ」ボタンを押すと「もう仲間がいるよ」と表示され、画面移行できない
-  - 原因: CharacterSelect.tsxの条件チェックが厳しすぎる
-  - 修正: キャラクター選択画面のロジックを修正
+  - 原因: CharacterSelect.tsxのuseEffectが既存キャラクターがいる場合に自動的にリダイレクトしていた
+  - 修正内容:
+    1. useEffectを修正して、既存キャラクターがいてもページを表示するように変更
+    2. handleConfirm関数に既存キャラクターチェックを追加し、新規作成を禁止
+    3. ページ上部に警告メッセージを追加
+  - 結果: キャラクター選択画面が正常に表示され、既存キャラクターがいる場合は警告が表示される
   - ファイル: `client/src/pages/CharacterSelect.tsx`
 
 ### 1.3 生徒ビュー全体のトースト通知削除
-- [ ] **生徒ビューのすべての右下トースト通知を削除** (推定30分)
+- [x] **生徒ビューのすべての右下トースト通知を削除** (推定30分) - ✅ 完了
   - 問題: 生徒ビューで右下にトースト通知が表示される
-  - 修正: すべてのtoast.success()、toast.error()、toast.info()を削除または無効化
-  - ファイル: `client/src/pages/StudentDashboard.tsx`, `client/src/pages/Inventory.tsx`, `client/src/pages/GachaPage.tsx`, `client/src/components/CharacterChat.tsx`
+  - 修正内容:
+    1. StudentDashboard.tsx - 2箇所（プロフィール作成成功/失敗）
+    2. Inventory.tsx - 4箇所（装備成功/失敗、装備解除成功/失敗）
+    3. CharacterChat.tsx - 1箇所（エラー）
+    4. CharacterSelect.tsx - 5箇所（キャラクター作成関連）
+    5. ProblemPlay.tsx - 5箇所（問題回答関連）
+  - 結果: すべてのtoast関数をコメントアウトし、console.logでログを出力
+  - ファイル: `client/src/pages/StudentDashboard.tsx`, `client/src/pages/Inventory.tsx`, `client/src/pages/ProblemPlay.tsx`, `client/src/components/CharacterChat.tsx`, `client/src/pages/CharacterSelect.tsx`
 
 ---

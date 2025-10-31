@@ -39,19 +39,22 @@ export default function ProblemPlay() {
         setTotalCoins(totalCoins + bonusCoins);
         
         if (newCombo >= 3 && newCombo % 3 === 0) {
-          toast.success(`🔥 ${newCombo}れんぞくせいかい! ボーナス +${comboBonus}!`, {
-            duration: 3000,
-          });
+          // toast.success(`🔥 ${newCombo}れんぞくせいかい! ボーナス +${comboBonus}!`, {
+          //   duration: 3000,
+          // });
+          console.log(`Combo bonus: ${newCombo} combo, +${comboBonus} bonus`);
         } else {
-          toast.success(`せいかい! ${bonusXP} XP と ${bonusCoins} コインをゲット!`, {
-            duration: 3000,
-          });
+          // toast.success(`せいかい! ${bonusXP} XP と ${bonusCoins} コインをゲット!`, {
+          //   duration: 3000,
+          // });
+          console.log(`Correct answer: +${bonusXP} XP, +${bonusCoins} coins`);
         }
       } else {
         setCombo(0);
-        toast.error(`ざんねん... こたえは ${data.correctAnswer} だよ`, {
-          duration: 3000,
-        });
+        // toast.error(`ざんねん... こたえは ${data.correctAnswer} だよ`, {
+        //   duration: 3000,
+        // });
+        console.log(`Wrong answer, correct answer was: ${data.correctAnswer}`);
       }
     },
   });
@@ -106,7 +109,8 @@ export default function ProblemPlay() {
 
   const handleSubmit = () => {
     if (!answer.trim()) {
-      toast.error('こたえをにゅうりょくしてね!');
+      // toast.error('こたえをにゅうりょくしてね!');
+      console.log('No answer provided');
       return;
     }
 
@@ -126,9 +130,10 @@ export default function ProblemPlay() {
       setIsCorrect(false);
     } else {
       // 全問終了
-      toast.success(`ぜんぶおわったよ! すごい! ごうけい ${totalXP} XP と ${totalCoins} コインをゲット!`, {
-        duration: 5000,
-      });
+      // toast.success(`ぜんぶおわったよ! すごい! ごうけい ${totalXP} XP と ${totalCoins} コインをゲット!`, {
+      //   duration: 5000,
+      // });
+      console.log(`All problems completed: +${totalXP} XP, +${totalCoins} coins`);
       setTimeout(() => {
         setLocation('/student');
       }, 2000);

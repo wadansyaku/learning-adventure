@@ -21,23 +21,25 @@ export default function Inventory() {
 
   const equipItemMutation = trpc.gacha.equipItem.useMutation({
     onSuccess: () => {
-      toast.success('帽子を装備したよ!');
+      // toast.success('帽子を装備したよ!');
       refetchItems();
       setSelectedItem(null);
     },
     onError: (error: any) => {
-      toast.error(error.message);
+      // toast.error(error.message);
+      console.error('Failed to equip item:', error);
     },
   });
 
   const unequipItemMutation = trpc.gacha.unequipItem.useMutation({
     onSuccess: () => {
-      toast.success('帽子をはずしたよ!');
+      // toast.success('帽子をはずしたよ!');
       refetchItems();
       setSelectedItem(null);
     },
     onError: (error: any) => {
-      toast.error(error.message);
+      // toast.error(error.message);
+      console.error('Failed to unequip item:', error);
     },
   });
 

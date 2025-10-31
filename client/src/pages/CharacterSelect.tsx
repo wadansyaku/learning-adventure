@@ -21,13 +21,13 @@ export default function CharacterSelect() {
 
   const createCharacterMutation = trpc.character.create.useMutation({
     onSuccess: () => {
-      toast.success('なかまができたよ! 🎉');
+      // toast.success('なかまができたよ! 🎉');
       setLocation('/student');
     },
     onError: (error) => {
       console.error('Failed to create character:', error);
       const errorMessage = error.message || 'なかまをつくれなかったよ 😢';
-      toast.error(errorMessage);
+      // toast.error(errorMessage);
     },
   });
 
@@ -36,32 +36,39 @@ export default function CharacterSelect() {
       setLocation('/');
     } else if (!authLoading && isAuthenticated && user?.role !== 'student' && user?.role !== 'admin') {
       setLocation('/');
-    } else if (!authLoading && isAuthenticated && existingCharacter && existingCharacter.length > 0) {
-      // 既にキャラクターを持っている場合は生徒ダッシュボードにリダイレクト
-      toast.info('もうなかまがいるよ!');
-      setLocation('/student');
     }
-  }, [authLoading, isAuthenticated, user, existingCharacter, setLocation]);
+    // 既存キャラクターがいてもページを表示する（新規作成は禁止）
+  }, [authLoading, isAuthenticated, user, setLocation]);
 
   const handleSelectCharacter = (typeId: number) => {
     setSelectedCharacterTypeId(typeId);
   };
 
   const handleConfirm = () => {
+    // 既存キャラクターがいる場合は新規作成を禁止
+    if (existingCharacter && existingCharacter.length > 0) {
+      // toast.error('もうなかまがいるよ！新しいなかまはつくれないよ 😢');
+      console.log('Character already exists, cannot create new one');
+      return;
+    }
+
     if (!selectedCharacterTypeId || !characterTypes) {
-      toast.error('キャラクターをえらんでね!');
+      // toast.error('キャラクターをえらんでね!');
+      console.log('No character type selected');
       return;
     }
 
     const selectedType = characterTypes.find(t => t.id === selectedCharacterTypeId);
     if (!selectedType) {
-      toast.error('キャラクターがみつからないよ 😢');
+      // toast.error('キャラクターがみつからないよ 😢');
+      console.log('Character type not found');
       return;
     }
 
     // レベル制限チェック
     if (profile && profile.level < selectedType.unlockLevel) {
-      toast.error(`レベル${selectedType.unlockLevel}になったらえらべるよ!`);
+      // toast.error(`レベル${selectedType.unlockLevel}になったらえらべるよ!`);
+      console.log(`Character locked, requires level ${selectedType.unlockLevel}`);
       return;
     }
 
@@ -105,6 +112,13 @@ export default function CharacterSelect() {
           <p className="text-2xl text-muted-foreground">
             いっしょにぼうけんするなかまをえらんでね
           </p>
+          {existingCharacter && existingCharacter.length > 0 && (
+            <div className="mt-4 p-4 bg-yellow-100 dark:bg-yellow-900 border-2 border-yellow-500 rounded-lg">
+              <p className="text-xl font-bold text-yellow-800 dark:text-yellow-200">
+                ⚠️ もうなかまがいるよ！新しいなかまはつくれないよ。
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
