@@ -414,9 +414,23 @@ export async function getOpenAIUsageSummary() {
   let totalCost = 0;
   
   conversations.forEach(conv => {
-    if (conv.promptTokens) totalTokens += conv.promptTokens;
-    if (conv.completionTokens) totalTokens += conv.completionTokens;
-    if (conv.estimatedCost) totalCost += parseFloat(conv.estimatedCost);
+    // tokensUsedフィールドを優先し、なければpromptTokensとcompletionTokensを使用
+    if (conv.tokensUsed) {
+      totalTokens += conv.tokensUsed;
+    } else {
+      if (conv.promptTokens) totalTokens += conv.promptTokens;
+      if (conv.completionTokens) totalTokens += conv.completionTokens;
+    }
+    
+    // estimatedCostがなければtokensUsedから推定
+    if (conv.estimatedCost) {
+      totalCost += parseFloat(conv.estimatedCost);
+    } else if (conv.tokensUsed) {
+      // gpt-4o-miniの価格: $0.150 / 1M input tokens, $0.600 / 1M output tokens
+      // 簡略化のため、平均価格$0.375 / 1M tokensを使用
+      const costPerToken = 0.375 / 1000000;
+      totalCost += conv.tokensUsed * costPerToken;
+    }
   });
   
   return {

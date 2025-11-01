@@ -91,10 +91,15 @@ export default function ParentDashboard() {
     );
   }
 
-  // 学習効率の計算
-  const learningEfficiency = weeklyData && weeklyData.length > 0
-    ? Math.round((weeklyData.reduce((sum, d) => sum + (d.correct || 0), 0) / 
-        weeklyData.reduce((sum, d) => sum + (d.problems || 0), 0)) * 100)
+  // 学習効率の計算（ゼロ除算エラーを防ぐ）
+  const totalProblems = weeklyData && weeklyData.length > 0
+    ? weeklyData.reduce((sum, d) => sum + (d.problems || 0), 0)
+    : 0;
+  const totalCorrect = weeklyData && weeklyData.length > 0
+    ? weeklyData.reduce((sum, d) => sum + (d.correct || 0), 0)
+    : 0;
+  const learningEfficiency = totalProblems > 0
+    ? Math.round((totalCorrect / totalProblems) * 100)
     : 0;
 
   // 総学習時間の計算（秒→時間に変換）

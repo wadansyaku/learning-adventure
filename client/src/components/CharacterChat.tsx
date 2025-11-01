@@ -27,6 +27,12 @@ export default function CharacterChat({ characterName, characterEmoji, studentLe
   // プロファイルチェック
   const { data: profile } = trpc.student.getProfile.useQuery();
 
+  // 会話履歴を取得
+  const { data: conversationHistory, refetch: refetchHistory } = trpc.chat.getConversationHistory.useQuery(
+    { limit: 50 },
+    { enabled: isOpen && !!profile }
+  );
+
   const chatMutation = trpc.chat.sendMessage.useMutation({
     onSuccess: (data) => {
       setMessages(prev => [...prev, {
@@ -34,6 +40,8 @@ export default function CharacterChat({ characterName, characterEmoji, studentLe
         content: data.message,
         timestamp: new Date()
       }]);
+      // 会話履歴を再取得
+      refetchHistory();
     },
     onError: (error) => {
       // toast.error(`エラー: ${error.message}`);
@@ -51,12 +59,29 @@ export default function CharacterChat({ characterName, characterEmoji, studentLe
     }
   });
 
-  // 初回マウント時にキャラクターから挨拶
+  // 会話履歴をロード
   useEffect(() => {
-    if (isOpen && messages.length === 0) {
+    if (isOpen && conversationHistory && conversationHistory.length > 0) {
+      // 会話履歴をMessage形式に変換
+      const historyMessages: Message[] = [];
+      conversationHistory.forEach((conv: any) => {
+        historyMessages.push({
+          role: 'user',
+          content: conv.userMessage,
+          timestamp: new Date(conv.createdAt)
+        });
+        historyMessages.push({
+          role: 'assistant',
+          content: conv.aiResponse,
+          timestamp: new Date(conv.createdAt)
+        });
+      });
+      setMessages(historyMessages);
+    } else if (isOpen && messages.length === 0 && conversationHistory && conversationHistory.length === 0) {
+      // 会話履歴がない場合のみ挨拶
       greetingMutation.mutate();
     }
-  }, [isOpen]);
+  }, [isOpen, conversationHistory]);
 
   // メッセージが追加されたら最下部にスクロール
   useEffect(() => {
