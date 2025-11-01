@@ -1348,17 +1348,44 @@ export async function getStudentItemsWithDetails(studentId: number) {
       characterId: studentItems.characterId,
       isEquipped: studentItems.isEquipped,
       acquiredAt: studentItems.acquiredAt,
-      name: characterItems.name,
-      imageUrl: characterItems.imageUrl,
-      rarity: characterItems.rarity,
-      itemType: characterItems.itemType,
+      characterItemName: characterItems.name,
+      characterItemImageUrl: characterItems.imageUrl,
+      characterItemRarity: characterItems.rarity,
+      characterItemType: characterItems.itemType,
+      gachaItemName: gachaItems.name,
+      gachaItemImageUrl: gachaItems.imageUrl,
+      gachaItemRarity: gachaItems.rarity,
+      gachaItemType: gachaItems.itemType,
     })
     .from(studentItems)
     .leftJoin(characterItems, eq(studentItems.itemId, characterItems.id))
+    .leftJoin(gachaItems, eq(studentItems.itemId, gachaItems.id))
     .where(eq(studentItems.studentId, studentId))
     .orderBy(desc(studentItems.acquiredAt));
-  
-  return items;
+
+  const FALLBACK_IMAGE_URL = "/hats/hat_01.webp";
+
+  return items.map(item => {
+    const name = item.characterItemName ?? item.gachaItemName ?? "なぞのアイテム";
+    const imageUrl = item.characterItemImageUrl ?? item.gachaItemImageUrl ?? FALLBACK_IMAGE_URL;
+    const rarity = item.characterItemRarity ?? item.gachaItemRarity ?? "common";
+    const itemType = item.characterItemType ?? item.gachaItemType ?? "hat";
+
+    return {
+      id: item.id,
+      studentId: item.studentId,
+      itemId: item.itemId,
+      characterId: item.characterId,
+      isEquipped: item.isEquipped,
+      acquiredAt: item.acquiredAt,
+      name,
+      imageUrl,
+      rarity,
+      itemType,
+      source: item.characterItemName ? "characterItems" : item.gachaItemName ? "gachaItems" : "unknown",
+      isLegacy: !item.characterItemName && !!item.gachaItemName,
+    };
+  });
 }
 
 /**
