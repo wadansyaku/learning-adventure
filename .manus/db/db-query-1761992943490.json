@@ -1,0 +1,28 @@
+{
+  "query": "SELECT id, name, imageUrl, rarity FROM gachaItems WHERE name LIKE '%帽%' OR name LIKE '%キャップ%' ORDER BY id",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, name, imageUrl, rarity FROM gachaItems WHERE name LIKE '%帽%' OR name LIKE '%キャップ%' ORDER BY id",
+  "rows": [
+    {
+      "id": "4",
+      "name": "ベレー帽",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp",
+      "rarity": "common"
+    },
+    {
+      "id": "5",
+      "name": "キャップ",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp",
+      "rarity": "common"
+    },
+    {
+      "id": "6",
+      "name": "ニット帽",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp",
+      "rarity": "common"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\timageUrl\trarity\n4\tベレー帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp\tcommon\n5\tキャップ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp\tcommon\n6\tニット帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp\tcommon\n",
+  "stderr": "",
+  "execution_time_ms": 1592
+}

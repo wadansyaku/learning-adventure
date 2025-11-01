@@ -1,0 +1,325 @@
+{
+  "query": "SELECT * FROM gachaItems ORDER BY id",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT * FROM gachaItems ORDER BY id",
+  "rows": [
+    {
+      "id": "1",
+      "name": "シルクハット",
+      "description": "おしゃれなシルクハットです",
+      "itemType": "hat",
+      "rarity": "epic",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/pAYtXYbqRUmxaGgV.webp",
+      "createdAt": "2025-10-29 10:25:41"
+    },
+    {
+      "id": "2",
+      "name": "ウィザードハット",
+      "description": "おしゃれなウィザードハットです",
+      "itemType": "hat",
+      "rarity": "rare",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/DmQafYtVTiKueUGv.webp",
+      "createdAt": "2025-10-29 10:25:43"
+    },
+    {
+      "id": "3",
+      "name": "カウボーイハット",
+      "description": "おしゃれなカウボーイハットです",
+      "itemType": "hat",
+      "rarity": "uncommon",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/GHMNERJNQFXArbyv.webp",
+      "createdAt": "2025-10-29 10:25:45"
+    },
+    {
+      "id": "4",
+      "name": "ベレー帽",
+      "description": "おしゃれなベレー帽です",
+      "itemType": "hat",
+      "rarity": "common",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp",
+      "createdAt": "2025-10-29 10:25:46"
+    },
+    {
+      "id": "5",
+      "name": "キャップ",
+      "description": "おしゃれなキャップです",
+      "itemType": "hat",
+      "rarity": "common",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp",
+      "createdAt": "2025-10-29 10:25:48"
+    },
+    {
+      "id": "6",
+      "name": "ニット帽",
+      "description": "おしゃれなニット帽です",
+      "itemType": "hat",
+      "rarity": "common",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp",
+      "createdAt": "2025-10-29 10:25:49"
+    },
+    {
+      "id": "7",
+      "name": "ハンチング",
+      "description": "おしゃれなハンチングです",
+      "itemType": "hat",
+      "rarity": "uncommon",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/NmcOxwsbCEYrjaaG.webp",
+      "createdAt": "2025-10-29 10:25:51"
+    },
+    {
+      "id": "8",
+      "name": "ソンブレロ",
+      "description": "おしゃれなソンブレロです",
+      "itemType": "hat",
+      "rarity": "rare",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/HEHMelIXdiBiqZuI.webp",
+      "createdAt": "2025-10-29 10:25:53"
+    },
+    {
+      "id": "9",
+      "name": "フェドーラ",
+      "description": "おしゃれなフェドーラです",
+      "itemType": "hat",
+      "rarity": "uncommon",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ZgzbKvrhOwFdiQtU.webp",
+      "createdAt": "2025-10-29 10:25:54"
+    },
+    {
+      "id": "10",
+      "name": "トップハット",
+      "description": "おしゃれなトップハットです",
+      "itemType": "hat",
+      "rarity": "epic",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/OOfhEpgLpOHwxFkT.webp",
+      "createdAt": "2025-10-29 10:25:56"
+    },
+    {
+      "id": "11",
+      "name": "バケットハット",
+      "description": "おしゃれなバケットハットです",
+      "itemType": "hat",
+      "rarity": "common",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/rsGAsmeAXOoVPQNv.webp",
+      "createdAt": "2025-10-29 10:25:57"
+    },
+    {
+      "id": "12",
+      "name": "パナマハット",
+      "description": "おしゃれなパナマハットです",
+      "itemType": "hat",
+      "rarity": "uncommon",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/FueNXdttqtlPvUUE.webp",
+      "createdAt": "2025-10-29 10:25:59"
+    },
+    {
+      "id": "13",
+      "name": "ボーラーハット",
+      "description": "おしゃれなボーラーハットです",
+      "itemType": "hat",
+      "rarity": "rare",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ajmTXwiQJGjhQSsE.webp",
+      "createdAt": "2025-10-29 10:26:01"
+    },
+    {
+      "id": "14",
+      "name": "トリルビー",
+      "description": "おしゃれなトリルビーです",
+      "itemType": "hat",
+      "rarity": "uncommon",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/mvCJdrcmQcjInBHs.webp",
+      "createdAt": "2025-10-29 10:26:02"
+    },
+    {
+      "id": "15",
+      "name": "クロッシェ",
+      "description": "おしゃれなクロッシェです",
+      "itemType": "hat",
+      "rarity": "rare",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/qBjFRgBnybRAfdOP.webp",
+      "createdAt": "2025-10-29 10:26:04"
+    },
+    {
+      "id": "16",
+      "name": "ピルボックスハット",
+      "description": "おしゃれなピルボックスハットです",
+      "itemType": "hat",
+      "rarity": "uncommon",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/DmDqAaxnHuVcNtJT.webp",
+      "createdAt": "2025-10-29 10:26:06"
+    },
+    {
+      "id": "17",
+      "name": "ファシネーター",
+      "description": "おしゃれなファシネーターです",
+      "itemType": "hat",
+      "rarity": "epic",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/zXRvNeQlBUZfNMsB.webp",
+      "createdAt": "2025-10-29 10:26:07"
+    },
+    {
+      "id": "18",
+      "name": "ターバン",
+      "description": "おしゃれなターバンです",
+      "itemType": "hat",
+      "rarity": "rare",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/CHdZkxkRHCZMMoLB.webp",
+      "createdAt": "2025-10-29 10:26:09"
+    },
+    {
+      "id": "19",
+      "name": "フェズ",
+      "description": "おしゃれなフェズです",
+      "itemType": "hat",
+      "rarity": "uncommon",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BhtXtSzAVYGijQxA.webp",
+      "createdAt": "2025-10-29 10:26:11"
+    },
+    {
+      "id": "20",
+      "name": "アッシュラ",
+      "description": "おしゃれなアッシュラです",
+      "itemType": "hat",
+      "rarity": "legendary",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/UxscbjKqPhYeBmPa.webp",
+      "createdAt": "2025-10-29 10:26:12"
+    },
+    {
+      "id": "21",
+      "name": "ゴールデンクラウン",
+      "description": "おしゃれなゴールデンクラウンです",
+      "itemType": "hat",
+      "rarity": "legendary",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xujLViMdBHYZNego.webp",
+      "createdAt": "2025-10-29 10:26:14"
+    },
+    {
+      "id": "22",
+      "name": "ドラゴンヘルム",
+      "description": "おしゃれなドラゴンヘルムです",
+      "itemType": "hat",
+      "rarity": "legendary",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/RBQDjxGcmAjIEMmL.webp",
+      "createdAt": "2025-10-29 10:26:15"
+    },
+    {
+      "id": "23",
+      "name": "エンジェルハロー",
+      "description": "おしゃれなエンジェルハローです",
+      "itemType": "hat",
+      "rarity": "epic",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ZOUzQUKaOzVbxGnK.webp",
+      "createdAt": "2025-10-29 10:26:17"
+    },
+    {
+      "id": "24",
+      "name": "デビルホーン",
+      "description": "おしゃれなデビルホーンです",
+      "itemType": "hat",
+      "rarity": "epic",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ijaUTyUiEqjdaYJr.webp",
+      "createdAt": "2025-10-29 10:26:18"
+    },
+    {
+      "id": "25",
+      "name": "ユニコーンホーン",
+      "description": "おしゃれなユニコーンホーンです",
+      "itemType": "hat",
+      "rarity": "legendary",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/saoowyBREXyGOHvk.webp",
+      "createdAt": "2025-10-29 10:26:20"
+    },
+    {
+      "id": "26",
+      "name": "サムライカブト",
+      "description": "おしゃれなサムライカブトです",
+      "itemType": "hat",
+      "rarity": "epic",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/CoswaINsEwWlgZwY.webp",
+      "createdAt": "2025-10-29 10:26:22"
+    },
+    {
+      "id": "27",
+      "name": "バイキングヘルム",
+      "description": "おしゃれなバイキングヘルムです",
+      "itemType": "hat",
+      "rarity": "rare",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/KtGtzuInAdQCvsEE.webp",
+      "createdAt": "2025-10-29 10:26:23"
+    },
+    {
+      "id": "28",
+      "name": "ナイトヘルム",
+      "description": "おしゃれなナイトヘルムです",
+      "itemType": "hat",
+      "rarity": "rare",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/AXWzYNLUamQghAKm.webp",
+      "createdAt": "2025-10-29 10:26:25"
+    },
+    {
+      "id": "29",
+      "name": "スペースヘルメット",
+      "description": "おしゃれなスペースヘルメットです",
+      "itemType": "hat",
+      "rarity": "epic",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/CZHVclgCIRfABZuL.webp",
+      "createdAt": "2025-10-29 10:26:26"
+    },
+    {
+      "id": "30",
+      "name": "パイレーツハット",
+      "description": "おしゃれなパイレーツハットです",
+      "itemType": "hat",
+      "rarity": "rare",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/rCmJDPLcBPGYsUhv.webp",
+      "createdAt": "2025-10-29 10:26:28"
+    },
+    {
+      "id": "31",
+      "name": "ジェスターハット",
+      "description": "おしゃれなジェスターハットです",
+      "itemType": "hat",
+      "rarity": "uncommon",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xIicBwbhAWIIzFmy.webp",
+      "createdAt": "2025-10-29 10:26:30"
+    },
+    {
+      "id": "32",
+      "name": "サンタハット",
+      "description": "おしゃれなサンタハットです",
+      "itemType": "hat",
+      "rarity": "rare",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/hsfcRYxWHBfwJsSV.webp",
+      "createdAt": "2025-10-29 10:26:31"
+    },
+    {
+      "id": "33",
+      "name": "ウィッチハット",
+      "description": "おしゃれなウィッチハットです",
+      "itemType": "hat",
+      "rarity": "epic",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/yyoDvuINuWtfxYnM.webp",
+      "createdAt": "2025-10-29 10:26:33"
+    },
+    {
+      "id": "34",
+      "name": "ファラオクラウン",
+      "description": "おしゃれなファラオクラウンです",
+      "itemType": "hat",
+      "rarity": "legendary",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/jqWPKCeYmiyxNkBy.webp",
+      "createdAt": "2025-10-29 10:26:34"
+    },
+    {
+      "id": "35",
+      "name": "レインボークラウン",
+      "description": "おしゃれなレインボークラウンです",
+      "itemType": "hat",
+      "rarity": "legendary",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/vvMGvrSdyCuUJtSB.webp",
+      "createdAt": "2025-10-29 10:26:36"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tdescription\titemType\trarity\timageUrl\tcreatedAt\n1\tシルクハット\tおしゃれなシルクハットです\that\tepic\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/pAYtXYbqRUmxaGgV.webp\t2025-10-29 10:25:41\n2\tウィザードハット\tおしゃれなウィザードハットです\that\trare\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/DmQafYtVTiKueUGv.webp\t2025-10-29 10:25:43\n3\tカウボーイハット\tおしゃれなカウボーイハットです\that\tuncommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/GHMNERJNQFXArbyv.webp\t2025-10-29 10:25:45\n4\tベレー帽\tおしゃれなベレー帽です\that\tcommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp\t2025-10-29 10:25:46\n5\tキャップ\tおしゃれなキャップです\that\tcommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp\t2025-10-29 10:25:48\n6\tニット帽\tおしゃれなニット帽です\that\tcommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp\t2025-10-29 10:25:49\n7\tハンチング\tおしゃれなハンチングです\that\tuncommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/NmcOxwsbCEYrjaaG.webp\t2025-10-29 10:25:51\n8\tソンブレロ\tおしゃれなソンブレロです\that\trare\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/HEHMelIXdiBiqZuI.webp\t2025-10-29 10:25:53\n9\tフェドーラ\tおしゃれなフェドーラです\that\tuncommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ZgzbKvrhOwFdiQtU.webp\t2025-10-29 10:25:54\n10\tトップハット\tおしゃれなトップハットです\that\tepic\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/OOfhEpgLpOHwxFkT.webp\t2025-10-29 10:25:56\n11\tバケットハット\tおしゃれなバケットハットです\that\tcommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/rsGAsmeAXOoVPQNv.webp\t2025-10-29 10:25:57\n12\tパナマハット\tおしゃれなパナマハットです\that\tuncommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/FueNXdttqtlPvUUE.webp\t2025-10-29 10:25:59\n13\tボーラーハット\tおしゃれなボーラーハットです\that\trare\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ajmTXwiQJGjhQSsE.webp\t2025-10-29 10:26:01\n14\tトリルビー\tおしゃれなトリルビーです\that\tuncommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/mvCJdrcmQcjInBHs.webp\t2025-10-29 10:26:02\n15\tクロッシェ\tおしゃれなクロッシェです\that\trare\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/qBjFRgBnybRAfdOP.webp\t2025-10-29 10:26:04\n16\tピルボックスハット\tおしゃれなピルボックスハットです\that\tuncommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/DmDqAaxnHuVcNtJT.webp\t2025-10-29 10:26:06\n17\tファシネーター\tおしゃれなファシネーターです\that\tepic\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/zXRvNeQlBUZfNMsB.webp\t2025-10-29 10:26:07\n18\tターバン\tおしゃれなターバンです\that\trare\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/CHdZkxkRHCZMMoLB.webp\t2025-10-29 10:26:09\n19\tフェズ\tおしゃれなフェズです\that\tuncommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BhtXtSzAVYGijQxA.webp\t2025-10-29 10:26:11\n20\tアッシュラ\tおしゃれなアッシュラです\that\tlegendary\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/UxscbjKqPhYeBmPa.webp\t2025-10-29 10:26:12\n21\tゴールデンクラウン\tおしゃれなゴールデンクラウンです\that\tlegendary\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xujLViMdBHYZNego.webp\t2025-10-29 10:26:14\n22\tドラゴンヘルム\tおしゃれなドラゴンヘルムです\that\tlegendary\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/RBQDjxGcmAjIEMmL.webp\t2025-10-29 10:26:15\n23\tエンジェルハロー\tおしゃれなエンジェルハローです\that\tepic\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ZOUzQUKaOzVbxGnK.webp\t2025-10-29 10:26:17\n24\tデビルホーン\tおしゃれなデビルホーンです\that\tepic\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/ijaUTyUiEqjdaYJr.webp\t2025-10-29 10:26:18\n25\tユニコーンホーン\tおしゃれなユニコーンホーンです\that\tlegendary\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/saoowyBREXyGOHvk.webp\t2025-10-29 10:26:20\n26\tサムライカブト\tおしゃれなサムライカブトです\that\tepic\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/CoswaINsEwWlgZwY.webp\t2025-10-29 10:26:22\n27\tバイキングヘルム\tおしゃれなバイキングヘルムです\that\trare\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/KtGtzuInAdQCvsEE.webp\t2025-10-29 10:26:23\n28\tナイトヘルム\tおしゃれなナイトヘルムです\that\trare\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/AXWzYNLUamQghAKm.webp\t2025-10-29 10:26:25\n29\tスペースヘルメット\tおしゃれなスペースヘルメットです\that\tepic\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/CZHVclgCIRfABZuL.webp\t2025-10-29 10:26:26\n30\tパイレーツハット\tおしゃれなパイレーツハットです\that\trare\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/rCmJDPLcBPGYsUhv.webp\t2025-10-29 10:26:28\n31\tジェスターハット\tおしゃれなジェスターハットです\that\tuncommon\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xIicBwbhAWIIzFmy.webp\t2025-10-29 10:26:30\n32\tサンタハット\tおしゃれなサンタハットです\that\trare\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/hsfcRYxWHBfwJsSV.webp\t2025-10-29 10:26:31\n33\tウィッチハット\tおしゃれなウィッチハットです\that\tepic\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/yyoDvuINuWtfxYnM.webp\t2025-10-29 10:26:33\n34\tファラオクラウン\tおしゃれなファラオクラウンです\that\tlegendary\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/jqWPKCeYmiyxNkBy.webp\t2025-10-29 10:26:34\n35\tレインボークラウン\tおしゃれなレインボークラウンです\that\tlegendary\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/vvMGvrSdyCuUJtSB.webp\t2025-10-29 10:26:36\n",
+  "stderr": "",
+  "execution_time_ms": 1507
+}

@@ -1,0 +1,22 @@
+{
+  "query": "SELECT DISTINCT name, imageUrl FROM characterItems WHERE name LIKE '%帽%' OR name LIKE '%キャップ%' ORDER BY name",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT DISTINCT name, imageUrl FROM characterItems WHERE name LIKE '%帽%' OR name LIKE '%キャップ%' ORDER BY name",
+  "rows": [
+    {
+      "name": "キャップ",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp"
+    },
+    {
+      "name": "ニット帽",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp"
+    },
+    {
+      "name": "ベレー帽",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\timageUrl\nキャップ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp\nニット帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp\nベレー帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp\n",
+  "stderr": "",
+  "execution_time_ms": 1540
+}

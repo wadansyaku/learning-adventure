@@ -1,0 +1,30 @@
+{
+  "query": "SELECT id, userId, displayName FROM students LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, userId, displayName FROM students LIMIT 10",
+  "rows": [
+    {
+      "id": "1",
+      "userId": "1",
+      "displayName": "男爵 音楽"
+    },
+    {
+      "id": "30001",
+      "userId": "480030",
+      "displayName": "山田 ビジネス陽大"
+    },
+    {
+      "id": "60001",
+      "userId": "540011",
+      "displayName": "桂真 鬼飛"
+    },
+    {
+      "id": "60002",
+      "userId": "540022",
+      "displayName": "Knew-on"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tuserId\tdisplayName\n1\t1\t男爵 音楽\n30001\t480030\t山田 ビジネス陽大\n60001\t540011\t桂真 鬼飛\n60002\t540022\tKnew-on\n",
+  "stderr": "",
+  "execution_time_ms": 1509
+}

@@ -17,7 +17,7 @@ export default function ParentDashboard() {
 
   // 保護者の子供一覧を取得
   const { data: children, isLoading: childrenLoading } = trpc.parent.getMyChildren.useQuery(undefined, {
-    enabled: isAuthenticated && user?.role === 'parent',
+    enabled: isAuthenticated && (user?.role === 'parent' || user?.role === 'admin'),
   });
 
   // 最初の子供を選択(将来的には子供選択機能を追加)

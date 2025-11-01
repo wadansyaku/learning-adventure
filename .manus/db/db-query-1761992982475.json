@@ -1,0 +1,28 @@
+{
+  "query": "SELECT g.id AS gacha_id, g.name AS gacha_name, c.id AS char_id, c.name AS char_name \nFROM gachaItems g \nLEFT JOIN characterItems c ON g.name = c.name \nWHERE g.name LIKE '%帽%' OR g.name LIKE '%キャップ%' \nGROUP BY g.id, g.name, c.id, c.name \nORDER BY g.id",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT g.id AS gacha_id, g.name AS gacha_name, c.id AS char_id, c.name AS char_name \nFROM gachaItems g \nLEFT JOIN characterItems c ON g.name = c.name \nWHERE g.name LIKE '%帽%' OR g.name LIKE '%キャップ%' \nGROUP BY g.id, g.name, c.id, c.name \nORDER BY g.id",
+  "rows": [
+    {
+      "gacha_id": "4",
+      "gacha_name": "ベレー帽",
+      "char_id": "4",
+      "char_name": "ベレー帽"
+    },
+    {
+      "gacha_id": "5",
+      "gacha_name": "キャップ",
+      "char_id": "5",
+      "char_name": "キャップ"
+    },
+    {
+      "gacha_id": "6",
+      "gacha_name": "ニット帽",
+      "char_id": "6",
+      "char_name": "ニット帽"
+    }
+  ],
+  "messages": [],
+  "stdout": "gacha_id\tgacha_name\tchar_id\tchar_name\n4\tベレー帽\t4\tベレー帽\n5\tキャップ\t5\tキャップ\n6\tニット帽\t6\tニット帽\n",
+  "stderr": "",
+  "execution_time_ms": 1528
+}

@@ -1,0 +1,90 @@
+{
+  "query": "SELECT * FROM studentItems LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT * FROM studentItems LIMIT 10",
+  "rows": [
+    {
+      "id": "120001",
+      "studentId": "30001",
+      "itemId": "30315",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-28 23:51:05"
+    },
+    {
+      "id": "150001",
+      "studentId": "30001",
+      "itemId": "30015",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-29 06:20:46"
+    },
+    {
+      "id": "150002",
+      "studentId": "30001",
+      "itemId": "30202",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-29 06:20:51"
+    },
+    {
+      "id": "150003",
+      "studentId": "30001",
+      "itemId": "30104",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-29 06:20:55"
+    },
+    {
+      "id": "180001",
+      "studentId": "30001",
+      "itemId": "30307",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-29 08:39:02"
+    },
+    {
+      "id": "180002",
+      "studentId": "30001",
+      "itemId": "30105",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-29 08:39:08"
+    },
+    {
+      "id": "180003",
+      "studentId": "30001",
+      "itemId": "30402",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-29 08:39:13"
+    },
+    {
+      "id": "210001",
+      "studentId": "30001",
+      "itemId": "30417",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-29 09:16:40"
+    },
+    {
+      "id": "210002",
+      "studentId": "30001",
+      "itemId": "30001",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-29 09:16:44"
+    },
+    {
+      "id": "210003",
+      "studentId": "30001",
+      "itemId": "30121",
+      "characterId": "NULL",
+      "isEquipped": "0",
+      "acquiredAt": "2025-10-29 09:22:40"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tstudentId\titemId\tcharacterId\tisEquipped\tacquiredAt\n120001\t30001\t30315\tNULL\t0\t2025-10-28 23:51:05\n150001\t30001\t30015\tNULL\t0\t2025-10-29 06:20:46\n150002\t30001\t30202\tNULL\t0\t2025-10-29 06:20:51\n150003\t30001\t30104\tNULL\t0\t2025-10-29 06:20:55\n180001\t30001\t30307\tNULL\t0\t2025-10-29 08:39:02\n180002\t30001\t30105\tNULL\t0\t2025-10-29 08:39:08\n180003\t30001\t30402\tNULL\t0\t2025-10-29 08:39:13\n210001\t30001\t30417\tNULL\t0\t2025-10-29 09:16:40\n210002\t30001\t30001\tNULL\t0\t2025-10-29 09:16:44\n210003\t30001\t30121\tNULL\t0\t2025-10-29 09:22:40\n",
+  "stderr": "",
+  "execution_time_ms": 1515
+}

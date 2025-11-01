@@ -1,0 +1,25 @@
+{
+  "query": "SELECT DISTINCT name, imageUrl, COUNT(*) as count FROM characterItems WHERE name LIKE '%帽%' OR name LIKE '%キャップ%' GROUP BY name, imageUrl ORDER BY name",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT DISTINCT name, imageUrl, COUNT(*) as count FROM characterItems WHERE name LIKE '%帽%' OR name LIKE '%キャップ%' GROUP BY name, imageUrl ORDER BY name",
+  "rows": [
+    {
+      "name": "キャップ",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp",
+      "count": "1"
+    },
+    {
+      "name": "ニット帽",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp",
+      "count": "1"
+    },
+    {
+      "name": "ベレー帽",
+      "imageUrl": "https://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp",
+      "count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "name\timageUrl\tcount\nキャップ\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/xgANgeRTwPNkuCTj.webp\t1\nニット帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/BiKxHRPreDKBKPOe.webp\t1\nベレー帽\thttps://files.manuscdn.com/user_upload_by_module/session_file/310519663195168305/aCCWtLmUlIeIVLYB.webp\t1\n",
+  "stderr": "",
+  "execution_time_ms": 1514
+}

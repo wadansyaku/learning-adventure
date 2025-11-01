@@ -1,0 +1,16 @@
+{
+  "query": "SELECT u.id as userId, u.name as userName, s.id as studentId, s.displayName as studentName FROM users u LEFT JOIN students s ON u.id = s.userId WHERE u.role = 'admin' LIMIT 5",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT u.id as userId, u.name as userName, s.id as studentId, s.displayName as studentName FROM users u LEFT JOIN students s ON u.id = s.userId WHERE u.role = 'admin' LIMIT 5",
+  "rows": [
+    {
+      "userId": "1",
+      "userName": "わっしょい公爵",
+      "studentId": "1",
+      "studentName": "男爵 音楽"
+    }
+  ],
+  "messages": [],
+  "stdout": "userId\tuserName\tstudentId\tstudentName\n1\tわっしょい公爵\t1\t男爵 音楽\n",
+  "stderr": "",
+  "execution_time_ms": 1544
+}

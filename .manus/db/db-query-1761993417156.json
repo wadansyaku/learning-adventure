@@ -1,0 +1,18 @@
+{
+  "query": "SELECT pc.id, pc.parentUserId, pc.studentId, pc.relationship, u.name as parentName, s.displayName as studentName FROM parentChildren pc LEFT JOIN users u ON pc.parentUserId = u.id LEFT JOIN students s ON pc.studentId = s.id LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT pc.id, pc.parentUserId, pc.studentId, pc.relationship, u.name as parentName, s.displayName as studentName FROM parentChildren pc LEFT JOIN users u ON pc.parentUserId = u.id LEFT JOIN students s ON pc.studentId = s.id LIMIT 10",
+  "rows": [
+    {
+      "id": "2",
+      "parentUserId": "540011",
+      "studentId": "30001",
+      "relationship": "parent",
+      "parentName": "鬼瓦京子",
+      "studentName": "山田 ビジネス陽大"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tparentUserId\tstudentId\trelationship\tparentName\tstudentName\n2\t540011\t30001\tparent\t鬼瓦京子\t山田 ビジネス陽大\n",
+  "stderr": "",
+  "execution_time_ms": 1589
+}

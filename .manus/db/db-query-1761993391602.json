@@ -1,0 +1,17 @@
+{
+  "query": "SELECT * FROM parentChildren LIMIT 10",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT * FROM parentChildren LIMIT 10",
+  "rows": [
+    {
+      "id": "2",
+      "parentUserId": "540011",
+      "studentId": "30001",
+      "relationship": "parent",
+      "createdAt": "2025-10-29 02:58:44"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tparentUserId\tstudentId\trelationship\tcreatedAt\n2\t540011\t30001\tparent\t2025-10-29 02:58:44\n",
+  "stderr": "",
+  "execution_time_ms": 1531
+}
