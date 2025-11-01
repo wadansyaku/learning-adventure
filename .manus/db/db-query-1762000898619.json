@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE characterTypes SET imageUrl = REPLACE(imageUrl, '.png', '.webp') WHERE imageUrl LIKE '%/characters/%.png';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute UPDATE characterTypes SET imageUrl = REPLACE(imageUrl, '.png', '.webp') WHERE imageUrl LIKE '%/characters/%.png';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1544
+}

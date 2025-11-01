@@ -1,0 +1,70 @@
+{
+  "query": "SELECT id, name, species, imageUrl FROM characterTypes LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2CEWC7GGoWezLtD.root --database ZVkt36csMB4sQeeKBXWHBG --execute SELECT id, name, species, imageUrl FROM characterTypes LIMIT 10;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "ぱんだくん",
+      "species": "panda",
+      "imageUrl": "/characters/panda.png"
+    },
+    {
+      "id": "2",
+      "name": "うさぎちゃん",
+      "species": "rabbit",
+      "imageUrl": "/characters/rabbit.png"
+    },
+    {
+      "id": "3",
+      "name": "ぺんぎんくん",
+      "species": "penguin",
+      "imageUrl": "/characters/penguin.png"
+    },
+    {
+      "id": "4",
+      "name": "きつねちゃん",
+      "species": "fox",
+      "imageUrl": "/characters/fox.png"
+    },
+    {
+      "id": "5",
+      "name": "ふくろうせんせい",
+      "species": "owl",
+      "imageUrl": "/characters/owl.png"
+    },
+    {
+      "id": "6",
+      "name": "いぬくん",
+      "species": "dog",
+      "imageUrl": "/characters/dog.png"
+    },
+    {
+      "id": "7",
+      "name": "りすちゃん",
+      "species": "squirrel",
+      "imageUrl": "/characters/squirrel.png"
+    },
+    {
+      "id": "8",
+      "name": "ぞうさん",
+      "species": "elephant",
+      "imageUrl": "/characters/elephant.png"
+    },
+    {
+      "id": "9",
+      "name": "ねこちゃん",
+      "species": "cat",
+      "imageUrl": "/characters/cat.png"
+    },
+    {
+      "id": "10",
+      "name": "くまくん",
+      "species": "bear",
+      "imageUrl": "/characters/bear.png"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tspecies\timageUrl\n1\tぱんだくん\tpanda\t/characters/panda.png\n2\tうさぎちゃん\trabbit\t/characters/rabbit.png\n3\tぺんぎんくん\tpenguin\t/characters/penguin.png\n4\tきつねちゃん\tfox\t/characters/fox.png\n5\tふくろうせんせい\towl\t/characters/owl.png\n6\tいぬくん\tdog\t/characters/dog.png\n7\tりすちゃん\tsquirrel\t/characters/squirrel.png\n8\tぞうさん\telephant\t/characters/elephant.png\n9\tねこちゃん\tcat\t/characters/cat.png\n10\tくまくん\tbear\t/characters/bear.png\n",
+  "stderr": "",
+  "execution_time_ms": 1535
+}

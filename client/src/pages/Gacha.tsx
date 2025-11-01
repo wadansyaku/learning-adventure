@@ -5,6 +5,8 @@ import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
+import confetti from "canvas-confetti";
 
 export default function Gacha() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
@@ -23,6 +25,41 @@ export default function Gacha() {
       setShowResult(true);
       setIsRolling(false);
       refetchProfile();
+      
+      // レアリティに応じた紙吹雪演出
+      if (data.item.rarity === 'legendary') {
+        // レジェンダリー: 豪華な金色の紙吹雪
+        confetti({
+          particleCount: 200,
+          spread: 160,
+          origin: { y: 0.6 },
+          colors: ['#ffd700', '#ffed4e', '#ff6b00', '#ffa500'],
+        });
+        setTimeout(() => {
+          confetti({
+            particleCount: 150,
+            spread: 120,
+            origin: { y: 0.4 },
+            colors: ['#ffd700', '#ffed4e', '#ff6b00'],
+          });
+        }, 300);
+      } else if (data.item.rarity === 'epic') {
+        // エピック: 紫色の紙吹雪
+        confetti({
+          particleCount: 100,
+          spread: 100,
+          origin: { y: 0.6 },
+          colors: ['#a855f7', '#c084fc', '#e879f9'],
+        });
+      } else if (data.item.rarity === 'rare') {
+        // レア: 青色の紙吹雪
+        confetti({
+          particleCount: 50,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#3b82f6', '#60a5fa', '#93c5fd'],
+        });
+      }
       
       // レアリティに応じたメッセージ
       const rarityMessages: Record<string, string> = {
@@ -119,59 +156,120 @@ export default function Gacha() {
       <div className="container max-w-4xl mx-auto">
         {/* ヘッダー */}
         <div className="flex items-center justify-between mb-8">
-          <Button variant="outline" onClick={() => setLocation('/student')}>
+          <Button 
+            variant="outline" 
+            onClick={() => setLocation('/student')}
+            className="hover:scale-105 transition-transform"
+          >
             ← もどる
           </Button>
-          <div className="coin-display">
+          <motion.div 
+            className="coin-display bg-gradient-to-r from-yellow-400 to-orange-400 px-6 py-3 rounded-full shadow-lg"
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
             <span className="text-3xl">🪙</span>
-            <span className="text-2xl font-bold">{profile.coins}</span>
-          </div>
+            <span className="text-3xl font-black text-white ml-2">{profile.coins}</span>
+          </motion.div>
         </div>
 
         {/* タイトル */}
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-black mb-4 text-shadow animate-bounce-slow">
+        <motion.div 
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.h1 
+            className="text-6xl font-black mb-4 text-shadow bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
             ✨ ガチャ ✨
-          </h1>
-          <p className="text-xl text-muted-foreground">
+          </motion.h1>
+          <p className="text-2xl font-bold text-purple-600">
             コイン10まいで1かいひけるよ!
           </p>
-        </div>
+        </motion.div>
 
         {/* ガチャマシン */}
         <Card className="p-8 mb-8 bg-gradient-to-br from-yellow-200 to-orange-200 border-4 border-yellow-400">
           <div className="text-center space-y-6">
             {!isRolling && !showResult && (
-              <>
-                <div className="text-9xl animate-bounce-slow">
-                  🎰
-                </div>
-                <Button
-                  className="btn-fun w-full max-w-md mx-auto bg-gradient-to-r from-pink-500 to-purple-500 text-white text-3xl py-12 shadow-xl hover:scale-105 transition-transform"
-                  onClick={handleRoll}
-                  disabled={profile.coins < 10}
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200 }}
+              >
+                <motion.div 
+                  className="text-9xl"
+                  animate={{ 
+                    rotate: [0, 10, -10, 10, -10, 0],
+                    scale: [1, 1.1, 1]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity }}
                 >
-                  {profile.coins >= 10 ? 'ガチャをひく!' : 'コインがたりない...'}
-                </Button>
-                <p className="text-sm text-muted-foreground">
+                  🎰
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button
+                    className="btn-fun w-full max-w-md mx-auto bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 text-white text-4xl py-12 shadow-2xl font-black"
+                    onClick={handleRoll}
+                    disabled={profile.coins < 10}
+                  >
+                    {profile.coins >= 10 ? 'ガチャをひく! 🎲' : 'コインがたりない... 😢'}
+                  </Button>
+                </motion.div>
+                <p className="text-xl font-bold text-purple-600 mt-4">
                   ひつよう: 🪙 10コイン
                 </p>
-              </>
+              </motion.div>
             )}
 
             {isRolling && !showResult && (
-              <div className="space-y-6">
-                <div className="text-9xl animate-spin-slow">
+              <motion.div 
+                className="space-y-6"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                <motion.div 
+                  className="text-9xl"
+                  animate={{ 
+                    rotate: 360,
+                    scale: [1, 1.3, 1]
+                  }}
+                  transition={{ 
+                    rotate: { duration: 1.5, repeat: Infinity, ease: "linear" },
+                    scale: { duration: 0.5, repeat: Infinity }
+                  }}
+                >
                   ✨
-                </div>
-                <h2 className="text-4xl font-black animate-pulse">
+                </motion.div>
+                <motion.h2 
+                  className="text-5xl font-black"
+                  animate={{ 
+                    scale: [1, 1.1, 1],
+                    color: ['#a855f7', '#ec4899', '#3b82f6', '#a855f7']
+                  }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                >
                   ガチャちゅう...
-                </h2>
-              </div>
+                </motion.h2>
+              </motion.div>
             )}
 
-            {showResult && result && (
-              <div className="space-y-6 animate-fade-in">
+            <AnimatePresence>
+              {showResult && result && (
+                <motion.div 
+                  className="space-y-6"
+                  initial={{ opacity: 0, scale: 0.5, rotateY: 90 }}
+                  animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                >
                 {/* レアリティ別の背景エフェクト */}
                 <div className={`absolute inset-0 opacity-20 animate-pulse ${
                   result.item.rarity === 'legendary' ? 'bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-300' :
@@ -181,12 +279,19 @@ export default function Gacha() {
                 }`} />
                 
                 <div className="relative z-10">
-                  <div className={`flex justify-center items-center h-64 animate-bounce ${
+                  <motion.div 
+                    className={`flex justify-center items-center h-64 ${
                     result.item.rarity === 'legendary' ? 'filter drop-shadow-[0_0_30px_rgba(234,179,8,0.8)]' :
                     result.item.rarity === 'epic' ? 'filter drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]' :
                     result.item.rarity === 'rare' ? 'filter drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]' :
                     ''
-                  }`}>
+                  }`}
+                    animate={{ 
+                      y: [0, -20, 0],
+                      rotate: [0, 5, -5, 0]
+                    }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  >
                     {result.item.imageUrl ? (
                       <img 
                         src={result.item.imageUrl} 
@@ -196,19 +301,33 @@ export default function Gacha() {
                     ) : (
                       <span className="text-9xl">🎁</span>
                     )}
-                  </div>
+                  </motion.div>
                   
-                  <div className={`inline-block px-6 py-2 rounded-full text-xl font-bold ${getRarityColor(result.item.rarity)} animate-pulse`}>
+                  <motion.div 
+                    className={`inline-block px-8 py-3 rounded-full text-2xl font-black ${getRarityColor(result.item.rarity)}`}
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 0.5, repeat: Infinity }}
+                  >
                     {getRarityLabel(result.item.rarity)}
-                  </div>
+                  </motion.div>
                   
-                  <h2 className="text-4xl font-black">
+                  <motion.h2 
+                    className="text-5xl font-black"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                  >
                     {result.item.name}
-                  </h2>
+                  </motion.h2>
                   
-                  <p className="text-xl text-muted-foreground">
+                  <motion.p 
+                    className="text-2xl text-muted-foreground"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                  >
                     {result.item.description}
-                  </p>
+                  </motion.p>
                   
                   {/* 重複ボーナス表示 */}
                   {result.isDuplicate && result.bonusCoins > 0 && (
@@ -222,7 +341,12 @@ export default function Gacha() {
                     </div>
                   )}
                 </div>
-                <div className="flex gap-4 justify-center relative z-10">
+                <motion.div 
+                  className="flex gap-4 justify-center relative z-10"
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
                   <Button
                     className="btn-fun bg-primary text-primary-foreground text-xl px-8 py-6"
                     onClick={handleClose}
@@ -236,9 +360,10 @@ export default function Gacha() {
                   >
                     もう1かい!
                   </Button>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             )}
+            </AnimatePresence>
           </div>
         </Card>
 

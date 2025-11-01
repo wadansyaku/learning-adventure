@@ -6,6 +6,7 @@ import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
 import { RoleSwitcher } from "@/components/RoleSwitcher";
 import { LogOut } from "lucide-react";
+import { motion } from "framer-motion";
 import { LevelUpModal } from "@/components/LevelUpModal";
 import { LoginBonus } from "@/components/LoginBonus";
 import { DailyMissions } from "@/components/DailyMissions";
@@ -157,10 +158,15 @@ export default function StudentDashboard() {
           nextLevelXP={xpForNextLevel}
         />
 
-        {/* キャラクター表示 */}
-        <div className="mb-8">
+        {/* キャラクター表示 - 大型化とアニメーション強化 */}
+        <motion.div 
+          className="mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-3xl font-bold">なかまたち</h2>
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">なかまたち</h2>
             <div className="flex gap-2">
               {characters && characters.length > 1 && (
                 <>
@@ -168,23 +174,25 @@ export default function StudentDashboard() {
                     variant="outline"
                     size="sm"
                     onClick={() => setSelectedCharacterIndex((prev) => (prev - 1 + characters.length) % characters.length)}
+                    className="hover:scale-105 transition-transform"
                   >
                     ← まえ
                   </Button>
-                  <span className="text-sm text-muted-foreground flex items-center">
+                  <span className="text-sm text-muted-foreground flex items-center font-semibold">
                     {selectedCharacterIndex + 1} / {characters.length}
                   </span>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => setSelectedCharacterIndex((prev) => (prev + 1) % characters.length)}
+                    className="hover:scale-105 transition-transform"
                   >
                     つぎ →
                   </Button>
                 </>
               )}
               <Button
-                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+                className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:scale-105 transition-transform shadow-lg"
                 size="sm"
                 onClick={() => setLocation('/character-select')}
               >
@@ -193,52 +201,95 @@ export default function StudentDashboard() {
             </div>
           </div>
           {characters && characters.length > 0 ? (
-            <div className="character-stage">
-              <div className="flex flex-col items-center justify-center h-full">
-                <div className="relative">
-                  {characters[selectedCharacterIndex].imageUrl ? (
-                    <img 
-                      src={characters[selectedCharacterIndex].imageUrl} 
-                      alt={characters[selectedCharacterIndex].name}
-                      className="w-64 h-64 object-contain animate-bounce-slow"
-                    />
-                  ) : (
-                    <div className="text-9xl animate-bounce-slow">
-                      {characters[selectedCharacterIndex].animalType === 'rabbit' && '🐰'}
-                      {characters[selectedCharacterIndex].animalType === 'cat' && '🐱'}
-                      {characters[selectedCharacterIndex].animalType === 'dog' && '🐶'}
-                      {characters[selectedCharacterIndex].animalType === 'bear' && '🐻'}
-                      {characters[selectedCharacterIndex].animalType === 'fox' && '🦊'}
-                    </div>
-                  )}
+            <Card className="character-stage bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 border-4 border-purple-200 shadow-2xl overflow-hidden">
+              <div className="flex flex-col items-center justify-center h-full py-12">
+                <motion.div 
+                  className="relative"
+                  key={selectedCharacterIndex}
+                  initial={{ scale: 0, rotate: -10 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                >
+                  <motion.div
+                    animate={{ 
+                      y: [0, -20, 0],
+                      rotate: [0, 5, -5, 0]
+                    }}
+                    transition={{ 
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    {characters[selectedCharacterIndex].imageUrl ? (
+                      <img 
+                        src={characters[selectedCharacterIndex].imageUrl} 
+                        alt={characters[selectedCharacterIndex].name}
+                        className="w-96 h-96 object-contain drop-shadow-2xl"
+                      />
+                    ) : (
+                      <div className="text-[200px] drop-shadow-2xl">
+                        {characters[selectedCharacterIndex].animalType === 'rabbit' && '🐰'}
+                        {characters[selectedCharacterIndex].animalType === 'cat' && '🐱'}
+                        {characters[selectedCharacterIndex].animalType === 'dog' && '🐶'}
+                        {characters[selectedCharacterIndex].animalType === 'bear' && '🐻'}
+                        {characters[selectedCharacterIndex].animalType === 'fox' && '🦊'}
+                      </div>
+                    )}
+                  </motion.div>
                   {/* 装備中の帽子を表示 */}
                   {myItems && myItems.find(item => item.isEquipped && (item.characterId === null || item.characterId === characters[selectedCharacterIndex].id)) && (
-                    <img 
+                    <motion.img 
                       src={myItems.find(item => item.isEquipped && (item.characterId === null || item.characterId === characters[selectedCharacterIndex].id))!.imageUrl || ''}
                       alt="装備中の帽子"
-                      className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/4 w-32 h-32 object-contain"
+                      className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/4 w-48 h-48 object-contain drop-shadow-xl"
+                      animate={{ 
+                        y: [0, -20, 0],
+                        rotate: [0, 5, -5, 0]
+                      }}
+                      transition={{ 
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
                     />
                   )}
-                </div>
-                <div className="mt-4 text-center">
-                  <p className="text-2xl font-bold">{characters[selectedCharacterIndex].name}</p>
-                  <p className="text-lg text-muted-foreground">Lv.{characters[selectedCharacterIndex].level}</p>
-                </div>
+                </motion.div>
+                <motion.div 
+                  className="mt-6 text-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <p className="text-4xl font-black mb-2 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    {characters[selectedCharacterIndex].name}
+                  </p>
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-2xl font-bold text-purple-600">Lv.{characters[selectedCharacterIndex].level}</span>
+                    <span className="text-xl">💫</span>
+                  </div>
+                </motion.div>
               </div>
-            </div>
+            </Card>
           ) : (
-            <Card className="p-8 text-center">
-              <p className="text-xl mb-4">まだなかまがいないよ</p>
-              <p className="text-muted-foreground mb-4">なかまをえらんでいっしょにがんばろう!</p>
-              <Button 
-                className="btn-fun bg-gradient-to-r from-purple-500 to-pink-500 text-white"
-                onClick={() => setLocation('/character-select')}
+            <Card className="p-12 text-center bg-gradient-to-br from-purple-50 to-pink-50 border-4 border-dashed border-purple-300">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200 }}
               >
-                なかまをえらぶ ✨
-              </Button>
+                <p className="text-3xl font-bold mb-4">まだなかまがいないよ</p>
+                <p className="text-xl text-muted-foreground mb-6">なかまをえらんでいっしょにがんばろう!</p>
+                <Button 
+                  className="btn-fun bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xl py-6 px-8 hover:scale-105 transition-transform shadow-xl"
+                  onClick={() => setLocation('/character-select')}
+                >
+                  なかまをえらぶ ✨
+                </Button>
+              </motion.div>
             </Card>
           )}
-        </div>
+        </motion.div>
 
         {/* キャラクター会話 */}
         {characters && characters.length > 0 && (

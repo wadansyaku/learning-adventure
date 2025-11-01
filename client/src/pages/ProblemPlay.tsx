@@ -5,6 +5,8 @@ import { trpc } from "@/lib/trpc";
 import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
+import confetti from "canvas-confetti";
 
 export default function ProblemPlay() {
   const { user, loading: authLoading, isAuthenticated } = useAuth();
@@ -30,6 +32,14 @@ export default function ProblemPlay() {
       setIsCorrect(data.isCorrect);
       setShowResult(true);
       if (data.isCorrect) {
+        // 紙吹雪アニメーションを発動
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff'],
+        });
+        
         const newCombo = combo + 1;
         setCombo(newCombo);
         const comboBonus = Math.floor(newCombo / 3); // 3連続ごとにボーナス
@@ -39,21 +49,21 @@ export default function ProblemPlay() {
         setTotalCoins(totalCoins + bonusCoins);
         
         if (newCombo >= 3 && newCombo % 3 === 0) {
-          // toast.success(`🔥 ${newCombo}れんぞくせいかい! ボーナス +${comboBonus}!`, {
-          //   duration: 3000,
-          // });
+          // コンボボーナス時はさらに紙吹雪
+          setTimeout(() => {
+            confetti({
+              particleCount: 150,
+              spread: 120,
+              origin: { y: 0.5 },
+              colors: ['#ff6b00', '#ffd700', '#ff1493'],
+            });
+          }, 300);
           console.log(`Combo bonus: ${newCombo} combo, +${comboBonus} bonus`);
         } else {
-          // toast.success(`せいかい! ${bonusXP} XP と ${bonusCoins} コインをゲット!`, {
-          //   duration: 3000,
-          // });
           console.log(`Correct answer: +${bonusXP} XP, +${bonusCoins} coins`);
         }
       } else {
         setCombo(0);
-        // toast.error(`ざんねん... こたえは ${data.correctAnswer} だよ`, {
-        //   duration: 3000,
-        // });
         console.log(`Wrong answer, correct answer was: ${data.correctAnswer}`);
       }
     },
@@ -155,25 +165,52 @@ export default function ProblemPlay() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4 pb-safe">
       <div className="max-w-2xl mx-auto pb-4">
         {/* ヘッダー */}
-        <div className="mb-6 flex justify-between items-center">
-          <Button 
-            variant="outline" 
-            onClick={() => setLocation('/student')}
-            className="text-lg"
-          >
-            ← もどる
-          </Button>
-          <div className="flex gap-4">
-            <div className="bg-white rounded-full px-4 py-2 shadow-md">
-              <span className="text-sm text-muted-foreground">もんだい</span>
-              <span className="ml-2 font-bold text-lg">{currentProblemIndex + 1}/{problems.length}</span>
-            </div>
-            {combo > 0 && (
-              <div className="bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-full px-4 py-2 shadow-md animate-pulse">
-                <span className="text-sm">🔥 コンボ</span>
-                <span className="ml-2 font-bold text-lg">{combo}</span>
+        <div className="mb-6">
+          <div className="flex justify-between items-center mb-4">
+            <Button 
+              variant="outline" 
+              onClick={() => setLocation('/student')}
+              className="text-lg hover:scale-105 transition-transform"
+            >
+              ← もどる
+            </Button>
+            <div className="flex gap-4">
+              <div className="bg-white rounded-full px-4 py-2 shadow-md">
+                <span className="text-sm text-muted-foreground">もんだい</span>
+                <span className="ml-2 font-bold text-lg">{currentProblemIndex + 1}/{problems.length}</span>
               </div>
-            )}
+              {combo > 0 && (
+                <motion.div 
+                  className="bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-full px-4 py-2 shadow-md"
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 0.5, repeat: Infinity }}
+                >
+                  <span className="text-sm">🔥 コンボ</span>
+                  <span className="ml-2 font-bold text-lg">{combo}</span>
+                </motion.div>
+              )}
+            </div>
+          </div>
+          
+          {/* 進捗バー */}
+          <div className="bg-white rounded-full p-2 shadow-md">
+            <div className="flex gap-2">
+              {problems.map((_, index) => (
+                <motion.div
+                  key={index}
+                  className={`flex-1 h-3 rounded-full ${
+                    index < currentProblemIndex
+                      ? 'bg-gradient-to-r from-green-400 to-emerald-500'
+                      : index === currentProblemIndex
+                      ? 'bg-gradient-to-r from-blue-400 to-purple-500 animate-pulse'
+                      : 'bg-gray-200'
+                  }`}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
@@ -239,24 +276,89 @@ export default function ProblemPlay() {
           )}
 
           {/* 結果表示 */}
-          {showResult && (
-            <div className="text-center space-y-6 animate-fade-in">
-              {isCorrect ? (
-                <>
-                  <div className="text-9xl animate-bounce">🎉</div>
-                  <h3 className="text-5xl font-black text-green-600">せいかい!</h3>
-                  <p className="text-2xl">{getEncouragementMessage()}</p>
-                </>
-              ) : (
-                <>
-                  <div className="text-9xl">😢</div>
-                  <h3 className="text-5xl font-black text-red-600">ざんねん...</h3>
-                  <p className="text-3xl font-bold">こたえ: {currentProblem.correctAnswer}</p>
-                  <p className="text-xl text-muted-foreground">つぎはがんばろう!</p>
-                </>
-              )}
-            </div>
-          )}
+          <AnimatePresence>
+            {showResult && (
+              <motion.div 
+                className="text-center space-y-6"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              >
+                {isCorrect ? (
+                  <>
+                    <motion.div 
+                      className="text-9xl"
+                      animate={{ 
+                        rotate: [0, 10, -10, 10, -10, 0],
+                        scale: [1, 1.2, 1, 1.2, 1]
+                      }}
+                      transition={{ duration: 0.8 }}
+                    >
+                      🎉
+                    </motion.div>
+                    <motion.h3 
+                      className="text-6xl font-black text-green-600"
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      せいかい!
+                    </motion.h3>
+                    <motion.p 
+                      className="text-3xl font-bold"
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      {getEncouragementMessage()}
+                    </motion.p>
+                    <motion.div
+                      className="flex justify-center gap-4 text-2xl"
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                    >
+                      <span className="bg-blue-100 px-4 py-2 rounded-full font-bold text-blue-600">
+                        +{submitAnswerMutation.data?.xpEarned || 0} XP
+                      </span>
+                      <span className="bg-yellow-100 px-4 py-2 rounded-full font-bold text-yellow-600">
+                        +{submitAnswerMutation.data?.coinsEarned || 0} コイン
+                      </span>
+                    </motion.div>
+                  </>
+                ) : (
+                  <>
+                    <motion.div 
+                      className="text-9xl"
+                      animate={{ 
+                        y: [0, -10, 0],
+                      }}
+                      transition={{ duration: 0.5, repeat: 2 }}
+                    >
+                      😢
+                    </motion.div>
+                    <motion.h3 
+                      className="text-5xl font-black text-red-600"
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      ざんねん...
+                    </motion.h3>
+                    <motion.div
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                    >
+                      <p className="text-3xl font-bold mb-2">こたえ: {currentProblem.correctAnswer}</p>
+                      <p className="text-xl text-muted-foreground">つぎはがんばろう! 💪</p>
+                    </motion.div>
+                  </>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* アクションボタン */}
           <div className="mt-4 sm:mt-6">

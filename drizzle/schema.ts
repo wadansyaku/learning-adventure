@@ -200,120 +200,8 @@ export const studentAchievements = mysqlTable("studentAchievements", {
 export type StudentAchievement = typeof studentAchievements.$inferSelect;
 export type InsertStudentAchievement = typeof studentAchievements.$inferInsert;
 
-/**
- * Story chapters - ストーリーチャプター
- */
-export const storyChapters = mysqlTable("storyChapters", {
-  id: int("id").autoincrement().primaryKey(),
-  chapterNumber: int("chapterNumber").notNull(),
-  title: varchar("title", { length: 255 }).notNull(),
-  description: text("description"),
-  imageUrl: varchar("imageUrl", { length: 255 }),
-  requiredLevel: int("requiredLevel").default(1).notNull(),
-  xpReward: int("xpReward").default(50).notNull(),
-  coinReward: int("coinReward").default(20).notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
-export type StoryChapter = typeof storyChapters.$inferSelect;
-export type InsertStoryChapter = typeof storyChapters.$inferInsert;
-
-/**
- * Treasures - 宝物
- */
-export const treasures = mysqlTable("treasures", {
-  id: int("id").autoincrement().primaryKey(),
-  name: varchar("name", { length: 100 }).notNull(),
-  description: text("description"),
-  imageUrl: varchar("imageUrl", { length: 255 }),
-  chapterId: int("chapterId").references(() => storyChapters.id),
-  rarity: mysqlEnum("rarity", ["common", "rare", "epic", "legendary"]).default("common").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
-export type Treasure = typeof treasures.$inferSelect;
-export type InsertTreasure = typeof treasures.$inferInsert;
-
-/**
- * Student story progress - 生徒のストーリー進捗
- */
-export const studentStoryProgress = mysqlTable("studentStoryProgress", {
-  id: int("id").autoincrement().primaryKey(),
-  studentId: int("studentId").notNull().references(() => students.id),
-  chapterId: int("chapterId").notNull().references(() => storyChapters.id),
-  isCompleted: boolean("isCompleted").default(false).notNull(),
-  completedAt: datetime("completedAt"),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
-export type StudentStoryProgress = typeof studentStoryProgress.$inferSelect;
-export type InsertStudentStoryProgress = typeof studentStoryProgress.$inferInsert;
-
-/**
- * Student treasures - 生徒が獲得した宝物
- */
-export const studentTreasures = mysqlTable("studentTreasures", {
-  id: int("id").autoincrement().primaryKey(),
-  studentId: int("studentId").notNull().references(() => students.id),
-  treasureId: int("treasureId").notNull().references(() => treasures.id),
-  acquiredAt: timestamp("acquiredAt").defaultNow().notNull(),
-});
-
-export type StudentTreasure = typeof studentTreasures.$inferSelect;
-export type InsertStudentTreasure = typeof studentTreasures.$inferInsert;
-
-/**
- * Learning Quizzes - 学習クイズ(ストーリー内)
- */
-export const learningQuizzes = mysqlTable("learningQuizzes", {
-  id: int("id").autoincrement().primaryKey(),
-  chapterId: int("chapterId").notNull().references(() => storyChapters.id),
-  questionText: text("questionText").notNull(), // 問題文
-  questionType: mysqlEnum("questionType", ["multiple_choice", "number_input", "image_select", "true_false"]).notNull(),
-  correctAnswer: varchar("correctAnswer", { length: 255 }).notNull(), // 正解
-  options: text("options"), // JSON形式の選択肢
-  explanation: text("explanation"), // 解説
-  imageUrl: varchar("imageUrl", { length: 255 }), // 問題画像
-  orderIndex: int("orderIndex").default(0).notNull(), // 表示順序
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
-export type LearningQuiz = typeof learningQuizzes.$inferSelect;
-export type InsertLearningQuiz = typeof learningQuizzes.$inferInsert;
-
-/**
- * Student quiz progress - 生徒のクイズ進捗
- */
-export const studentQuizProgress = mysqlTable("studentQuizProgress", {
-  id: int("id").autoincrement().primaryKey(),
-  studentId: int("studentId").notNull().references(() => students.id),
-  quizId: int("quizId").notNull().references(() => learningQuizzes.id),
-  isCorrect: boolean("isCorrect").notNull(),
-  answeredAt: timestamp("answeredAt").defaultNow().notNull(),
-});
-
-export type StudentQuizProgress = typeof studentQuizProgress.$inferSelect;
-export type InsertStudentQuizProgress = typeof studentQuizProgress.$inferInsert;
-
-/**
- * OpenAI Usage Logs - OpenAI API使用ログ
- */
-export const openaiUsageLogs = mysqlTable("openaiUsageLogs", {
-  id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").references(() => users.id), // ユーザーID(nullの場合はシステム)
-  studentId: int("studentId").references(() => students.id), // 生徒ID(キャラクター会話の場合)
-  endpoint: varchar("endpoint", { length: 100 }).notNull(), // 使用したエンドポイント(chat, image等)
-  model: varchar("model", { length: 100 }).notNull(), // 使用したモデル(gpt-4o-mini等)
-  promptTokens: int("promptTokens").default(0).notNull(), // プロンプトトークン数
-  completionTokens: int("completionTokens").default(0).notNull(), // 完了トークン数
-  totalTokens: int("totalTokens").default(0).notNull(), // 合計トークン数
-  estimatedCost: varchar("estimatedCost", { length: 20 }).default("0.000000").notNull(), // 推定コスト(USD)
-  purpose: varchar("purpose", { length: 255 }), // 使用目的(character_chat, analysis等)
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
-export type OpenAIUsageLog = typeof openaiUsageLogs.$inferSelect;
-export type InsertOpenAIUsageLog = typeof openaiUsageLogs.$inferInsert;
+// Removed: storyChapters, treasures, studentStoryProgress, studentTreasures, learningQuizzes, studentQuizProgress, openaiUsageLogs
+// These tables were part of the deprecated story system and OpenAI logging (replaced by aiConversations)
 
 /**
  * Parent-Children Relationships - 保護者-子供関係
@@ -383,24 +271,7 @@ export const teachers = mysqlTable("teachers", {
 export type Teacher = typeof teachers.$inferSelect;
 export type InsertTeacher = typeof teachers.$inferInsert;
 
-/**
- * Parents table - 保護者プロフィール
- */
-export const parents = mysqlTable("parents", {
-  id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull().unique().references(() => users.id),
-  displayName: varchar("displayName", { length: 100 }).notNull(),
-  phoneNumber: varchar("phoneNumber", { length: 20 }),
-  email: varchar("email", { length: 320 }),
-  occupation: varchar("occupation", { length: 100 }), // 職業
-  address: text("address"), // 住所
-  emergencyContact: varchar("emergencyContact", { length: 100 }), // 緊急連絡先
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
-
-export type Parent = typeof parents.$inferSelect;
-export type InsertParent = typeof parents.$inferInsert;
+// Removed: parents table (redundant with teachers table structure, not used)
 
 /**
  * Teacher-Student relationship table - 講師-生徒関係

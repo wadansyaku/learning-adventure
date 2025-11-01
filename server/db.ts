@@ -19,12 +19,6 @@ import {
   InsertStudentProgress,
   achievements,
   studentAchievements,
-  storyChapters,
-  learningQuizzes,
-  treasures,
-  studentStoryProgress,
-  studentTreasures,
-  openaiUsageLogs,
   aiConversations,
   InsertAiConversation,
   parentChildren,
@@ -32,7 +26,6 @@ import {
   studentDailyProgress,
   teachers,
   teacherStudents,
-  parents,
   badges,
   studentBadges
 } from "../drizzle/schema";
@@ -337,90 +330,8 @@ export async function getStudentStats(studentId: number) {
   };
 }
 
-// Story queries
-export async function getAllStoryChapters() {
-  const db = await getDb();
-  if (!db) return [];
-
-  return await db.select().from(storyChapters).orderBy(storyChapters.chapterNumber);
-}
-
-export async function getStoryChapterById(id: number) {
-  const db = await getDb();
-  if (!db) return null;
-
-  const chapters = await db.select().from(storyChapters).where(eq(storyChapters.id, id)).limit(1);
-  if (chapters.length === 0) return null;
-
-  const chapter = chapters[0];
-  
-  // Get treasures for this chapter
-  const chapterTreasures = await db.select().from(treasures).where(eq(treasures.chapterId, id));
-
-  return {
-    ...chapter,
-    storyText: chapter.description || 'この章のストーリーはまだ書かれていません。',
-    isCompleted: false, // TODO: 実際の進捗データを取得
-    treasures: chapterTreasures,
-  };
-}
-
-export async function getStudentStoryProgress(studentId: number) {
-  const db = await getDb();
-  if (!db) return [];
-  
-  return await db.select().from(studentStoryProgress)
-    .where(eq(studentStoryProgress.studentId, studentId));
-}
-
-export async function completeStoryChapter(studentId: number, chapterId: number) {
-  const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  
-  // Check if progress record exists
-  const existing = await db.select().from(studentStoryProgress)
-    .where(
-      and(
-        eq(studentStoryProgress.studentId, studentId),
-        eq(studentStoryProgress.chapterId, chapterId)
-      )
-    )
-    .limit(1);
-  
-  if (existing.length > 0) {
-    // Update existing record
-    await db.update(studentStoryProgress)
-      .set({ isCompleted: true, completedAt: new Date() })
-      .where(eq(studentStoryProgress.id, existing[0].id));
-  } else {
-    // Insert new record
-    await db.insert(studentStoryProgress).values({
-      studentId,
-      chapterId,
-      isCompleted: true,
-      completedAt: new Date(),
-    });
-  }
-}
-
-// Treasure queries
-export async function getStudentTreasures(studentId: number) {
-  const db = await getDb();
-  if (!db) return [];
-  
-  return await db.select({
-    id: studentTreasures.id,
-    treasureId: studentTreasures.treasureId,
-    acquiredAt: studentTreasures.acquiredAt,
-    name: treasures.name,
-    description: treasures.description,
-    imageUrl: treasures.imageUrl,
-    rarity: treasures.rarity
-  })
-  .from(studentTreasures)
-  .leftJoin(treasures, eq(studentTreasures.treasureId, treasures.id))
-  .where(eq(studentTreasures.studentId, studentId));
-}
+// Removed: Story-related functions (getAllStoryChapters, getStoryChapterById, getStudentStoryProgress, completeStoryChapter, getStudentTreasures)
+// Story system has been deprecated and replaced with character chat system
 
 // Achievement queries
 export async function getAllAchievements() {
@@ -484,106 +395,38 @@ export async function getStudentItems(studentId: number) {
   .where(eq(studentItems.studentId, studentId));
 }
 
-// Learning quiz queries
-export async function getLearningQuizzesByChapter(chapterId: number) {
-  const db = await getDb();
-  if (!db) return [];
-  
-  return await db.select().from(learningQuizzes).where(eq(learningQuizzes.chapterId, chapterId));
-}
+// Removed: getLearningQuizzesByChapter (story system deprecated)
 
-// OpenAI usage log queries
-export async function logOpenAIUsage(data: {
-  userId?: number;
-  studentId?: number;
-  endpoint: string;
-  model: string;
-  promptTokens: number;
-  completionTokens: number;
-  totalTokens: number;
-  estimatedCost: string;
-  purpose?: string;
-}) {
-  const db = await getDb();
-  if (!db) return null;
-  
-  const result = await db.insert(openaiUsageLogs).values(data);
-  return result;
-}
+// Removed: logOpenAIUsage (replaced by aiConversations table)
 
 export async function getOpenAIUsageSummary() {
   const db = await getDb();
-  if (!db) return null;
+  if (!db) return { totalTokens: 0, totalCost: '0.000000', totalCalls: 0 };
   
-  // 今月の使用状況を集計
+  // 今月の使用状況を集計（aiConversationsテーブルのみ使用）
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   
-  // openaiUsageLogsの集計
-  const logs = await db.select().from(openaiUsageLogs)
-    .where(sql`${openaiUsageLogs.createdAt} >= ${firstDayOfMonth}`);
-  
-  let totalTokens = logs.reduce((sum, log) => sum + log.totalTokens, 0);
-  let totalCost = logs.reduce((sum, log) => sum + parseFloat(log.estimatedCost), 0);
-  let totalCalls = logs.length;
-  
-  // aiConversationsの集計を追加
   const conversations = await db.select().from(aiConversations)
     .where(sql`${aiConversations.createdAt} >= ${firstDayOfMonth}`);
   
-  const conversationTokens = conversations.reduce((sum, conv) => sum + (conv.tokensUsed || 0), 0);
-  const conversationCalls = conversations.length;
+  let totalTokens = 0;
+  let totalCost = 0;
   
-  // GPT-3.5-turboのコスト計算 (input: $0.0015/1K tokens, output: $0.002/1K tokens)
-  // 簡略化のため、平均コストを使用: $0.00175/1K tokens
-  const conversationCost = (conversationTokens / 1000) * 0.00175;
-  
-  totalTokens += conversationTokens;
-  totalCost += conversationCost;
-  totalCalls += conversationCalls;
-  
-  // 目的別の集計
-  const byPurpose = logs.reduce((acc, log) => {
-    const purpose = log.purpose || 'unknown';
-    if (!acc[purpose]) {
-      acc[purpose] = { calls: 0, tokens: 0, cost: 0 };
-    }
-    acc[purpose].calls++;
-    acc[purpose].tokens += log.totalTokens;
-    acc[purpose].cost += parseFloat(log.estimatedCost);
-    return acc;
-  }, {} as Record<string, { calls: number; tokens: number; cost: number }>);
-  
-  // aiConversationsを「character_chat」として追加
-  if (conversationCalls > 0) {
-    if (!byPurpose['character_chat']) {
-      byPurpose['character_chat'] = { calls: 0, tokens: 0, cost: 0 };
-    }
-    byPurpose['character_chat'].calls += conversationCalls;
-    byPurpose['character_chat'].tokens += conversationTokens;
-    byPurpose['character_chat'].cost += conversationCost;
-  }
+  conversations.forEach(conv => {
+    if (conv.promptTokens) totalTokens += conv.promptTokens;
+    if (conv.completionTokens) totalTokens += conv.completionTokens;
+    if (conv.estimatedCost) totalCost += parseFloat(conv.estimatedCost);
+  });
   
   return {
     totalTokens,
     totalCost: totalCost.toFixed(6),
-    totalCalls,
-    byPurpose,
-    period: {
-      start: firstDayOfMonth.toISOString(),
-      end: now.toISOString()
-    }
+    totalCalls: conversations.length
   };
 }
 
-export async function getOpenAIUsageLogs(limit: number = 100) {
-  const db = await getDb();
-  if (!db) return [];
-  
-  return await db.select().from(openaiUsageLogs)
-    .orderBy(desc(openaiUsageLogs.createdAt))
-    .limit(limit);
-}
+// Removed: getOpenAIUsageLogs (replaced by aiConversations table)
 
 // Parent-Children relationship queries
 export async function addParentChildRelationship(parentUserId: number, studentId: number, relationship: string = "parent") {
@@ -1278,18 +1121,7 @@ export async function checkAndAwardBadges(studentId: number) {
         shouldAward = (completedQuests[0]?.count || 0) >= condition.count;
         break;
       
-      case 'stories_completed':
-        const completedStories = await database
-          .select({ count: sql<number>`count(*)` })
-          .from(studentStoryProgress)
-          .where(
-            and(
-              eq(studentStoryProgress.studentId, student.id),
-              sql`${studentStoryProgress.completedAt} IS NOT NULL`
-            )
-          );
-        shouldAward = (completedStories[0]?.count || 0) >= condition.count;
-        break;
+      // Removed: stories_completed case (story system deprecated)
     }
     
     if (shouldAward) {
